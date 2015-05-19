@@ -19,7 +19,7 @@ public class Goods_supplyActivity extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_goods_supply, menu);
         int a = 1;
-        int b = 1;
+        int ac = 1;
         int c = 1;
         return true;
         
