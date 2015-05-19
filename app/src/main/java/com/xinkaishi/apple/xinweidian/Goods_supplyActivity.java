@@ -20,6 +20,7 @@ public class Goods_supplyActivity extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.menu_goods_supply, menu);
         int a = 1;
         int b = 1;
+        int c = 1;
         return true;
         
     }
