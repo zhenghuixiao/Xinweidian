@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Goods_supplyActivity">
+    <item
+        android:id="@+id/action_shoppingcart"
+        android:title="购物车"
+        android:icon="@drawable/abc_btn_check_material"
+        app:showAsAction="always|withText" />
+    <item
+        android:id="@+id/action_order"
+        android:title="订单"
+        android:icon="@drawable/abc_btn_check_material"
+        app:showAsAction="always|withText" />
+    <item
+        android:id="@+id/action_collection"
+        android:title="收藏"
+        android:icon="@drawable/abc_btn_check_material"
+        app:showAsAction="always|withText"/>
+    <item
+        android:id="@+id/action_search"
+        android:title="搜索"
+        android:icon="@drawable/abc_btn_check_material"
+        app:showAsAction="always|withText|collapseActionView"
+        app:actionViewClass="android.support.v7.widget.SearchView" />
+</menu>

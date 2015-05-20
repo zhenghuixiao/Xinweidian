@@ -1,6 +1,10 @@
 <resources>
-    <string name="app_name">Xinweidian</string>
+    <string name="app_name">新微店</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_main">首页</string>
+    <string name="title_activity_goods_center">货源中心</string>
+    <string name="title_activity_loading">载入页面</string>
+
 </resources>
