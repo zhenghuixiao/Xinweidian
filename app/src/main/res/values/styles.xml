@@ -53,4 +53,8 @@
     <style name="ActionBarTab" parent="Widget.AppCompat.ActionBar.TabView">
         <item name="android:background">@color/white</item>
     </style>
+
+    <style name="radiobutton" parent="radiobutton">
+        <item name="android:textSize">20sp</item>
+    </style>
 </resources>
