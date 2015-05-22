@@ -14,8 +14,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".Goods_centerActivity"
-            android:theme="@style/MyActionBarTheme"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@style/MyActionBarTheme" >
         </activity>
         <activity
             android:name=".MainActivity"
@@ -33,6 +33,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".Goods_detailActivity"
+            android:label="@string/title_activity_goods_detail"
+            android:theme="@style/MyActionBarTheme" >
         </activity>
     </application>
 

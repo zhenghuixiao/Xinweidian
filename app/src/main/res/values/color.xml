@@ -2,4 +2,14 @@
 <resources>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="green">#3CF812</color>
+    <color name="red">#DE2B2E</color>
+    <color name="yellow">#EAE31F</color>
+    <color name="black_light">#949494</color>
+    <color name="collection_onc">#C9C9C9</color>
+    <color name="collection_unc">#E4E4E4</color>
+    <color name="getinshop_onc">#1CB58C</color>
+    <color name="getinshop_unc">#20CB9A</color>
+    <color name="goodsin_onc">#FDFF8A</color>
+    <color name="goodsin_unc">#FFFFCE</color>
 </resources>

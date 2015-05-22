@@ -5,7 +5,7 @@
     tools:context=".Goods_centerActivity">
 
     <LinearLayout
-        android:id="@+id/ll_goods_center_title"
+        android:id="@+id/ll_goods_center_head"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:orientation="horizontal">
@@ -45,41 +45,71 @@
             android:layout_marginRight="10dp"
             android:text="进价"/>
     </LinearLayout>
-    <LinearLayout
-        android:layout_below="@+id/ll_goods_center_title"
+    <View
+        android:id="@+id/div_head_black"
+        android:layout_below="@+id/ll_goods_center_head"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:background="@color/black">
-    </LinearLayout>
-    <LinearLayout
+        android:background="@color/black"/>
+
+    <ListView
+        android:id="@+id/lv_goods_center"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_height="fill_parent"
+        android:scrollbars="none"
+        android:layout_below="@+id/div_head_black"
+        android:layout_above="@+id/ll_goods_center_down">
+    </ListView>
+
+    <LinearLayout
+        android:id="@+id/ll_goods_center_down"
+        android:layout_width="fill_parent"
+        android:layout_height="102dp"
+        android:orientation="vertical"
         android:layout_alignParentBottom="true">
-        <RadioGroup
+        <View
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/black"/>
+        <RadioGroup
+            android:id="@+id/gr_goods_menu"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:background="@color/white"
             android:orientation="horizontal">
             <RadioButton
-                android:layout_width="wrap_content"
+                android:id="@+id/rb_digital"
+                android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:text="数码"/>
             <RadioButton
-                android:layout_width="wrap_content"
+                android:id="@+id/rb_appliance"
+                android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:text="小家电"/>
             <RadioButton
-                android:layout_width="wrap_content"
+                android:id="@+id/rb_infant"
+                android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:text="母婴"/>
             <RadioButton
-                android:layout_width="wrap_content"
+                android:id="@+id/rb_clothing"
+                android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:text="服装"/>
         </RadioGroup>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/black"/>
+        <FrameLayout
+            android:id="@+id/fl_goods_menu"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp">
+        </FrameLayout>
     </LinearLayout>
 </RelativeLayout>
