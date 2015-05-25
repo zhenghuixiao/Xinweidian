@@ -19,12 +19,12 @@ import java.util.HashMap;
 
 
 public class Goods_centerActivity extends ActionBarActivity {
-    private RadioGroup gr_goods_menu; //菜单栏
+    private RadioGroup gr_goods_center_menu; //菜单栏
     private Digital_Fragment digital_fragment;  //菜单frag
     private Appliance_Fragment appliance_fragment;
     private Clothing_Fragment clothing_fragment;
     private Infant_Fragment infant_fragment;
-    private ListView lv_goods_center;
+    private ListView lv_goods_center_list;
     private ArrayList<HashMap<String, Object>> list;// 数据
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +75,8 @@ public class Goods_centerActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
     private void initView() {
-        gr_goods_menu = (RadioGroup)findViewById(R.id.gr_goods_menu);
-        lv_goods_center = (ListView)findViewById(R.id.lv_goods_center);
+        gr_goods_center_menu = (RadioGroup)findViewById(R.id.gr_goods_center_menu);
+        lv_goods_center_list = (ListView)findViewById(R.id.lv_goods_center_list);
         list = new ArrayList<HashMap<String, Object>>();
     }
 
@@ -89,37 +89,37 @@ public class Goods_centerActivity extends ActionBarActivity {
         FragmentManager fm = getFragmentManager();
         // 开启Fragment事务
         FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.fl_goods_menu, digital_fragment);
+        transaction.replace(R.id.fl_goods_center_menu, digital_fragment);
         transaction.commit();
     }
 
     private void setFragmentLlistener() {
         // 数码 家电 母婴 服装
-        gr_goods_menu.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        gr_goods_center_menu.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 FragmentManager fm = getFragmentManager();
                 // 开启Fragment事务
                 FragmentTransaction transaction = fm.beginTransaction();
                 switch (checkedId) {
-                    case R.id.rb_digital:
+                    case R.id.rb_goods_center_digital:
                         Toast.makeText(Goods_centerActivity.this, "数码", Toast.LENGTH_SHORT).show();
-                        transaction.replace(R.id.fl_goods_menu, digital_fragment);
+                        transaction.replace(R.id.fl_goods_center_menu, digital_fragment);
                         transaction.commit();
                         break;
-                    case R.id.rb_appliance:
+                    case R.id.rb_goods_center_appliance:
                         Toast.makeText(Goods_centerActivity.this, "电器", Toast.LENGTH_SHORT).show();
-                        transaction.replace(R.id.fl_goods_menu, appliance_fragment);
+                        transaction.replace(R.id.fl_goods_center_menu, appliance_fragment);
                         transaction.commit();
                         break;
-                    case R.id.rb_infant:
+                    case R.id.rb_goods_center_infant:
                         Toast.makeText(Goods_centerActivity.this, "母婴", Toast.LENGTH_SHORT).show();
-                        transaction.replace(R.id.fl_goods_menu, infant_fragment);
+                        transaction.replace(R.id.fl_goods_center_menu, infant_fragment);
                         transaction.commit();
                         break;
-                    case R.id.rb_clothing:
+                    case R.id.rb_goods_center_clothing:
                         Toast.makeText(Goods_centerActivity.this, "服装", Toast.LENGTH_SHORT).show();
-                        transaction.replace(R.id.fl_goods_menu, clothing_fragment);
+                        transaction.replace(R.id.fl_goods_center_menu, clothing_fragment);
                         transaction.commit();
                         break;
 
@@ -143,8 +143,8 @@ public class Goods_centerActivity extends ActionBarActivity {
                 Goods_centerActivity.this, list, R.layout.layout_goods_center,
                 new String[]{"id", "image", "title", "price_out", "profit", "price_in"},
                 new int[]{R.id.iv_goodscenter_image, R.id.tv_goodscenter_title, R.id.tv_goodscenter_price_out, R.id.tv_goodscenter_profit, R.id.tv_goodscenter_price_in});
-        lv_goods_center.setAdapter(adapter_goods_center);
-        lv_goods_center.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lv_goods_center_list.setAdapter(adapter_goods_center);
+        lv_goods_center_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String goodId = list.get(position).get("id").toString();

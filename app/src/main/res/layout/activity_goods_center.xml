@@ -46,18 +46,18 @@
             android:text="进价"/>
     </LinearLayout>
     <View
-        android:id="@+id/div_head_black"
+        android:id="@+id/div_goods_center_head"
         android:layout_below="@+id/ll_goods_center_head"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="@color/black"/>
 
     <ListView
-        android:id="@+id/lv_goods_center"
+        android:id="@+id/lv_goods_center_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:scrollbars="none"
-        android:layout_below="@+id/div_head_black"
+        android:layout_below="@+id/div_goods_center_head"
         android:layout_above="@+id/ll_goods_center_down">
     </ListView>
 
@@ -72,31 +72,31 @@
             android:layout_height="1dp"
             android:background="@color/black"/>
         <RadioGroup
-            android:id="@+id/gr_goods_menu"
+            android:id="@+id/gr_goods_center_menu"
             android:layout_width="fill_parent"
             android:layout_height="100dp"
             android:background="@color/white"
             android:orientation="horizontal">
             <RadioButton
-                android:id="@+id/rb_digital"
+                android:id="@+id/rb_goods_center_digital"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:text="数码"/>
             <RadioButton
-                android:id="@+id/rb_appliance"
+                android:id="@+id/rb_goods_center_appliance"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:text="小家电"/>
             <RadioButton
-                android:id="@+id/rb_infant"
+                android:id="@+id/rb_goods_center_infant"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:text="母婴"/>
             <RadioButton
-                android:id="@+id/rb_clothing"
+                android:id="@+id/rb_goods_center_clothing"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
@@ -107,7 +107,7 @@
             android:layout_height="1dp"
             android:background="@color/black"/>
         <FrameLayout
-            android:id="@+id/fl_goods_menu"
+            android:id="@+id/fl_goods_center_menu"
             android:layout_width="fill_parent"
             android:layout_height="100dp">
         </FrameLayout>

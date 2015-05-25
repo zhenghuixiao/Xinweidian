@@ -1,11 +1,10 @@
 package com.xinkaishi.apple.xinweidian;
 
 import android.content.Intent;
-import android.support.v4.view.PagerAdapter;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,8 +22,9 @@ public class Goods_detailActivity extends ActionBarActivity {
             tv_goodsdetail_price_out, tv_goodsdetail_saleNum, tv_goodsdetail_collection,
             tv_goodsdetail_inventory, tv_goodsdetail_profit;
     private ViewPager detail_viewpager;
-    private LinearLayout ll_detailgoods_dot;
-    private ArrayList<ImageView> list_img;
+    private LinearLayout ll_detailgoods_dot; //viewpager dot 位置
+    private ArrayList<ImageView> list_img; //viewpager 图片
+    private ArrayList<View> list_dot;  // viewpager dot
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,11 +81,28 @@ public class Goods_detailActivity extends ActionBarActivity {
         tv_goodsdetail_saleNum = (TextView)findViewById(R.id.tv_goodsdetail_saleNum);
         detail_viewpager = (ViewPager)findViewById(R.id.detail_viewpager);
         ll_detailgoods_dot = (LinearLayout)findViewById(R.id.ll_detailgoods_dot);
+        list_dot = new ArrayList<View>();
         list_img = new ArrayList<ImageView>();
         tv_goodsdetail_title.setText("商品ID：" + id);
     }
 
     private void initViewpager() {
+        ImageView iv1 = new ImageView(getApplication());
+        iv1.setImageDrawable(getResources().getDrawable(R.drawable.che1));
+        ImageView iv2 = new ImageView(getApplication());
+        iv2.setImageDrawable(getResources().getDrawable(R.drawable.che2));
+        ImageView iv3 = new ImageView(getApplication());
+        iv3.setImageDrawable(getResources().getDrawable(R.drawable.che3));
+        ImageView iv4 = new ImageView(getApplication());
+        iv4.setImageDrawable(getResources().getDrawable(R.drawable.che4));
+        ImageView iv5 = new ImageView(getApplication());
+        iv5.setImageDrawable(getResources().getDrawable(R.drawable.che5));
+
+        list_img.add(iv1);
+        list_img.add(iv2);
+        list_img.add(iv3);
+        list_img.add(iv4);
+        list_img.add(iv5);
         for(int a = 0; a < 5; a ++){
             View dot = new View(getApplicationContext());
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(15,15);
@@ -96,23 +113,27 @@ public class Goods_detailActivity extends ActionBarActivity {
                 lp.leftMargin = 5; //除了第一个 设置间距
             }
             dot.setLayoutParams(lp);
-//            list_dot.add(dot);
+            list_dot.add(dot);
             ll_detailgoods_dot.addView(dot);
         }
-        detail_viewpager.setAdapter(new PagerAdapter() {
+        detail_viewpager.setAdapter(new Img_Pageradapter(list_img)); //适配viewpager
+        detail_viewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            int oldposition = 0;
             @Override
-            public int getCount() {
-                return 5;
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
             }
 
             @Override
-            public boolean isViewFromObject(View view, Object object) {
-                return false;
+            public void onPageSelected(int position) {
+                list_dot.get(oldposition).setBackgroundResource(R.drawable.dot_normal);
+                list_dot.get(position).setBackgroundResource(R.drawable.dot_focused);
+                oldposition = position;
             }
 
             @Override
-            public Object instantiateItem(View container, int position) {
-                return super.instantiateItem(container, position);
+            public void onPageScrollStateChanged(int state) {
+
             }
         });
     }
