@@ -14,6 +14,8 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.xinkaishi.apple.xinweidian.DAO.ImgDAO;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -26,6 +28,7 @@ public class Goods_centerActivity extends ActionBarActivity {
     private Infant_Fragment infant_fragment;
     private ListView lv_goods_center_list;
     private ArrayList<HashMap<String, Object>> list;// 数据
+    private ImgDAO imgdao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +55,8 @@ public class Goods_centerActivity extends ActionBarActivity {
         switch(item.getItemId())
         {
             case R.id.action_shoppingcart:
+                Intent intent = new Intent(Goods_centerActivity.this, Shopping_cartActivity.class);
+                startActivity(intent);
                 Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_order:
@@ -77,6 +82,7 @@ public class Goods_centerActivity extends ActionBarActivity {
     private void initView() {
         gr_goods_center_menu = (RadioGroup)findViewById(R.id.gr_goods_center_menu);
         lv_goods_center_list = (ListView)findViewById(R.id.lv_goods_center_list);
+        imgdao = new ImgDAO(getApplication());
         list = new ArrayList<HashMap<String, Object>>();
     }
 
@@ -129,10 +135,10 @@ public class Goods_centerActivity extends ActionBarActivity {
     }
 
     private void setListView() {
-        for(int a = 0; a < 10; a ++){
+        for(int a = 0; a < 30; a ++){
             HashMap<String, Object> hm = new HashMap<String, Object>();
             hm.put("id", a);
-            hm.put("image", "http://h.hiphotos.baidu.com/image/w%3D310/sign=5359580831fa828bd1239be2cd1e41cd/dcc451da81cb39db599abb5bd2160924ab183061.jpg");
+            hm.put("image", "http://img2.imgtn.bdimg.com/it/u=2482911974,2403159586&fm=21&gp=0.jpg");
             hm.put("title", "标题---此处商品ID为：" + a);
             hm.put("price_in", 100 + a);
             hm.put("profit", 100 + a);
@@ -142,7 +148,8 @@ public class Goods_centerActivity extends ActionBarActivity {
         Adapter_goods_center adapter_goods_center = new Adapter_goods_center(
                 Goods_centerActivity.this, list, R.layout.layout_goods_center,
                 new String[]{"id", "image", "title", "price_out", "profit", "price_in"},
-                new int[]{R.id.iv_goodscenter_image, R.id.tv_goodscenter_title, R.id.tv_goodscenter_price_out, R.id.tv_goodscenter_profit, R.id.tv_goodscenter_price_in});
+                new int[]{R.id.iv_goodscenter_image, R.id.tv_goodscenter_title, R.id.tv_goodscenter_price_out,
+                        R.id.tv_goodscenter_profit, R.id.tv_goodscenter_price_in}, imgdao);
         lv_goods_center_list.setAdapter(adapter_goods_center);
         lv_goods_center_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -154,5 +161,11 @@ public class Goods_centerActivity extends ActionBarActivity {
                 overridePendingTransition(R.anim.pic_left_in, R.anim.pic_left_out);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        imgdao.closeDB();
+        super.onDestroy();
     }
 }

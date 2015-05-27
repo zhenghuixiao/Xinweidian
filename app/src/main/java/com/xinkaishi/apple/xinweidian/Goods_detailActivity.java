@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -103,6 +104,7 @@ public class Goods_detailActivity extends ActionBarActivity {
         list_img.add(iv3);
         list_img.add(iv4);
         list_img.add(iv5);
+
         for(int a = 0; a < 5; a ++){
             View dot = new View(getApplicationContext());
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(15,15);
@@ -129,6 +131,7 @@ public class Goods_detailActivity extends ActionBarActivity {
                 list_dot.get(oldposition).setBackgroundResource(R.drawable.dot_normal);
                 list_dot.get(position).setBackgroundResource(R.drawable.dot_focused);
                 oldposition = position;
+                Log.e("1111", "11111");
             }
 
             @Override

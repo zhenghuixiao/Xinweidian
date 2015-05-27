@@ -20,7 +20,8 @@ public class Cache {
     LruCache<String,Bitmap> mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
         @Override
         protected int sizeOf(String key, Bitmap bitmap) {
-            return bitmap.getByteCount() / 1024;
+//            return bitmap.getByteCount() / 1024;
+            return bitmap.getRowBytes() * bitmap.getHeight();
         }
     };
 

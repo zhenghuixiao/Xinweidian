@@ -6,6 +6,10 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -38,6 +42,10 @@
             android:name=".Goods_detailActivity"
             android:label="@string/title_activity_goods_detail"
             android:theme="@style/MyActionBarTheme" >
+        </activity>
+        <activity
+            android:name=".Shopping_cartActivity"
+            android:label="@string/title_activity_shopping_cart" >
         </activity>
     </application>
 

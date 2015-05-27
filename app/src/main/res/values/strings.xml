@@ -10,5 +10,6 @@
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_goods_detail">商品详情</string>
+    <string name="title_activity_shopping_cart">购物车</string>
 
 </resources>

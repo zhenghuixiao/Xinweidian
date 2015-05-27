@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.xinkaishi.apple.xinweidian.DAO.ImgDAO;
 import com.xinkaishi.apple.xinweidian.Until.Cache;
 import com.xinkaishi.apple.xinweidian.Until.LoadImg;
 
@@ -31,6 +32,9 @@ public class Adapter_goods_center extends BaseAdapter{
     private String flag[];
     private int ItemIDs[];
     private Cache cache;
+    private ImgDAO imgdao;
+
+    private String add;
     /**
      * @param context class
      * @param list 数据集合list
@@ -39,13 +43,15 @@ public class Adapter_goods_center extends BaseAdapter{
      * @param ItemIDs list中各项ID
      * */
     public Adapter_goods_center(Context context, ArrayList<HashMap<String, Object>> list,
-                                int layoutID, String flag[], int ItemIDs[]){
+                                int layoutID, String flag[], int ItemIDs[], ImgDAO imgdao){
         this.context = context;
         this.list = list;
         this.layoutID = layoutID;
         this.flag = flag;
         this.ItemIDs = ItemIDs;
         cache = new Cache();
+        this.imgdao = imgdao;
+        add = null;
     }
     @Override
     public int getCount() {
@@ -82,12 +88,15 @@ public class Adapter_goods_center extends BaseAdapter{
         holder.tv_goodscenter_price_out.setText(list.get(position).get(flag[3]) + "");
         holder.tv_goodscenter_profit.setText(list.get(position).get(flag[4]) + "");
         holder.tv_goodscenter_price_in.setText(list.get(position).get(flag[5]) + "");
-        LoadImg.onLoadImage(list.get(position).get(flag[1]).toString(), cache, new LoadImg.OnLoadImageListener() {
+
+        add = list.get(position).get(flag[1]).toString();
+        LoadImg.onLoadImage(add, cache, imgdao, new LoadImg.OnLoadImageListener() {
             @Override
             public void OnLoadImage(Bitmap bitmap, String bitmapPath) {
                 holder.iv_goodscenter_image.setImageBitmap(bitmap);
             }
         });
+
         return convertView;
     }
 
