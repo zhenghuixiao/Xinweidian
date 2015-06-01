@@ -1,4 +1,4 @@
-package com.xinkaishi.apple.xinweidian;
+package com.xinkaishi.apple.xinweidian.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.xinkaishi.apple.xinweidian.Adapter.Img_Pageradapter;
+import com.xinkaishi.apple.xinweidian.R;
 
 import java.util.ArrayList;
 

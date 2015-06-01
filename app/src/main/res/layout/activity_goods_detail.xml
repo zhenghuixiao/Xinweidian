@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.xinkaishi.apple.xinweidian.Goods_detailActivity">
+    tools:context="com.xinkaishi.apple.xinweidian.Activity.Goods_detailActivity">
 
     <LinearLayout
         android:id="@+id/ll_detailgoods_down"

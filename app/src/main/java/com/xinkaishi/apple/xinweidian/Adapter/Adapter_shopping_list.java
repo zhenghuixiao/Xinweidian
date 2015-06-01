@@ -1,4 +1,4 @@
-package com.xinkaishi.apple.xinweidian;
+package com.xinkaishi.apple.xinweidian.Adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xinkaishi.apple.xinweidian.DAO.ImgDAO;
+import com.xinkaishi.apple.xinweidian.R;
 import com.xinkaishi.apple.xinweidian.Until.Cache;
 import com.xinkaishi.apple.xinweidian.Until.LoadImg;
 

@@ -11,5 +11,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_goods_detail">商品详情</string>
     <string name="title_activity_shopping_cart">购物车</string>
+    <string name="title_activity_confirm_orders">确认下单</string>
+    <string name="title_activity_set_receive_ifm">设置收货信息</string>
 
 </resources>

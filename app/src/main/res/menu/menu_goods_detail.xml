@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.xinkaishi.apple.xinweidian.Goods_detailActivity">
+    tools:context="com.xinkaishi.apple.xinweidian.Activity.Goods_detailActivity">
     <item
         android:id="@+id/action_shoppingcart"
         android:title="购物车"

@@ -4,7 +4,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.xinkaishi.apple.xinweidian.LoadingActivity">
+    tools:context="com.xinkaishi.apple.xinweidian.Activity.LoadingActivity">
 
     <TextView
         android:id="@+id/tv_loading"

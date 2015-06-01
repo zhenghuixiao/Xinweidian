@@ -1,4 +1,4 @@
-package com.xinkaishi.apple.xinweidian;
+package com.xinkaishi.apple.xinweidian.Activity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -14,7 +14,13 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.xinkaishi.apple.xinweidian.Adapter.Adapter_goods_center;
+import com.xinkaishi.apple.xinweidian.Fragment.Appliance_Fragment;
+import com.xinkaishi.apple.xinweidian.Fragment.Clothing_Fragment;
 import com.xinkaishi.apple.xinweidian.DAO.ImgDAO;
+import com.xinkaishi.apple.xinweidian.Fragment.Digital_Fragment;
+import com.xinkaishi.apple.xinweidian.Fragment.Infant_Fragment;
+import com.xinkaishi.apple.xinweidian.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

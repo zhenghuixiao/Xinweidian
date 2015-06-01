@@ -1,10 +1,12 @@
-package com.xinkaishi.apple.xinweidian;
+package com.xinkaishi.apple.xinweidian.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import com.xinkaishi.apple.xinweidian.R;
 
 
 public class LoadingActivity extends Activity {

@@ -1,4 +1,4 @@
-package com.xinkaishi.apple.xinweidian;
+package com.xinkaishi.apple.xinweidian.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,9 +6,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.xinkaishi.apple.xinweidian.Adapter.Adapter_shopping_list;
 import com.xinkaishi.apple.xinweidian.DAO.ImgDAO;
+import com.xinkaishi.apple.xinweidian.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +22,7 @@ public class Shopping_cartActivity extends ActionBarActivity {
     private ListView lv_shopping_cart_list;
     private ArrayList<HashMap<String, Object>> list;
     private ImgDAO imgdao;
+    private TextView tv_shopping_cart_pay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +33,7 @@ public class Shopping_cartActivity extends ActionBarActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         initView();
         setListView();
+        setonclick();//去结算
     }
 
     @Override
@@ -58,6 +64,7 @@ public class Shopping_cartActivity extends ActionBarActivity {
 
     private void initView() {
         lv_shopping_cart_list = (ListView)findViewById(R.id.lv_shopping_cart_list);
+        tv_shopping_cart_pay = (TextView)findViewById(R.id.tv_shopping_cart_pay);
         list = new ArrayList<HashMap<String, Object>>();
         imgdao = new ImgDAO(getApplication());
     }
@@ -79,5 +86,14 @@ public class Shopping_cartActivity extends ActionBarActivity {
                 new int[]{R.id.tv_shoppingcart_status, R.id.iv_shoppingcart_image, R.id.tv_goodscenter_title,
                         R.id.tv_shoppingcart_format, R.id.tv_shoppingcart_inprice, R.id.tv_shoppingcart_picknum, R.id.tv_shoppingcart_allprice}, imgdao);
         lv_shopping_cart_list.setAdapter(adapter);
+    }
+    private void setonclick() {
+        tv_shopping_cart_pay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Shopping_cartActivity.this, Confirm_ordersActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
