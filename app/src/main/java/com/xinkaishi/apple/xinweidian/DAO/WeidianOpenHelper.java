@@ -24,10 +24,14 @@ public class WeidianOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //创建picture表
+        //创建图片缓存表
         db.execSQL("CREATE TABLE IF NOT EXISTS image" +
                 "(_id INTEGER PRIMARY KEY AUTOINCREMENT, img BLOB, address TEXT)");
-        Log.e("sqlite", "创建成功");
+        Log.e("sqlite", "图片缓存表创建成功");
+        //创建收货地址缓存表
+        db.execSQL("CREATE TABLE IF NOT EXISTS address" +
+                "(_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, tel TEXT, address TEXT, state INTEGER)");
+        Log.e("sqlite", "收货地址缓存表创建成功");
     }
 
     @Override

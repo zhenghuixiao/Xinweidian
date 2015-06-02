@@ -59,7 +59,7 @@ public class Adapter_set_address extends BaseAdapter{
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
         if(convertView == null){
             convertView = LayoutInflater.from(context).inflate(layoutID, null);
@@ -72,11 +72,20 @@ public class Adapter_set_address extends BaseAdapter{
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
+
         holder.tv_setName.setText(list.get(position).get(flag[0]) + "");
         holder.tv_setTel.setText(list.get(position).get(flag[1]) + "");
         holder.tv_setAddress.setText(list.get(position).get(flag[2]) + "");
-        if((Integer)list.get(position).get(flag[3]) == 1){
-            holder.iv_setImg.setBackgroundColor(convertView.getResources().getColor(R.color.white));
+        if(position == list.size() - 1){
+            holder.iv_setImg.setBackgroundColor(convertView.getResources().getColor(R.color.black));
+        }else{
+
+            if ((Integer)list.get(position).get(flag[3]) == 1) {
+                holder.iv_setImg.setVisibility(View.VISIBLE);
+                holder.iv_setImg.setBackgroundColor(convertView.getResources().getColor(R.color.black_light));
+            } else {
+                holder.iv_setImg.setVisibility(View.GONE);
+            }
         }
         return convertView;
     }

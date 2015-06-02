@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.xinkaishi.apple.xinweidian.DAO.AddressDAO;
 import com.xinkaishi.apple.xinweidian.R;
 
 import java.util.HashMap;
@@ -19,8 +20,11 @@ import java.util.HashMap;
 public class Confirm_ordersActivity extends ActionBarActivity {
     private RelativeLayout rl_confirm_orders_receiving; //收货信息设置
     private LinearLayout ll_confirm_orders_defaultIfm; //无收货信息时的默认页面
-    private HashMap<String, Object> receiceIFM;
-    private TextView tv_confirm_orders_name;
+    private HashMap<String, Object> receiceIFM;//数据库中的默认收货地址
+
+    //姓名，手机，收货地址
+    private TextView tv_confirm_orders_name, tv_confirm_orders_tel, tv_confirm_orders_address;
+    private AddressDAO addDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +65,20 @@ public class Confirm_ordersActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        addDAO.closeDB();
+        super.onDestroy();
+    }
+
     private void initView() {
         rl_confirm_orders_receiving = (RelativeLayout)findViewById(R.id.rl_confirm_orders_receiving);
         ll_confirm_orders_defaultIfm = (LinearLayout)findViewById(R.id.ll_confirm_orders_defaultIfm);
+        tv_confirm_orders_name = (TextView)findViewById(R.id.tv_confirm_orders_name);
+        tv_confirm_orders_tel = (TextView)findViewById(R.id.tv_confirm_orders_tel);
+        tv_confirm_orders_address = (TextView)findViewById(R.id.tv_confirm_orders_address);
         receiceIFM = new HashMap<String, Object>();
+        addDAO = new AddressDAO(this);
     }
 
     @Override
@@ -75,13 +89,18 @@ public class Confirm_ordersActivity extends ActionBarActivity {
     }
 
     private void initMain() {
-        if(true){
-            Log.e("eee", "执行");
+        receiceIFM = addDAO.getDefaultAddress();
+
+        if(receiceIFM.get("name") == null){
+            Log.e("eee", "默认收货地址为空");
             ll_confirm_orders_defaultIfm.setVisibility(View.VISIBLE);
         }else{
             ll_confirm_orders_defaultIfm.setVisibility(View.GONE);
+            tv_confirm_orders_name.setText(receiceIFM.get("name").toString());
+            tv_confirm_orders_tel.setText(receiceIFM.get("tel").toString());
+            tv_confirm_orders_address.setText(receiceIFM.get("address").toString());
+
         }
-//        tv_confirm_orders_name.setText(receiceIFM.get("name").toString());
     }
 
     private void setonclick() {
@@ -90,8 +109,10 @@ public class Confirm_ordersActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Confirm_ordersActivity.this, SetReceiveIfmActivity.class);
                 startActivity(intent);
+
                 overridePendingTransition(R.anim.pic_left_in, R.anim.pic_left_out);
             }
         });
     }
+
 }

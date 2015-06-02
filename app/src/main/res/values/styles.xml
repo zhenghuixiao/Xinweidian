@@ -57,5 +57,4 @@
     <style name="radiobutton" parent="radiobutton">
         <item name="android:textSize">20sp</item>
     </style>
-
 </resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Enabled states -->
+
+    <item android:state_checked="true" android:state_pressed="true"
+        android:drawable="@drawable/abc_btn_rating_star_on_mtrl_alpha" />   ---------自己的Radio button 图片
+    <item android:state_checked="false" android:state_pressed="true"
+        android:drawable="@color/white" />
+</selector>
