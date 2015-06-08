@@ -42,14 +42,13 @@
     <!--android:layout_below="@+id/rl_shopping_cart_head"-->
     <View
         android:id="@+id/div_shopping_cart_head"
-
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="@color/black"/>
     <LinearLayout
         android:id="@+id/ll_shopping_cart_down"
         android:layout_width="fill_parent"
-        android:layout_height="82dp"
+        android:layout_height="112dp"
         android:orientation="vertical"
         android:layout_alignParentBottom="true">
         <View
@@ -58,7 +57,7 @@
             android:background="@color/black"/>
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="30dp"
+            android:layout_height="50dp"
             android:gravity="center">
             <TextView
                 android:layout_width="wrap_content"
@@ -89,7 +88,7 @@
             <TextView
                 android:id="@+id/tv_shopping_cart_pay"
                 android:layout_width="fill_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="100dp"
                 android:gravity="center"

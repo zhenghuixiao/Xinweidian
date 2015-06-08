@@ -85,7 +85,9 @@ public class SetReceiveIfmActivity extends ActionBarActivity {
         list = new ArrayList<HashMap<String, Object>>();
         //从数据库取出全部地址信息
         list = addDAO.getAllAddress();
-
+        for(int a = 0; a < list.size(); a ++){
+            Log.e("测试", "ID为" + list.get(a).get("id").toString());
+        }
         HashMap<String, Object> hm = new HashMap<String, Object>();
         //这里生成新建收货地址栏
         hm.put("tel", "新建收货地址");

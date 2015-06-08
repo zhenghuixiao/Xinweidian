@@ -61,6 +61,18 @@
             android:name=".Activity.Add_addressActivity"
             android:label="@string/title_activity_add_address" >
         </activity>
+        <activity
+            android:name=".Activity.Payment_Activity"
+            android:label="@string/title_activity_payment_" >
+        </activity>
+        <activity
+            android:name=".Activity.SearchActivity"
+            android:label="@string/title_activity_main_activity2" >
+        </activity>
+        <activity
+            android:name=".Activity.Goods_OrdersActivity"
+            android:label="@string/title_activity_goods__orders_" >
+        </activity>
     </application>
 
 </manifest>

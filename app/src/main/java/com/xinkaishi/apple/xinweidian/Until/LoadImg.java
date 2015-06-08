@@ -56,7 +56,7 @@ public class LoadImg {
                         InputStream inputStream = conn.getInputStream();
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                         cache.addBitmapToMemoryCache(bitmapUrl, bitmap);
-                        Log.e("图片", "添加成功");
+                        Log.e("图片", "从网上下载图片");
                         img.bitmap = bitmap;
                         img.address = bitmapUrl;
                         imgdao.add(img);

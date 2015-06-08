@@ -21,6 +21,7 @@ public class Confirm_ordersActivity extends ActionBarActivity {
     private RelativeLayout rl_confirm_orders_receiving; //收货信息设置
     private LinearLayout ll_confirm_orders_defaultIfm; //无收货信息时的默认页面
     private HashMap<String, Object> receiceIFM;//数据库中的默认收货地址
+    private TextView tv_confirm_orders_submit;//提交订单
 
     //姓名，手机，收货地址
     private TextView tv_confirm_orders_name, tv_confirm_orders_tel, tv_confirm_orders_address;
@@ -77,6 +78,7 @@ public class Confirm_ordersActivity extends ActionBarActivity {
         tv_confirm_orders_name = (TextView)findViewById(R.id.tv_confirm_orders_name);
         tv_confirm_orders_tel = (TextView)findViewById(R.id.tv_confirm_orders_tel);
         tv_confirm_orders_address = (TextView)findViewById(R.id.tv_confirm_orders_address);
+        tv_confirm_orders_submit = (TextView)findViewById(R.id.tv_confirm_orders_submit);
         receiceIFM = new HashMap<String, Object>();
         addDAO = new AddressDAO(this);
     }
@@ -110,6 +112,16 @@ public class Confirm_ordersActivity extends ActionBarActivity {
                 Intent intent = new Intent(Confirm_ordersActivity.this, SetReceiveIfmActivity.class);
                 startActivity(intent);
 
+                overridePendingTransition(R.anim.pic_left_in, R.anim.pic_left_out);
+            }
+        });
+
+        tv_confirm_orders_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 判断收货地址是否设置
+                Intent intent = new Intent(Confirm_ordersActivity.this, Payment_Activity.class);
+                startActivity(intent);
                 overridePendingTransition(R.anim.pic_left_in, R.anim.pic_left_out);
             }
         });

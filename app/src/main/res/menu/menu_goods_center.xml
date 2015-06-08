@@ -21,6 +21,5 @@
         android:id="@+id/action_search"
         android:title="搜索"
         android:icon="@drawable/abc_btn_check_material"
-        app:showAsAction="always|withText|collapseActionView"
-        app:actionViewClass="android.support.v7.widget.SearchView" />
+        app:showAsAction="always|withText"/>
 </menu>

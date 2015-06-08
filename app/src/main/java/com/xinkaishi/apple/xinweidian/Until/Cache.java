@@ -2,6 +2,7 @@ package com.xinkaishi.apple.xinweidian.Until;
 
 import android.graphics.Bitmap;
 import android.support.v4.util.LruCache;
+import android.util.Log;
 
 /**
  * 项目名称：Xinweidian
@@ -20,13 +21,14 @@ public class Cache {
     LruCache<String,Bitmap> mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
         @Override
         protected int sizeOf(String key, Bitmap bitmap) {
-//            return bitmap.getByteCount() / 1024;
-            return bitmap.getRowBytes() * bitmap.getHeight();
+            return bitmap.getByteCount() / 1024;
+//            return bitmap.getRowBytes() * bitmap.getHeight();
         }
     };
 
     public void addBitmapToMemoryCache(String key, Bitmap bitmap) {
         if (getBitmapFromMemCache(key) == null) {
+            Log.e("图片缓存", "增加一张图片缓存" + key);
             mMemoryCache.put(key, bitmap);
         }
     }

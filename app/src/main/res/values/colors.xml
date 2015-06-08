@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+    <!--半透明Button android:background=#e0000000 ... /-->
+    <!--透明Button android:background=#00000000 ... /-->
+    <!--颜色和不透明度 (alpha) 以十六进制表示法表示。-->
+    <!--任何一种颜色的范围都是 0 到 255（00 到 ff）。-->
+    <!--对于 alpha，00 表示完全透明，ff 表示完全不透明-->
 <resources>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
@@ -12,4 +18,9 @@
     <color name="getinshop_unc">#20CB9A</color>
     <color name="goodsin_onc">#FDFF8A</color>
     <color name="goodsin_unc">#FFFFCE</color>
+    <color name="payment">#FFFFC2</color>
+    <color name="search_backg">#DEDEDE</color>
+    <color name="toast_alpha">#b0000000</color>
+
 </resources>
+

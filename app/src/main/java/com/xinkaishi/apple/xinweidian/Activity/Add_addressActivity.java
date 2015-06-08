@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -24,6 +25,7 @@ public class Add_addressActivity extends ActionBarActivity {
     private TextView tv_add_address_detail, tv_add_address_name, tv_add_address_phone;
     private EditText et_add_address_detail, et_add_address_name, et_add_address_phone;
     private AddressDAO addDAO;
+    private ArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,12 @@ public class Add_addressActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        addDAO.closeDB();
+        super.onDestroy();
+    }
+
     private void initView() {
         addDAO = new AddressDAO(this);
 
@@ -104,6 +112,7 @@ public class Add_addressActivity extends ActionBarActivity {
         et_add_address_detail.setOnFocusChangeListener(new MyOnFocusChangeListener());
         et_add_address_name.setOnFocusChangeListener(new MyOnFocusChangeListener());
         et_add_address_phone.setOnFocusChangeListener(new MyOnFocusChangeListener());
+
     }
 
     class MyOnFocusChangeListener implements View.OnFocusChangeListener {
@@ -143,7 +152,6 @@ public class Add_addressActivity extends ActionBarActivity {
         }
     }
     private void setAdapter() {
-        ArrayAdapter adapter;
         //将可选内容与ArrayAdapter连接起来
         adapter = ArrayAdapter.createFromResource(this, R.array.sheng, android.R.layout.simple_spinner_item);
 
@@ -154,10 +162,22 @@ public class Add_addressActivity extends ActionBarActivity {
         sp_add_address_sheng.setAdapter(adapter);
 
         //添加事件spinner_sheng事件监听
-//        sp_add_address_sheng.setOnItemSelectedListener(new SpinnerXMLSelectedListener());
+        sp_add_address_sheng.setOnItemSelectedListener(new SpinnerXMLSelectedListener());
 
         //设置默认值
         sp_add_address_sheng.setVisibility(View.VISIBLE);
     }
 
+    //使用XML形式操作
+    class SpinnerXMLSelectedListener implements AdapterView.OnItemSelectedListener {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            adapter.getItem(position);//选中的
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    }
 }

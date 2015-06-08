@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Enabled states -->
+
+    <item
+        android:state_checked="true"
+        android:drawable="@drawable/line_bottom_biankuang_change" />
+    <item
+        android:state_checked="false"
+        android:drawable="@drawable/line_bottom_biankuang" />---------自己的Radio button 图片
+</selector>

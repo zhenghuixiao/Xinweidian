@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,9 +17,9 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.xinkaishi.apple.xinweidian.Adapter.Adapter_goods_center;
+import com.xinkaishi.apple.xinweidian.DAO.ImgDAO;
 import com.xinkaishi.apple.xinweidian.Fragment.Appliance_Fragment;
 import com.xinkaishi.apple.xinweidian.Fragment.Clothing_Fragment;
-import com.xinkaishi.apple.xinweidian.DAO.ImgDAO;
 import com.xinkaishi.apple.xinweidian.Fragment.Digital_Fragment;
 import com.xinkaishi.apple.xinweidian.Fragment.Infant_Fragment;
 import com.xinkaishi.apple.xinweidian.R;
@@ -61,25 +63,30 @@ public class Goods_centerActivity extends ActionBarActivity {
         switch(item.getItemId())
         {
             case R.id.action_shoppingcart:
-                Intent intent = new Intent(Goods_centerActivity.this, Shopping_cartActivity.class);
-                startActivity(intent);
+                Intent intent1 = new Intent(Goods_centerActivity.this, Shopping_cartActivity.class);
+                startActivity(intent1);
                 Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_order:
+                Intent intent2 = new Intent(Goods_centerActivity.this, Goods_OrdersActivity.class);
+                startActivity(intent2);
                 Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_collection:
+                Toast t = Toast.makeText(this, "", Toast.LENGTH_SHORT);
+                t.setGravity(Gravity.CENTER, 0, 0);
+                View layout = LayoutInflater.from(this).inflate(R.layout.layout_toast_style, null);
+                t.setView(layout);
+                t.show();
                 Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_search:
+                Intent intent4 = new Intent(Goods_centerActivity.this, SearchActivity.class);
+                startActivity(intent4);
                 Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
                 return true;
             // 导航返回键
             case android.R.id.home:
-//                // 返回应用的主activity
-//                Intent intent = new Intent(this, LoadingActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                startActivity(intent);
                 finish();
                 return true;
         }
@@ -155,7 +162,8 @@ public class Goods_centerActivity extends ActionBarActivity {
                 Goods_centerActivity.this, list, R.layout.layout_goods_center,
                 new String[]{"id", "image", "title", "price_out", "profit", "price_in"},
                 new int[]{R.id.iv_goodscenter_image, R.id.tv_goodscenter_title, R.id.tv_goodscenter_price_out,
-                        R.id.tv_goodscenter_profit, R.id.tv_goodscenter_price_in}, imgdao);
+                        R.id.tv_goodscenter_profit, R.id.tv_goodscenter_price_in, R.id.tv_goodscenter_shoucang,
+                        R.id.tv_goodscenter_goodsIn, R.id.tv_goodscenter_getInshop}, imgdao);
         lv_goods_center_list.setAdapter(adapter_goods_center);
         lv_goods_center_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -54,7 +54,7 @@
         <item name="android:background">@color/white</item>
     </style>
 
-    <style name="radiobutton" parent="radiobutton">
-        <item name="android:textSize">20sp</item>
+    <style name="Style_Radiobutton">
+        <item name="android:button">@drawable/radiobutton_goods_orders</item>
     </style>
 </resources>

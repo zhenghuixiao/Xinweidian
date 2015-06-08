@@ -14,5 +14,8 @@
     <string name="title_activity_confirm_orders">确认下单</string>
     <string name="title_activity_set_receive_ifm">设置收货信息</string>
     <string name="title_activity_add_address">添加收货信息</string>
+    <string name="title_activity_payment_">支付中心</string>
+    <string name="title_activity_main_activity2">" "</string>
+    <string name="title_activity_goods__orders_">进货订单</string>
 
 </resources>

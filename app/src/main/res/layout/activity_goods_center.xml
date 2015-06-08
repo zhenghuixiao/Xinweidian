@@ -83,24 +83,36 @@
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/radiobutton_goods_center"
+                android:gravity="center"
                 android:text="数码"/>
             <RadioButton
                 android:id="@+id/rb_goods_center_appliance"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/radiobutton_goods_center"
+                android:gravity="center"
                 android:text="小家电"/>
             <RadioButton
                 android:id="@+id/rb_goods_center_infant"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/radiobutton_goods_center"
+                android:gravity="center"
                 android:text="母婴"/>
             <RadioButton
                 android:id="@+id/rb_goods_center_clothing"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/radiobutton_goods_center"
+                android:gravity="center"
                 android:text="服装"/>
         </RadioGroup>
         <View
