@@ -17,5 +17,6 @@
     <string name="title_activity_payment_">支付中心</string>
     <string name="title_activity_main_activity2">" "</string>
     <string name="title_activity_goods__orders_">进货订单</string>
+    <string name="title_activity_order_detail">订单详情</string>
 
 </resources>

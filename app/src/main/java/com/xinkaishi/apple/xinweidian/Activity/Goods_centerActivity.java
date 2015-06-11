@@ -45,6 +45,7 @@ public class Goods_centerActivity extends ActionBarActivity {
         // 显示导航按钮
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
         initView(); //加载控件
         defalutFragment(); //默认菜单栏
         setFragmentLlistener(); //监听菜单栏

@@ -73,6 +73,10 @@
             android:name=".Activity.Goods_OrdersActivity"
             android:label="@string/title_activity_goods__orders_" >
         </activity>
+        <activity
+            android:name=".Activity.Order_detailActivity"
+            android:label="@string/title_activity_order_detail" >
+        </activity>
     </application>
 
 </manifest>
