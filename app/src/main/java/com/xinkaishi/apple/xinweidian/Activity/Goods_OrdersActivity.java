@@ -7,26 +7,21 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AbsListView;
 import android.widget.ExpandableListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.xinkaishi.apple.xinweidian.Adapter.Adapter_goods_orders;
 import com.xinkaishi.apple.xinweidian.Bean.TESTLIST;
-import com.xinkaishi.apple.xinweidian.CustomView.PinnedHeaderExpandableListView;
 import com.xinkaishi.apple.xinweidian.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Goods_OrdersActivity extends ActionBarActivity  implements
-        PinnedHeaderExpandableListView.OnHeaderUpdateListener {
+public class Goods_OrdersActivity extends ActionBarActivity{
     private RadioButton rb_goods_orders_all, rb_goods_orders_unpay, rb_goods_orders_untake, rb_goods_orders_unget;
     private RadioGroup rg_goods_orders_head;
-    private PinnedHeaderExpandableListView lv_goods_orders_exlist;
+    private ExpandableListView lv_goods_orders_exlist;
     private Adapter_goods_orders adapter;
 
     @Override
@@ -66,24 +61,6 @@ public class Goods_OrdersActivity extends ActionBarActivity  implements
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public View getPinnedHeader(int firstVisibleGroupPos) {
-        View headerView = getLayoutInflater().inflate(R.layout.layout_goods_ordergroup, null);
-
-        headerView.setLayoutParams(new AbsListView.LayoutParams(
-                AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
-        return headerView;
-    }
-
-    @Override
-    public void updatePinnedHeader(View headerView, int firstVisibleGroupPos) {
-        HashMap<String, Object> firstVisibleGroup = (HashMap<String, Object>) adapter.getGroup(firstVisibleGroupPos);
-        if(headerView != null){
-            TextView textView = (TextView) headerView.findViewById(R.id.tv_ordergroup_jiaoyihao);
-            textView.setText(firstVisibleGroup.get("transaction").toString());
-        }
-    }
-
     private boolean initActionBar() {
         // 显示导航按钮
         ActionBar actionBar = getSupportActionBar();
@@ -115,7 +92,7 @@ public class Goods_OrdersActivity extends ActionBarActivity  implements
         rb_goods_orders_unpay = (RadioButton)findViewById(R.id.rb_goods_orders_unpay);
         rb_goods_orders_untake = (RadioButton)findViewById(R.id.rb_goods_orders_untake);
         rb_goods_orders_unget = (RadioButton)findViewById(R.id.rb_goods_orders_unget);
-        lv_goods_orders_exlist = (PinnedHeaderExpandableListView)findViewById(R.id.lv_goods_orders_exlist);
+        lv_goods_orders_exlist = (ExpandableListView)findViewById(R.id.lv_goods_orders_exlist);
     }
 
     private void initSetOnclick() {
@@ -141,16 +118,9 @@ public class Goods_OrdersActivity extends ActionBarActivity  implements
         final ArrayList<HashMap<String, Object>> testlist = new TESTLIST().getList();
         adapter = new Adapter_goods_orders(Goods_OrdersActivity.this, testlist);
         lv_goods_orders_exlist.setAdapter(adapter);
-        lv_goods_orders_exlist.setOnHeaderUpdateListener(this);
         // 默认展开全部项
         for(int a = 0; a < testlist.size(); a ++){
             lv_goods_orders_exlist.expandGroup(a);
         }
-        lv_goods_orders_exlist.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                return true;
-            }
-        }, false);
     }
 }

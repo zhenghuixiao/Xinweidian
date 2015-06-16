@@ -125,4 +125,12 @@
             android:layout_height="100dp">
         </FrameLayout>
     </LinearLayout>
+
+    <View
+        android:id="@+id/darkview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/dark_view"
+        android:alpha="0.7"
+        android:visibility="gone" />
 </RelativeLayout>

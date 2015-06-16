@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.xinkaishi.apple.xinweidian.Bean.ViewHolder;
 import com.xinkaishi.apple.xinweidian.DAO.ImgDAO;
 import com.xinkaishi.apple.xinweidian.R;
 import com.xinkaishi.apple.xinweidian.Until.Cache;
@@ -29,8 +31,9 @@ import java.util.HashMap;
 public class Adapter_shopping_list extends BaseAdapter{
     private Context context;
     private ArrayList<HashMap<String, Object>> list;
+    // 用来控制CheckBox的选中状况
+    private static HashMap<Integer,Boolean> isSelected;
     private int layoutID;
-    private String flag[];
     private int ItemIDs[];
     private Cache cache;
     private ImgDAO imgdao;
@@ -38,19 +41,34 @@ public class Adapter_shopping_list extends BaseAdapter{
      * @param context class
      * @param list 数据集合list
      * @param layoutID 样式layout
-     * @param flag list中存带标签
      * @param ItemIDs list中各项ID
      * */
     public Adapter_shopping_list(Context context, ArrayList<HashMap<String, Object>> list,
-                                 int layoutID, String flag[], int ItemIDs[], ImgDAO imgdao){
+                                 int layoutID, int ItemIDs[], ImgDAO imgdao){
         this.context = context;
         this.list = list;
         this.layoutID = layoutID;
-        this.flag = flag;
         this.ItemIDs = ItemIDs;
         this.imgdao = imgdao;
+        isSelected = new HashMap<Integer, Boolean>();
         cache = new Cache();
+        initDate();
     }
+    // 初始化isSelected的数据
+    private void initDate(){
+        for(int i=0; i<list.size();i++) {
+            getIsSelected().put(i,false);
+        }
+    }
+
+    public static HashMap<Integer,Boolean> getIsSelected() {
+        return isSelected;
+    }
+
+    public static void setIsSelected(HashMap<Integer,Boolean> isSelected) {
+        Adapter_shopping_list.isSelected = isSelected;
+    }
+
     @Override
     public int getCount() {
         return list.size();
@@ -72,37 +90,32 @@ public class Adapter_shopping_list extends BaseAdapter{
         if(convertView == null){
             convertView = LayoutInflater.from(context).inflate(layoutID, null);
             holder = new ViewHolder();
-            holder.tv_shoppingcart_status = (ImageView) convertView.findViewById(ItemIDs[0]);
+            holder.cb_shoppingcart_status = (CheckBox) convertView.findViewById(ItemIDs[0]);
             holder.iv_shoppingcart_image = (ImageView) convertView.findViewById(ItemIDs[1]);
             holder.tv_shoppingcart_title = (TextView) convertView.findViewById(ItemIDs[2]);
             holder.tv_shoppingcart_format = (TextView) convertView.findViewById(ItemIDs[3]);
             holder.tv_shoppingcart_inPrice = (TextView) convertView.findViewById(ItemIDs[4]);
             holder.tv_shoppingcart_picknum = (TextView) convertView.findViewById(ItemIDs[5]);
-            holder.tv_shoppingcart_allprice = (TextView) convertView.findViewById(ItemIDs[6]);
+            holder.tv_shoppingcart_shownum = (TextView) convertView.findViewById(ItemIDs[6]);
+            holder.tv_shoppingcart_allprice = (TextView) convertView.findViewById(ItemIDs[7]);
             convertView.setTag(holder);
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.tv_shoppingcart_status.setBackgroundColor((Integer)list.get(position).get(flag[1]) == 1 ?
-                convertView.getResources().getColor(R.color.white) : convertView.getResources().getColor(R.color.black));
         holder.iv_shoppingcart_image.setBackgroundColor(convertView.getResources().getColor(R.color.white));
-        holder.tv_shoppingcart_title.setText(list.get(position).get(flag[3]) + "");
-        holder.tv_shoppingcart_format.setText(list.get(position).get(flag[4]) + "");
-        holder.tv_shoppingcart_inPrice.setText(list.get(position).get(flag[5]) + "");
-        holder.tv_shoppingcart_picknum.setText(list.get(position).get(flag[6]) + "");
-        holder.tv_shoppingcart_allprice.setText((Integer)list.get(position).get(flag[5]) * (Integer)list.get(position).get(flag[5]) + "");
-        LoadImg.onLoadImage(list.get(position).get(flag[2]).toString(), cache, imgdao, new LoadImg.OnLoadImageListener() {
+        holder.tv_shoppingcart_title.setText(list.get(position).get("name") + "");
+        holder.tv_shoppingcart_format.setText(list.get(position).get("format") + "");
+        holder.tv_shoppingcart_inPrice.setText(list.get(position).get("price_in") + "");
+        holder.tv_shoppingcart_picknum.setText(list.get(position).get("num") + "");
+        holder.tv_shoppingcart_shownum.setText("数量" + list.get(position).get("num") + "件，小计（不含运费）");
+//        holder.tv_shoppingcart_allprice.setText("￥" + (Integer) list.get(position).get("price_in") * (Integer) list.get(position).get("num") + "");
+        LoadImg.onLoadImage(list.get(position).get("img").toString(), cache, imgdao, new LoadImg.OnLoadImageListener() {
             @Override
             public void OnLoadImage(Bitmap bitmap, String bitmapPath) {
                 holder.iv_shoppingcart_image.setImageBitmap(bitmap);
             }
         });
+        holder.cb_shoppingcart_status.setChecked(getIsSelected().get(position));
         return convertView;
-    }
-
-    class ViewHolder{
-        // 商品名称  规格  进价  进货数量
-        TextView tv_shoppingcart_title, tv_shoppingcart_format, tv_shoppingcart_inPrice, tv_shoppingcart_picknum, tv_shoppingcart_allprice;
-        ImageView iv_shoppingcart_image, tv_shoppingcart_status;
     }
 }

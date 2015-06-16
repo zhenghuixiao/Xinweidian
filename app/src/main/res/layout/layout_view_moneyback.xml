@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_moneyback"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/red">
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"/>
+    <TextView
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:text="退款/货"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>

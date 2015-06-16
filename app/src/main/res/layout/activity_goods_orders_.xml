@@ -57,7 +57,7 @@
             android:background="@drawable/radiobutton_goods_orders"
             android:button="@null"/>
     </RadioGroup>
-    <com.xinkaishi.apple.xinweidian.CustomView.PinnedHeaderExpandableListView
+    <ExpandableListView
         android:id="@+id/lv_goods_orders_exlist"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -68,9 +68,8 @@
         android:divider="@color/black_light"
         android:dividerHeight="0dp"
         android:groupIndicator="@null"
-        android:scrollbars="none"
-        android:scrollbarAlwaysDrawHorizontalTrack="false" >
-    </com.xinkaishi.apple.xinweidian.CustomView.PinnedHeaderExpandableListView>
+        android:scrollbars="none">
+    </ExpandableListView>
     <!--groupIndicator去除默认小箭头 -->
 
 </LinearLayout>

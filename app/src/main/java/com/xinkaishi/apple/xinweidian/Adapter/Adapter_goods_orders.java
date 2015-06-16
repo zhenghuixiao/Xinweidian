@@ -119,6 +119,7 @@ public class Adapter_goods_orders extends BaseExpandableListAdapter{
         switch ((Integer)getGroup(groupPosition).get("state")){
             case 0:  // 未支付
                 holder.rl_orderchild_unpay.setVisibility(View.VISIBLE);
+                //todo 按钮监听
                 break;
             case 1:  // 交易成功
                 holder.rl_orderchild_success.setVisibility(View.VISIBLE);

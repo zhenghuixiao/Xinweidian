@@ -29,14 +29,15 @@ package com.xinkaishi.apple.xinweidian.CustomView;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ExpandableListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.ExpandableListView;
 
 public class PinnedHeaderExpandableListView extends ExpandableListView implements OnScrollListener {
     private static final String TAG = "PinnedHeaderExpandableListView";
@@ -64,6 +65,19 @@ public class PinnedHeaderExpandableListView extends ExpandableListView implement
     private boolean mActionDownHappened = false;
     protected boolean mIsHeaderGroupClickable = true;
 
+    //以下为侧滑
+    private static final int TOUCH_STATE_NONE = 0;
+    private static final int TOUCH_STATE_X = 1;
+    private static final int TOUCH_STATE_Y = 2;
+
+    private int MAX_Y = 5;
+    private int MAX_X = 3;
+    private float mDownX;
+    private float mDownY;
+    private int mTouchState;
+    private int mTouchPosition;
+    private SwipeItemLayout mTouchView;
+//	private OnSwipeListener mOnSwipeListener;
 
     public PinnedHeaderExpandableListView(Context context) {
         super(context);
@@ -117,6 +131,7 @@ public class PinnedHeaderExpandableListView extends ExpandableListView implement
         int firstVisiblePos = getFirstVisiblePosition();
         int firstVisibleGroupPos = getPackedPositionGroup(getExpandableListPosition(firstVisiblePos));
         mHeaderView = listener.getPinnedHeader(firstVisibleGroupPos);
+
         listener.updatePinnedHeader(mHeaderView, firstVisibleGroupPos);
         requestLayout();
         postInvalidate();
@@ -248,7 +263,6 @@ public class PinnedHeaderExpandableListView extends ExpandableListView implement
         } else {
             mHeaderView.layout(0, 0, mHeaderWidth, mHeaderHeight);
         }
-
         if (mHeaderUpdateListener != null) {
             mHeaderUpdateListener.updatePinnedHeader(mHeaderView, firstVisibleGroupPos);
         }
@@ -271,5 +285,86 @@ public class PinnedHeaderExpandableListView extends ExpandableListView implement
             mScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
         }
     }
+    /**
+    * item的滑动监听，这里用于侧滑
+    *
+    */
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        if (ev.getAction() != MotionEvent.ACTION_DOWN && mTouchView == null)
+            return super.onTouchEvent(ev);
+        int action = MotionEventCompat.getActionMasked(ev);
+        action = ev.getAction();
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                int oldPos = mTouchPosition;
+                mDownX = ev.getX();
+                mDownY = ev.getY();
+                mTouchState = TOUCH_STATE_NONE;
 
+                mTouchPosition = pointToPosition((int) ev.getX(), (int) ev.getY());
+
+                if (mTouchPosition == oldPos && mTouchView != null
+                        && mTouchView.isOpen()) {
+                    mTouchState = TOUCH_STATE_X;
+                    mTouchView.onSwipe(ev);
+                    return true;
+                }
+
+                View view = getChildAt(mTouchPosition - getFirstVisiblePosition());
+
+                if (mTouchView != null && mTouchView.isOpen()) {
+                    mTouchView.smoothCloseMenu();
+                    mTouchView = null;
+                    return super.onTouchEvent(ev);
+                }
+                if (view instanceof SwipeItemLayout) {
+                    mTouchView = (SwipeItemLayout) view;
+                }
+                if (mTouchView != null) {
+                    mTouchView.onSwipe(ev);
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+                float dy = Math.abs((ev.getY() - mDownY));
+                float dx = Math.abs((ev.getX() - mDownX));
+                if (mTouchState == TOUCH_STATE_X) {
+                    if (mTouchView != null) {
+                        mTouchView.onSwipe(ev);
+                    }
+                    getSelector().setState(new int[] { 0 });
+                    ev.setAction(MotionEvent.ACTION_CANCEL);
+                    super.onTouchEvent(ev);
+                    return true;
+                } else if (mTouchState == TOUCH_STATE_NONE) {
+                    if (Math.abs(dy) > MAX_Y) {
+                        mTouchState = TOUCH_STATE_Y;
+                    } else if (dx > MAX_X) {
+                        mTouchState = TOUCH_STATE_X;
+//					if (mOnSwipeListener != null) {
+//						mOnSwipeListener.onSwipeStart(mTouchPosition);
+//					}
+                    }
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                if (mTouchState == TOUCH_STATE_X) {
+                    if (mTouchView != null) {
+                        mTouchView.onSwipe(ev);
+                        if (!mTouchView.isOpen()) {
+                            mTouchPosition = -1;
+                            mTouchView = null;
+                        }
+                    }
+//				if (mOnSwipeListener != null) {
+//					mOnSwipeListener.onSwipeEnd(mTouchPosition);
+//				}
+                    ev.setAction(MotionEvent.ACTION_CANCEL);
+                    super.onTouchEvent(ev);
+                    return true;
+                }
+                break;
+        }
+        return super.onTouchEvent(ev);
+    }
 }

@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
     android:background="@color/white">
     <LinearLayout
+        android:padding="10dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
@@ -16,11 +16,14 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:background="@color/black_light" />
-            <ImageView
-                android:id="@+id/tv_shoppingcart_status"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@color/black"/>
+            <CheckBox
+                android:id="@+id/cb_shoppingcart_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:gravity="center_vertical"/>
         </RelativeLayout>
         <LinearLayout
             android:layout_width="fill_parent"
@@ -70,21 +73,21 @@
                     android:layout_alignParentRight="true"
                     android:gravity="center_vertical">
                     <TextView
-                        android:layout_width="10dp"
-                        android:layout_height="fill_parent"
-                        android:gravity="center_vertical"
-                        android:text="-"/>
+                        android:layout_width="30dp"
+                        android:layout_height="20dp"
+                        android:gravity="center"
+                        android:text="—"/>
                     <TextView
                         android:id="@+id/tv_shoppingcart_picknum"
-                        android:layout_width="30dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="40dp"
+                        android:layout_height="20dp"
                         android:gravity="center"
                         android:text="3"
                         android:background="@drawable/textview_biankuang"/>
                     <TextView
-                        android:layout_width="10dp"
-                        android:layout_height="fill_parent"
-                        android:gravity="center_vertical"
+                        android:layout_width="30dp"
+                        android:layout_height="20dp"
+                        android:gravity="center"
                         android:text="+"/>
                 </LinearLayout>
             </RelativeLayout>

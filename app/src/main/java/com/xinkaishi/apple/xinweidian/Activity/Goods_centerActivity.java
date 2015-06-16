@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.xinkaishi.apple.xinweidian.Adapter.Adapter_goods_center;
 import com.xinkaishi.apple.xinweidian.DAO.ImgDAO;
+import com.xinkaishi.apple.xinweidian.DAO.ShoppingcartDAO;
 import com.xinkaishi.apple.xinweidian.Fragment.Appliance_Fragment;
 import com.xinkaishi.apple.xinweidian.Fragment.Clothing_Fragment;
 import com.xinkaishi.apple.xinweidian.Fragment.Digital_Fragment;
@@ -36,7 +37,9 @@ public class Goods_centerActivity extends ActionBarActivity {
     private Infant_Fragment infant_fragment;
     private ListView lv_goods_center_list;
     private ArrayList<HashMap<String, Object>> list;// 数据
+    private View darkview;//暗色背景
     private ImgDAO imgdao;
+    private ShoppingcartDAO shoppingcartDAO;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,10 +79,9 @@ public class Goods_centerActivity extends ActionBarActivity {
             case R.id.action_collection:
                 Toast t = Toast.makeText(this, "", Toast.LENGTH_SHORT);
                 t.setGravity(Gravity.CENTER, 0, 0);
-                View layout = LayoutInflater.from(this).inflate(R.layout.layout_toast_style, null);
+                View layout = LayoutInflater.from(this).inflate(R.layout.layout_toast_style_inshop, null);
                 t.setView(layout);
                 t.show();
-                Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_search:
                 Intent intent4 = new Intent(Goods_centerActivity.this, SearchActivity.class);
@@ -96,7 +98,9 @@ public class Goods_centerActivity extends ActionBarActivity {
     private void initView() {
         gr_goods_center_menu = (RadioGroup)findViewById(R.id.gr_goods_center_menu);
         lv_goods_center_list = (ListView)findViewById(R.id.lv_goods_center_list);
+        darkview = findViewById(R.id.darkview);
         imgdao = new ImgDAO(getApplication());
+        shoppingcartDAO = new ShoppingcartDAO(getApplication());
         list = new ArrayList<HashMap<String, Object>>();
     }
 
@@ -152,26 +156,30 @@ public class Goods_centerActivity extends ActionBarActivity {
         for(int a = 0; a < 30; a ++){
             HashMap<String, Object> hm = new HashMap<String, Object>();
             hm.put("id", a);
-            hm.put("image", "http://img2.imgtn.bdimg.com/it/u=2482911974,2403159586&fm=21&gp=0.jpg");
-            hm.put("title", "标题---此处商品ID为：" + a);
+            hm.put("img", "http://img2.imgtn.bdimg.com/it/u=2482911974,2403159586&fm=21&gp=0.jpg");
+            hm.put("name", "标题---此处商品ID为：" + a);
+            hm.put("format", "A6660" + a);
             hm.put("price_in", 100 + a);
-            hm.put("profit", 100 + a);
+            hm.put("num", 1);
+            hm.put("profit", 100 + a);//利润
             hm.put("price_out", 100 + a);
             list.add(hm);
         }
         Adapter_goods_center adapter_goods_center = new Adapter_goods_center(
                 Goods_centerActivity.this, list, R.layout.layout_goods_center,
-                new String[]{"id", "image", "title", "price_out", "profit", "price_in"},
+                new String[]{"id", "img", "name", "price_out", "profit", "price_in"},
                 new int[]{R.id.iv_goodscenter_image, R.id.tv_goodscenter_title, R.id.tv_goodscenter_price_out,
                         R.id.tv_goodscenter_profit, R.id.tv_goodscenter_price_in, R.id.tv_goodscenter_shoucang,
-                        R.id.tv_goodscenter_goodsIn, R.id.tv_goodscenter_getInshop}, imgdao);
+                        R.id.tv_goodscenter_goodsIn, R.id.tv_goodscenter_getInshop}, imgdao, shoppingcartDAO, darkview);
         lv_goods_center_list.setAdapter(adapter_goods_center);
         lv_goods_center_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String goodId = list.get(position).get("id").toString();
-                Intent intent = new Intent(Goods_centerActivity.this,Goods_detailActivity.class);
-                intent.putExtra("id", goodId);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("goods", list.get(position));
+                Intent intent = new Intent();
+                intent.putExtras(bundle);
+                intent.setClass(Goods_centerActivity.this, Goods_detailActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.pic_left_in, R.anim.pic_left_out);
             }
@@ -181,6 +189,7 @@ public class Goods_centerActivity extends ActionBarActivity {
     @Override
     protected void onDestroy() {
         imgdao.closeDB();
+        shoppingcartDAO.closeDB();
         super.onDestroy();
     }
 }

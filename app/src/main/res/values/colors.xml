@@ -21,6 +21,7 @@
     <color name="payment">#FFFFC2</color>
     <color name="search_backg">#DEDEDE</color>
     <color name="toast_alpha">#b0000000</color>
+    <color name="dark_view">#2E2E2E</color>
 
 </resources>
 

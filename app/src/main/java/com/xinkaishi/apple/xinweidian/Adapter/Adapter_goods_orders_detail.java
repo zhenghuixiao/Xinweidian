@@ -1,12 +1,15 @@
 package com.xinkaishi.apple.xinweidian.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.xinkaishi.apple.xinweidian.CustomView.SwipeItemLayout;
 import com.xinkaishi.apple.xinweidian.R;
 
 import java.util.ArrayList;
@@ -36,7 +39,6 @@ public class Adapter_goods_orders_detail extends BaseExpandableListAdapter{
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        //如果有超过两个商品，则显示两行
         ArrayList<HashMap<String, Object>> childlist = (ArrayList<HashMap<String, Object>>)hm.get("child");
 
         return childlist.size();
@@ -87,17 +89,35 @@ public class Adapter_goods_orders_detail extends BaseExpandableListAdapter{
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         final ViewHolder holder;
         if(true){
             holder = new ViewHolder();
-            convertView = LayoutInflater.from(context).inflate(R.layout.layout_detail_orderchild, null);
-            holder.tv_goodscenter_title = (TextView)convertView.findViewById(R.id.tv_goodscenter_title);
+            View itemView = LayoutInflater.from(context).inflate(R.layout.layout_detail_orderchild, null);
+            View menuView = LayoutInflater.from(context).inflate(R.layout.layout_view_moneyback, null);
+            //itemView  menuView
+            convertView = new SwipeItemLayout(itemView, menuView, null, null);
+            holder.rl_moneyback  = (RelativeLayout)menuView.findViewById(R.id.rl_moneyback);
+            holder.tv_goodscenter_title = (TextView)itemView.findViewById(R.id.tv_goodscenter_title);
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.tv_goodscenter_title.setText(getChild(groupPosition, childPosition).get("name").toString());
+        if((Integer)getChild(groupPosition, childPosition).get("childstate") == 0){
+            holder.tv_goodscenter_title.setText(getChild(groupPosition, childPosition).get("name").toString());
+        }else{
+            holder.tv_goodscenter_title.setText(getChild(groupPosition, childPosition).get("name").toString() + "已退款");
+        }
+
+        holder.rl_moneyback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo 改变状态，刷新列表
+                Log.e("退款", "退款");
+                getChild(groupPosition, childPosition).put("childstate", 1);
+                Adapter_goods_orders_detail.this.notifyDataSetChanged();
+            }
+        });
         return convertView;
     }
 
@@ -109,5 +129,6 @@ public class Adapter_goods_orders_detail extends BaseExpandableListAdapter{
     class ViewHolder{
         // 交易号  商品名称  订单号  规格  进价  数量
         TextView tv_ordergroup_jiaoyihao, tv_goodscenter_title;
+        RelativeLayout rl_moneyback;
     }
 }

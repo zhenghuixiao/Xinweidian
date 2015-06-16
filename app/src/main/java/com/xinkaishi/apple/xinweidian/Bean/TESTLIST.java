@@ -27,6 +27,7 @@ public class TESTLIST {
                 hmm.put("format", "A6666");
                 hmm.put("num", 3);
                 hmm.put("price", "39.90");
+                hmm.put("childstate", 0);
                 list1.add(hmm);
             }else if(b == 3) {
                 for (int a = 0; a < 8; a++) {
@@ -36,6 +37,7 @@ public class TESTLIST {
                     hmm.put("format", "A6666");
                     hmm.put("num", 3);
                     hmm.put("price", "39.90");
+                    hmm.put("childstate", 0);
                     list1.add(hmm);
                 }
             }else{
@@ -46,6 +48,7 @@ public class TESTLIST {
                     hmm.put("format", "A6666");
                     hmm.put("num", 3);
                     hmm.put("price", "39.90");
+                    hmm.put("childstate", 0);
                     list1.add(hmm);
                 }
             }

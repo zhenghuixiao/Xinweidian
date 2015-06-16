@@ -199,7 +199,7 @@ public class StickyLayout extends LinearLayout {
                 mStatus = STATUS_EXPANDED;
             }
             // 慢慢滑向终点
-            this.smoothSetHeaderHeight(mHeaderHeight, destHeight, 500);
+            this.smoothSetHeaderHeight(mHeaderHeight, destHeight, 1000);
             break;
         }
         default:
@@ -223,7 +223,7 @@ public class StickyLayout extends LinearLayout {
             public void run() {
                 for (int i = 0; i < frameCount; i++) {
                     final int height;
-                    if (i == frameCount - 1) {
+                    if (i == frameCount - 1) {//
                         height = to;
                     } else {
                         height = (int) (from + partation * i);

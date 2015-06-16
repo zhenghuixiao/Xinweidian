@@ -48,36 +48,9 @@
     <LinearLayout
         android:id="@+id/ll_shopping_cart_down"
         android:layout_width="fill_parent"
-        android:layout_height="112dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_alignParentBottom="true">
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@color/black"/>
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="商品总数量共"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="3"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="件，总价（不含运费）"/>
-            <TextView
-                android:id="@+id/tv_shopping_cart_totalPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/red"
-                android:text="￥ 254.70"/>
-        </LinearLayout>
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
@@ -85,6 +58,12 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
+            <TextView
+                android:id="@+id/tv_shopping_cart_totalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red"
+                android:text="￥ 254.70"/>
             <TextView
                 android:id="@+id/tv_shopping_cart_pay"
                 android:layout_width="fill_parent"
@@ -105,11 +84,14 @@
         android:orientation="vertical">
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="50dp">
+            android:layout_height="50dp"
+            android:padding="10dp">
             <TextView
+                android:id="@+id/tv_shopping_cart_showNum"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:text="当前结算商品1件"
+                android:textSize="16sp"
                 android:gravity="center_vertical"/>
             <ImageView
                 android:layout_width="wrap_content"

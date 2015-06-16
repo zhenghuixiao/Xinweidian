@@ -1,6 +1,5 @@
 package com.xinkaishi.apple.xinweidian.Activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -18,6 +17,7 @@ import com.xinkaishi.apple.xinweidian.Adapter.Img_Pageradapter;
 import com.xinkaishi.apple.xinweidian.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class Goods_detailActivity extends ActionBarActivity {
@@ -43,8 +43,10 @@ public class Goods_detailActivity extends ActionBarActivity {
     }
 
     private void initIntent() {
-        Intent intent = getIntent();
-        id = intent.getExtras().getString("id");
+        Bundle bundle = this.getIntent().getExtras();
+        //hm为商品信息
+        HashMap<String,Object> hm = (HashMap<String,Object>)bundle.getSerializable("goods");
+        id = hm.get("id").toString();
     }
 
     @Override
