@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             android:text="收货人地址"
             android:textSize="25sp"
+            android:textColor="@color/black"
             android:layout_marginBottom="10dp"/>
         <Spinner
             android:id="@+id/sp_add_address_sheng"
@@ -43,7 +44,9 @@
                 android:layout_height="fill_parent"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:background="@drawable/textview_biankuang"/>
+                android:lines="1"
+                android:textColor="@color/black"
+                android:background="@drawable/edit_biankuang_mouse"/>
             <TextView
                 android:id="@+id/tv_add_address_detail"
                 android:layout_width="fill_parent"
@@ -52,7 +55,7 @@
                 android:textSize="18sp"
                 android:text="详细地址（无需填写省、市、区）"
                 android:gravity="center_vertical"
-                android:background="@drawable/textview_biankuang"/>
+                android:background="@drawable/edit_biankuang_mouse"/>
         </RelativeLayout>
     </LinearLayout>
 
@@ -68,7 +71,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="收货人信息"
-            android:textSize="25sp"/>
+            android:textSize="25sp"
+            android:textColor="@color/black"/>
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="40dp"
@@ -80,7 +84,9 @@
                 android:layout_height="fill_parent"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:background="@drawable/textview_biankuang"/>
+                android:lines="1"
+                android:textColor="@color/black"
+                android:background="@drawable/edit_biankuang_mouse"/>
             <TextView
                 android:id="@+id/tv_add_address_name"
                 android:layout_width="fill_parent"
@@ -89,7 +95,7 @@
                 android:textSize="18sp"
                 android:text="收货人姓名"
                 android:gravity="center_vertical"
-                android:background="@drawable/textview_biankuang"/>
+                android:background="@drawable/edit_biankuang_mouse"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -101,7 +107,9 @@
                 android:layout_height="fill_parent"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:background="@drawable/textview_biankuang"/>
+                android:lines="1"
+                android:textColor="@color/black"
+                android:background="@drawable/edit_biankuang_mouse"/>
             <TextView
                 android:id="@+id/tv_add_address_phone"
                 android:layout_width="fill_parent"
@@ -110,7 +118,7 @@
                 android:textSize="18sp"
                 android:text="收货人手机"
                 android:gravity="center_vertical"
-                android:background="@drawable/textview_biankuang"/>
+                android:background="@drawable/edit_biankuang_mouse"/>
         </RelativeLayout>
 
     </LinearLayout>

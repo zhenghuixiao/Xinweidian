@@ -47,16 +47,15 @@ public class ShoppingcartDAO {
      */
     public ArrayList<HashMap<String, Object>> getShoppingcart(){
         ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-        //查找state状态为1的
         Cursor c = db.rawQuery("select * from shopcar", null);
         while(c.moveToNext()){
             HashMap<String, Object> hm = new HashMap<String, Object>();
-            hm.put("_id", c.getString(c.getColumnIndex("_id")));
-            hm.put("id", c.getString(c.getColumnIndex("id")));
+            hm.put("_id", c.getInt(c.getColumnIndex("_id")));
+            hm.put("id", c.getInt(c.getColumnIndex("id")));
             hm.put("name", c.getString(c.getColumnIndex("name")));
             hm.put("format", c.getString(c.getColumnIndex("format")));
-            hm.put("price_in", c.getString(c.getColumnIndex("price_in")));
-            hm.put("num", c.getString(c.getColumnIndex("num")));
+            hm.put("price_in", c.getFloat(c.getColumnIndex("price_in")));
+            hm.put("num", c.getInt(c.getColumnIndex("num")));
             hm.put("state", c.getInt(c.getColumnIndex("state")));
             hm.put("img", c.getString(c.getColumnIndex("img")));
             list.add(hm);
@@ -83,17 +82,18 @@ public class ShoppingcartDAO {
         }
     }
 
+
     /**
-     * 修改购物车
+     * 修改购物车商品信息
      * @param hm
      */
     public void update(HashMap<String, Object> hm) {
         db.beginTransaction();  //开始事务
         try {
-            db.execSQL("update shopcar set num=? where id=?",
-                    new Object[]{hm.get("num"), hm.get("id")});
+            db.execSQL("update shopcar set num=?,state=? where id=?",
+                    new Object[]{hm.get("num"), hm.get("state"), hm.get("id")});
             db.setTransactionSuccessful();  //设置事务成功完成
-            Log.e("数据库操作", "修改购物车成功");
+            Log.e("数据库操作", "修改购物车商品成功");
         } finally {
             db.endTransaction();    //结束事务
         }
@@ -101,11 +101,14 @@ public class ShoppingcartDAO {
 
     /**
      * 删除购物车商品
-     * @param id
+     * @param list
      */
-    public void deleteAdd(String[] id){
-        for(String ids : id){
-            db.delete("shopcar", "id=?", new String[]{ids});
+    public void delete(ArrayList<HashMap<String, Object>> list){
+        for(int i = 0; i < list.size(); i ++){
+            HashMap<String, Object> hm = list.get(i);
+            if((Integer)hm.get("state") == 1){
+                db.delete("shopcar", "id=?", new String[]{hm.get("id").toString()});
+            }
         }
         Log.e("数据库操作", "删除购物车商品成功");
     }

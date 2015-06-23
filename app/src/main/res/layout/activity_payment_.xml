@@ -26,11 +26,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="交  易  号："
+                    android:textColor="@color/black"
                     android:textSize="18sp"/>
                 <TextView
+                    android:id="@+id/tv_payment_order"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="11111111111111111111"
+                    android:textColor="@color/black"
                     android:textSize="18sp"/>
             </LinearLayout>
             <LinearLayout
@@ -42,31 +45,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="商品名称："
+                    android:textColor="@color/black"
                     android:textSize="18sp"/>
                 <TextView
+                    android:id="@+id/tv_payment_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="九阳电动车九阳电动车九阳电动车九阳电动车九阳电动车九阳电动车九阳电动车"
                     android:singleLine="true"
+                    android:textColor="@color/black"
                     android:textSize="18sp"/>
             </LinearLayout>
-            <LinearLayout
-                android:id="@+id/ll_payment_DetailName"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:visibility="gone">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="商品名称："
-                    android:textSize="18sp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:text="九阳电动车九阳电动车九阳电动车九阳电动车九阳电动车九阳电动车九阳电动车九阳电动车"/>
-            </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/ll_payment_ShopOwner"
                 android:layout_width="fill_parent"
@@ -77,11 +67,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="商家信息："
+                    android:textColor="@color/black"
                     android:textSize="18sp"/>
                 <TextView
+                    android:id="@+id/tv_payment_shopmessage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
+                    android:textColor="@color/black"
                     android:text="李老板/13333333333/广丰健身馆"/>
             </LinearLayout>
             <LinearLayout
@@ -94,11 +87,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="下单账号："
+                    android:textColor="@color/black"
                     android:textSize="18sp"/>
                 <TextView
+                    android:id="@+id/tv_payment_accounts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="张先生/13333333333"
+                    android:textColor="@color/black"
                     android:textSize="18sp"/>
             </LinearLayout>
             <LinearLayout
@@ -111,11 +107,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="下单时间："
+                    android:textColor="@color/black"
                     android:textSize="18sp"/>
                 <TextView
+                    android:id="@+id/tv_payment_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2015年05月22日 11:20:33"
+                    android:textColor="@color/black"
                     android:textSize="18sp"/>
             </LinearLayout>
             <LinearLayout
@@ -125,23 +124,31 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="付款金额："
+                    android:textColor="@color/black"
                     android:textSize="18sp"/>
                 <TextView
+                    android:id="@+id/tv_payment_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="￥134.30"
-                    android:textSize="18sp"/>
+                    android:textColor="@color/red"
+                    android:textSize="22sp"/>
             </LinearLayout>
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/iv_payment_detail"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+        <TextView
+            android:id="@+id/tv_payment_detail"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:background="@drawable/dot_normal"/>
+            android:textColor="@color/white"
+            android:text="详"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:background="@drawable/textview_yuan"/>
     </RelativeLayout>
 
     <View
@@ -160,6 +167,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="22sp"
+            android:textColor="@color/black"
             android:text="选择支付方式"/>
     </LinearLayout>
     <View
@@ -176,7 +184,8 @@
             android:gravity="center_vertical"
             android:textSize="20sp"
             android:layout_marginLeft="40dp"
-            android:text="余额支付"/>
+            android:text="余额支付"
+            android:textColor="@color/black"/>
         <View
             android:layout_width="fill_parent"
             android:layout_height="2dp"
@@ -187,7 +196,8 @@
             android:gravity="center_vertical"
             android:textSize="20sp"
             android:layout_marginLeft="40dp"
-            android:text="支付宝支付"/>
+            android:text="支付宝支付"
+            android:textColor="@color/black"/>
         <View
             android:layout_width="fill_parent"
             android:layout_height="2dp"
@@ -198,7 +208,8 @@
             android:gravity="center_vertical"
             android:textSize="20sp"
             android:layout_marginLeft="40dp"
-            android:text="储蓄卡支付"/>
+            android:text="储蓄卡支付"
+            android:textColor="@color/black"/>
         <View
             android:layout_width="fill_parent"
             android:layout_height="2dp"
@@ -218,7 +229,8 @@
             android:layout_height="wrap_content"
             android:textSize="22sp"
             android:gravity="center_vertical"
-            android:text="支付常见问题"/>
+            android:text="支付常见问题"
+            android:textColor="@color/black"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"

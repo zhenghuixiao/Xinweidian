@@ -157,9 +157,9 @@ public class Goods_centerActivity extends ActionBarActivity {
             HashMap<String, Object> hm = new HashMap<String, Object>();
             hm.put("id", a);
             hm.put("img", "http://img2.imgtn.bdimg.com/it/u=2482911974,2403159586&fm=21&gp=0.jpg");
-            hm.put("name", "标题---此处商品ID为：" + a);
+            hm.put("name", "商品---此处商品ID为：" + a);
             hm.put("format", "A6660" + a);
-            hm.put("price_in", 100 + a);
+            hm.put("price_in", 45.50f);
             hm.put("num", 1);
             hm.put("profit", 100 + a);//利润
             hm.put("price_out", 100 + a);

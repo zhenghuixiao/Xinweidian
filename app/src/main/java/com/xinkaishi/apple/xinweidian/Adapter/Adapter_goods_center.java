@@ -41,7 +41,7 @@ public class Adapter_goods_center extends BaseAdapter{
     private int ItemIDs[];
     private View darkview;
     private Cache cache;
-    private ImgDAO imgdao;
+    private ImgDAO imgDAO;
     private ShoppingcartDAO shoppingcartDAO;
     private String add;
     private int num = 1;//进货商品数量
@@ -51,9 +51,11 @@ public class Adapter_goods_center extends BaseAdapter{
      * @param layoutID 样式layout
      * @param flag list中存带标签
      * @param ItemIDs list中各项ID
+     * @param imgDAO 数据库
+     * @param shoppingcartDAO 数据库
      * */
     public Adapter_goods_center(Context context, ArrayList<HashMap<String, Object>> list,
-                                int layoutID, String flag[], int ItemIDs[], ImgDAO imgdao,
+                                int layoutID, String flag[], int ItemIDs[], ImgDAO imgDAO,
                                 ShoppingcartDAO shoppingcartDAO, View darkview){
         this.context = context;
         this.list = list;
@@ -62,7 +64,7 @@ public class Adapter_goods_center extends BaseAdapter{
         this.ItemIDs = ItemIDs;
         this.darkview = darkview;
         cache = new Cache();
-        this.imgdao = imgdao;
+        this.imgDAO = imgDAO;
         this.shoppingcartDAO = shoppingcartDAO;
         add = null;
     }
@@ -113,7 +115,7 @@ public class Adapter_goods_center extends BaseAdapter{
 
 
         add = list.get(position).get(flag[1]).toString();
-        LoadImg.onLoadImage(add, cache, imgdao, new LoadImg.OnLoadImageListener() {
+        LoadImg.onLoadImage(add, cache, imgDAO, new LoadImg.OnLoadImageListener() {
             @Override
             public void OnLoadImage(Bitmap bitmap, String bitmapPath) {
                 holder.iv_goodscenter_image.setImageBitmap(bitmap);
