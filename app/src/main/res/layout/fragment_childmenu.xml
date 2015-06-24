@@ -3,11 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:padding="20dp"
     tools:context="com.xinkaishi.apple.xinweidian.Fragment.Digital_Fragment">
 
-    <TextView android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="电器菜单页"
-        android:gravity="center"/>
+    <GridView
+        android:id="@+id/gv_menu"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:numColumns="3"
+        android:horizontalSpacing="50dp"
+        android:verticalSpacing="10dp"
+        >
+    </GridView>
+
 
 </FrameLayout>

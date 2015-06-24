@@ -22,6 +22,7 @@
     <color name="search_backg">#DEDEDE</color>
     <color name="toast_alpha">#b0000000</color>
     <color name="dark_view">#2E2E2E</color>
+    <color name="main">#00BFBF</color>
 
 </resources>
 

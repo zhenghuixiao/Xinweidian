@@ -16,12 +16,14 @@
             android:gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:text="所有商品"/>
+            android:text="所有商品"
+            android:textColor="@color/black"/>
         <TextView
             android:layout_width="100dp"
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
-            android:text="7111件"/>
+            android:text="7111件"
+            android:textColor="@color/black"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -32,19 +34,22 @@
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:layout_marginRight="10dp"
-            android:text="销量"/>
+            android:text="销量"
+            android:textColor="@color/black"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:layout_marginRight="10dp"
-            android:text="销量"/>
+            android:text="销量"
+            android:textColor="@color/black"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:layout_marginRight="10dp"
-            android:text="进价"/>
+            android:text="进价"
+            android:textColor="@color/black"/>
     </LinearLayout>
     <View
         android:id="@+id/div_goods_center_head"
@@ -58,20 +63,21 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:scrollbars="none"
-        android:layout_below="@+id/div_goods_center_head"
-        android:layout_above="@+id/ll_goods_center_down">
+        android:layout_marginBottom="100dp"
+        android:layout_below="@+id/div_goods_center_head">
     </ListView>
 
     <LinearLayout
         android:id="@+id/ll_goods_center_down"
         android:layout_width="fill_parent"
-        android:layout_height="102dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_alignParentBottom="true">
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="@color/black"/>
+            android:background="@color/black_light"/>
+        <!-- *********************************************************-->
         <RadioGroup
             android:id="@+id/gr_goods_center_menu"
             android:layout_width="fill_parent"
@@ -86,7 +92,10 @@
                 android:button="@null"
                 android:drawableTop="@drawable/radiobutton_goods_center"
                 android:gravity="center"
-                android:text="数码"/>
+                android:background="@drawable/radiobutton_goods_menuback"
+                android:textColor="@color/radiobutton_textcolor"
+                android:text="数码"
+                android:textSize="18sp"/>
             <RadioButton
                 android:id="@+id/rb_goods_center_appliance"
                 android:layout_width="0dp"
@@ -95,7 +104,10 @@
                 android:button="@null"
                 android:drawableTop="@drawable/radiobutton_goods_center"
                 android:gravity="center"
-                android:text="小家电"/>
+                android:background="@drawable/radiobutton_goods_menuback"
+                android:textColor="@color/radiobutton_textcolor"
+                android:text="小家电"
+                android:textSize="18sp"/>
             <RadioButton
                 android:id="@+id/rb_goods_center_infant"
                 android:layout_width="0dp"
@@ -104,7 +116,10 @@
                 android:button="@null"
                 android:drawableTop="@drawable/radiobutton_goods_center"
                 android:gravity="center"
-                android:text="母婴"/>
+                android:background="@drawable/radiobutton_goods_menuback"
+                android:textColor="@color/radiobutton_textcolor"
+                android:text="母婴"
+                android:textSize="18sp"/>
             <RadioButton
                 android:id="@+id/rb_goods_center_clothing"
                 android:layout_width="0dp"
@@ -113,17 +128,47 @@
                 android:button="@null"
                 android:drawableTop="@drawable/radiobutton_goods_center"
                 android:gravity="center"
-                android:text="服装"/>
+                android:background="@drawable/radiobutton_goods_menuback"
+                android:textColor="@color/radiobutton_textcolor"
+                android:text="服装"
+                android:textSize="18sp"/>
         </RadioGroup>
+
+        <!-- *********************************************************-->
+        <RelativeLayout
+            android:id="@+id/rl_goods_center_menu"
+            android:layout_width="fill_parent"
+            android:layout_height="200dp"
+            android:background="@color/white"
+            android:visibility="gone"
+            android:paddingBottom="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="111111111111"/>
+            <android.support.v4.view.ViewPager
+                android:id="@+id/menu_viewpager"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"/>
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true">
+                    <TextView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/textview_dot_on"/>
+                </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="@color/black"/>
-        <FrameLayout
-            android:id="@+id/fl_goods_center_menu"
-            android:layout_width="fill_parent"
-            android:layout_height="100dp">
-        </FrameLayout>
     </LinearLayout>
 
     <View

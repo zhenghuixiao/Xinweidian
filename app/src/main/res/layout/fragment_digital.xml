@@ -1,11 +1,10 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:padding="20dp"
+    android:background="@color/white"
     tools:context="com.xinkaishi.apple.xinweidian.Fragment.Digital_Fragment">
 
-    <TextView android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="数码菜单页"
-        android:gravity="center"/>
 
-</FrameLayout>
+</RelativeLayout>
