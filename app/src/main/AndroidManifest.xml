@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".Activity.Goods_centerActivity"
-            android:label="@string/app_name"
+            android:label="货源中心"
             android:theme="@style/MyActionBarTheme" >
         </activity>
         <activity
@@ -55,15 +55,18 @@
         </activity>
         <activity
             android:name=".Activity.SetReceiveIfmActivity"
-            android:label="@string/title_activity_set_receive_ifm" >
+            android:label="@string/title_activity_set_receive_ifm"
+            android:theme="@style/MyActionBarTheme">
         </activity>
         <activity
             android:name=".Activity.Add_addressActivity"
-            android:label="@string/title_activity_add_address" >
+            android:label="@string/title_activity_add_address"
+            android:theme="@style/MyActionBarTheme">
         </activity>
         <activity
             android:name=".Activity.Payment_Activity"
-            android:label="@string/title_activity_payment_" >
+            android:label="@string/title_activity_payment_"
+            android:theme="@style/MyActionBarTheme">
         </activity>
         <activity
             android:name=".Activity.SearchActivity"
@@ -71,11 +74,13 @@
         </activity>
         <activity
             android:name=".Activity.Goods_OrdersActivity"
-            android:label="@string/title_activity_goods__orders_" >
+            android:label="@string/title_activity_goods__orders_"
+            android:theme="@style/MyActionBarTheme">
         </activity>
         <activity
             android:name=".Activity.Order_detailActivity"
-            android:label="@string/title_activity_order_detail" >
+            android:label="@string/title_activity_order_detail"
+            android:theme="@style/MyActionBarTheme">
         </activity>
     </application>
 

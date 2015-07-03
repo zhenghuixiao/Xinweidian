@@ -32,6 +32,7 @@
                 android:layout_height="40dp"
                 android:text="商品名称"
                 android:textSize="20sp"
+                android:textColor="@color/black"
                 android:gravity="center_vertical"/>
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -41,12 +42,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
-                    android:text="订单号："/>
+                    android:text="订单号："
+                    android:textColor="@color/black"/>
                 <TextView
                     android:id="@+id/tv_shoppingcart_format"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
                     android:text="11111111111111"
+                    android:textColor="@color/black"
                     android:gravity="center_vertical"/>
             </LinearLayout>
             <RelativeLayout
@@ -59,12 +62,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
-                        android:text="规格："/>
+                        android:text="规格："
+                        android:textColor="@color/black"/>
                     <TextView
                         android:id="@+id/tv_shoppingcart_inprice"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
-                        android:text="A6601"/>
+                        android:text="A6601"
+                        android:textColor="@color/black"/>
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
@@ -102,11 +107,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="运费："
+                    android:textColor="@color/black"
                     android:textSize="18sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="￥150.00"
+                    android:textColor="@color/black"
                     android:textSize="20sp"/>
             </LinearLayout>
             <LinearLayout
@@ -119,12 +126,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="共3件商品，总价（含运费）"
+                    android:textColor="@color/black"
                     android:textSize="18sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="￥150.00"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp"
+                    android:textColor="@color/red"/>
             </LinearLayout>
         </RelativeLayout>
         <View
@@ -154,6 +163,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="未支付"
+                        android:textColor="@color/red"
                         android:textSize="18sp"/>
                 </LinearLayout>
                 <LinearLayout
@@ -168,7 +178,7 @@
                         android:text="关闭订单"
                         android:gravity="center"
                         android:textColor="@color/white"
-                        android:background="@drawable/textview_test"
+                        android:background="@drawable/textview_biankuang_red"
                         android:layout_marginRight="10dp"
                         android:textSize="15sp"/>
                     <TextView
@@ -177,7 +187,7 @@
                         android:text="继续支付"
                         android:gravity="center"
                         android:textColor="@color/white"
-                        android:background="@drawable/textview_test"
+                        android:background="@drawable/textview_biankuang_maincolor"
                         android:textSize="15sp"/>
                 </LinearLayout>
                 <View
@@ -221,7 +231,7 @@
                         android:text="提醒发货"
                         android:gravity="center"
                         android:textColor="@color/white"
-                        android:background="@drawable/textview_test"
+                        android:background="@drawable/textview_biankuang_maincolor"
                         android:textSize="15sp"/>
                 </LinearLayout>
                 <View
@@ -265,7 +275,7 @@
                         android:text="查看物流"
                         android:gravity="center"
                         android:textColor="@color/white"
-                        android:background="@drawable/textview_test"
+                        android:background="@drawable/textview_biankuang_maincolor"
                         android:textSize="15sp"/>
                 </LinearLayout>
                 <View
@@ -309,7 +319,7 @@
                         android:text="退款详情"
                         android:gravity="center"
                         android:textColor="@color/white"
-                        android:background="@drawable/textview_test"
+                        android:background="@drawable/textview_biankuang_red"
                         android:textSize="15sp"/>
                 </LinearLayout>
                 <View
@@ -353,7 +363,7 @@
                         android:text="删除订单"
                         android:gravity="center"
                         android:textColor="@color/white"
-                        android:background="@drawable/textview_test"
+                        android:background="@drawable/textview_biankuang_red"
                         android:textSize="15sp"/>
                 </LinearLayout>
                 <View
@@ -397,7 +407,7 @@
                         android:text="订单详情"
                         android:gravity="center"
                         android:textColor="@color/white"
-                        android:background="@drawable/textview_test"
+                        android:background="@drawable/textview_biankuang_maincolor"
                         android:textSize="15sp"/>
                 </LinearLayout>
             </RelativeLayout>

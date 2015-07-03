@@ -3,9 +3,11 @@ package com.xinkaishi.apple.xinweidian.Fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.SimpleAdapter;
 
@@ -51,7 +53,12 @@ public class Child_Menu extends Fragment {
                 R.layout.layout_menu_gridview, new String[] {"name"}, new int[] {
                 R.id.tv_menu_button});
         gv_menu.setAdapter(simpleAdapter);
-
+        gv_menu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("menu", "选中" + position);
+;            }
+        });
 
 
         return view;

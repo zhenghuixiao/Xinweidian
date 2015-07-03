@@ -32,13 +32,34 @@ public class ShoppingcartDAO {
      * @param id
      *@return boolean
      */
-    public boolean isInShop(int id){
+    public boolean isInShop(Long id){
         boolean bl = false;
         Cursor c = db.rawQuery("select * from shopcar where id=?", new String[]{id + ""});
         while(c.moveToNext()){
             bl = true;
         }
         return bl;
+    }
+
+    /**
+     * 查找单个商品信息
+     * @param id
+     *@return boolean
+     */
+    public HashMap<String, Object> getGoodsById(Long id){
+        HashMap<String, Object> hm = new HashMap<String, Object>();
+        Cursor c = db.rawQuery("select * from shopcar where id=?", new String[]{id + ""});
+        while(c.moveToNext()){
+            hm.put("_id", c.getInt(c.getColumnIndex("_id")));
+            hm.put("id", c.getLong(c.getColumnIndex("id")));
+            hm.put("name", c.getString(c.getColumnIndex("name")));
+            hm.put("sku_desc", c.getString(c.getColumnIndex("sku_desc")));
+            hm.put("import_price", c.getFloat(c.getColumnIndex("import_price")));
+            hm.put("num", c.getInt(c.getColumnIndex("num")));
+            hm.put("state", c.getInt(c.getColumnIndex("state")));
+            hm.put("default_img", c.getString(c.getColumnIndex("default_img")));
+        }
+        return hm;
     }
 
     /**
@@ -51,13 +72,13 @@ public class ShoppingcartDAO {
         while(c.moveToNext()){
             HashMap<String, Object> hm = new HashMap<String, Object>();
             hm.put("_id", c.getInt(c.getColumnIndex("_id")));
-            hm.put("id", c.getInt(c.getColumnIndex("id")));
+            hm.put("id", c.getLong(c.getColumnIndex("id")));
             hm.put("name", c.getString(c.getColumnIndex("name")));
-            hm.put("format", c.getString(c.getColumnIndex("format")));
-            hm.put("price_in", c.getFloat(c.getColumnIndex("price_in")));
+            hm.put("sku_desc", c.getString(c.getColumnIndex("sku_desc")));
+            hm.put("import_price", c.getFloat(c.getColumnIndex("import_price")));
             hm.put("num", c.getInt(c.getColumnIndex("num")));
             hm.put("state", c.getInt(c.getColumnIndex("state")));
-            hm.put("img", c.getString(c.getColumnIndex("img")));
+            hm.put("default_img", c.getString(c.getColumnIndex("default_img")));
             list.add(hm);
         }
         return list;
@@ -73,7 +94,7 @@ public class ShoppingcartDAO {
         db.beginTransaction();  //开始事务
         try {
             db.execSQL("insert into shopcar values(null, ?, ?, ?, ?, ?, ?, ?)",
-                    new Object[]{hm.get("id"), hm.get("name"), hm.get("img"), hm.get("format"), hm.get("price_in"),
+                    new Object[]{hm.get("id"), hm.get("name"), hm.get("default_img"), hm.get("sku_desc"), hm.get("import_price"),
                             hm.get("num"), hm.get("state")});
             db.setTransactionSuccessful();  //设置事务成功完成
             Log.e("数据库操作", "加入购物车成功");
@@ -107,10 +128,10 @@ public class ShoppingcartDAO {
         for(int i = 0; i < list.size(); i ++){
             HashMap<String, Object> hm = list.get(i);
             if((Integer)hm.get("state") == 1){
-                db.delete("shopcar", "id=?", new String[]{hm.get("id").toString()});
+                db.delete("shopcar", "id=?", new String[]{hm.get("id") + ""});
+                Log.e("数据库操作", "删除购物车商品成功");
             }
         }
-        Log.e("数据库操作", "删除购物车商品成功");
     }
 
     /**

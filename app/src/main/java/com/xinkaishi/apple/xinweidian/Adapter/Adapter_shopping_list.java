@@ -118,18 +118,18 @@ public class Adapter_shopping_list extends BaseAdapter{
             holder = (ViewHolder) convertView.getTag();
         }
         //一个item的总价
-        allprice = (float)list.get(position).get("price_in") * (Integer) list.get(position).get("num");
+        allprice = (float)list.get(position).get("import_price") * (Integer) list.get(position).get("num");
         list.get(position).put("allprice", allprice);
         holder.iv_shoppingcart_image.setBackgroundColor(convertView.getResources().getColor(R.color.white));
         holder.tv_shoppingcart_title.setText(list.get(position).get("name") + "");
-        holder.tv_shoppingcart_format.setText(list.get(position).get("format") + "");
-        holder.tv_shoppingcart_inPrice.setText(String.format("%.2f",list.get(position).get("price_in")));
+        holder.tv_shoppingcart_format.setText(list.get(position).get("sku_desc") + "");
+        holder.tv_shoppingcart_inPrice.setText(String.format("%.2f",list.get(position).get("import_price")));
         holder.tv_shoppingcart_picknum.setText(list.get(position).get("num") + "");
         holder.tv_shoppingcart_shownum.setText("数量" + list.get(position).get("num") + "件，小计（不含运费）");
         holder.tv_shoppingcart_allprice.setText("￥" + String.format("%.2f", allprice));
         holder.tv_shoppingcart_min.setOnClickListener(new Myonclick(0, position));
         holder.tv_shoppingcart_add.setOnClickListener(new Myonclick(1, position));
-        LoadImg.onLoadImage(list.get(position).get("img").toString(), cache, imgdao, new LoadImg.OnLoadImageListener() {
+        LoadImg.onLoadImage(list.get(position).get("default_img").toString(), cache, imgdao, new LoadImg.OnLoadImageListener() {
             @Override
             public void OnLoadImage(Bitmap bitmap, String bitmapPath) {
                 holder.iv_shoppingcart_image.setImageBitmap(bitmap);
@@ -157,7 +157,7 @@ public class Adapter_shopping_list extends BaseAdapter{
                 Adapter_shopping_list.this.notifyDataSetChanged();
                 //如果是选中状态的，则对总价进行跟新
                 if(getIsSelected().get(position)){
-                    totalPrice = shoppingcart_totalprice.getTotalprice() - (float)list.get(position).get("price_in");
+                    totalPrice = shoppingcart_totalprice.getTotalprice() - (float)list.get(position).get("import_price");
                     shoppingcart_totalprice.setTotalprice(totalPrice);
                     tv_shopping_cart_totalPrice.setText("￥" + String.format("%.2f", totalPrice));
                 }
@@ -168,7 +168,7 @@ public class Adapter_shopping_list extends BaseAdapter{
                 Adapter_shopping_list.this.notifyDataSetChanged();
                 //如果是选中状态的，则对总价进行跟新
                 if(getIsSelected().get(position)){
-                    totalPrice = shoppingcart_totalprice.getTotalprice() + (float)list.get(position).get("price_in");
+                    totalPrice = shoppingcart_totalprice.getTotalprice() + (float)list.get(position).get("import_price");
                     shoppingcart_totalprice.setTotalprice(totalPrice);
                     tv_shopping_cart_totalPrice.setText("￥" + String.format("%.2f", totalPrice));
                 }

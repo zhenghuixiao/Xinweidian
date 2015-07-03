@@ -77,12 +77,12 @@ public class Adapter_set_address extends BaseAdapter{
         holder.tv_setTel.setText(list.get(position).get(flag[1]) + "");
         holder.tv_setAddress.setText(list.get(position).get(flag[2]) + "");
         if(position == list.size() - 1){
-            holder.iv_setImg.setBackgroundColor(convertView.getResources().getColor(R.color.black));
+            holder.iv_setImg.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.rep_btn_add));
         }else{
 
             if ((Integer)list.get(position).get(flag[3]) == 1) {
                 holder.iv_setImg.setVisibility(View.VISIBLE);
-                holder.iv_setImg.setBackgroundColor(convertView.getResources().getColor(R.color.black_light));
+                holder.iv_setImg.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.col_btn_sel_1));
             } else {
                 holder.iv_setImg.setVisibility(View.GONE);
             }

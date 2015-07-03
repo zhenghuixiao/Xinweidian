@@ -83,10 +83,10 @@ public class Adapter_goods_orders_down extends BaseAdapter{
             holder = (ViewHolder)convertView.getTag();
         }
         holder.tv_orderdown_title.setText(list.get(position).get("name").toString());
-        holder.tv_orderdown_format.setText(list.get(position).get("format").toString());
-        holder.tv_orderdown_inprice.setText("￥" + String.format("%.2f", list.get(position).get("price_in")));
+//        holder.tv_orderdown_format.setText(list.get(position).get("sku_desc").toString());
+        holder.tv_orderdown_inprice.setText("￥" + String.format("%.2f", list.get(position).get("import_price")));
         holder.tv_orderdown_num.setText("×" + list.get(position).get("num"));
-        LoadImg.onLoadImage(list.get(position).get("img").toString(), cache, imgDAO, new LoadImg.OnLoadImageListener() {
+        LoadImg.onLoadImage(list.get(position).get("default_img").toString(), cache, imgDAO, new LoadImg.OnLoadImageListener() {
             @Override
             public void OnLoadImage(Bitmap bitmap, String bitmapPath) {
                 holder.iv_orderdown_image.setImageBitmap(bitmap);

@@ -5,48 +5,81 @@
     android:background="@color/white"
     tools:context=".Goods_centerActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/ll_goods_center_head"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
+        android:layout_height="50dp">
         <TextView
+            android:id="@+id/tv_goods_center_menu1"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:text="所有商品"
+            android:textSize="14sp"
             android:textColor="@color/black"/>
         <TextView
-            android:layout_width="100dp"
-            android:layout_height="fill_parent"
+            android:id="@+id/tv_goods_center_menu2"
+            android:layout_toRightOf="@+id/tv_goods_center_menu1"
+            android:layout_alignBottom="@+id/tv_goods_center_menu1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="7111件"
+            android:text=""
+            android:textSize="14sp"
             android:textColor="@color/black"/>
-    </LinearLayout>
+        <TextView
+            android:id="@+id/tv_goods_center_counts"
+            android:layout_toRightOf="@+id/tv_goods_center_menu2"
+            android:layout_alignBottom="@+id/tv_goods_center_menu2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="0件"
+            android:textSize="12sp"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/main"/>
+    </RelativeLayout>
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="50dp"
-        android:layout_alignParentRight="true">
-        <TextView
-            android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical">
+        <RelativeLayout
+            android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginRight="10dp">
+            <TextView
+                android:id="@+id/tv_goods_center_sales"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="销量"
+                android:textColor="@color/black"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="5dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/cho_sor"
+                android:layout_above="@+id/tv_goods_center_sales"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_goods_center_profit"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center"
             android:layout_marginRight="10dp"
-            android:text="销量"
+            android:text="利润"
             android:textColor="@color/black"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_goods_center_pricein"
+            android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:gravity="center_vertical"
-            android:layout_marginRight="10dp"
-            android:text="销量"
-            android:textColor="@color/black"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center"
             android:layout_marginRight="10dp"
             android:text="进价"
             android:textColor="@color/black"/>
@@ -82,7 +115,7 @@
             android:id="@+id/gr_goods_center_menu"
             android:layout_width="fill_parent"
             android:layout_height="100dp"
-            android:background="@color/white"
+            android:background="@color/main"
             android:orientation="horizontal">
             <RadioButton
                 android:id="@+id/rb_goods_center_digital"
@@ -90,48 +123,89 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:button="@null"
+                android:paddingTop="10dp"
                 android:drawableTop="@drawable/radiobutton_goods_center"
                 android:gravity="center"
                 android:background="@drawable/radiobutton_goods_menuback"
                 android:textColor="@color/radiobutton_textcolor"
-                android:text="数码"
-                android:textSize="18sp"/>
+                android:text="家电"
+                android:textSize="15sp"/>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/cho_lab_lin"/>
             <RadioButton
                 android:id="@+id/rb_goods_center_appliance"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:button="@null"
+                android:paddingTop="10dp"
                 android:drawableTop="@drawable/radiobutton_goods_center"
                 android:gravity="center"
                 android:background="@drawable/radiobutton_goods_menuback"
                 android:textColor="@color/radiobutton_textcolor"
-                android:text="小家电"
-                android:textSize="18sp"/>
+                android:text=""
+                android:textSize="15sp"/>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/cho_lab_lin"/>
             <RadioButton
                 android:id="@+id/rb_goods_center_infant"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:button="@null"
+                android:paddingTop="10dp"
                 android:drawableTop="@drawable/radiobutton_goods_center"
                 android:gravity="center"
                 android:background="@drawable/radiobutton_goods_menuback"
                 android:textColor="@color/radiobutton_textcolor"
-                android:text="母婴"
-                android:textSize="18sp"/>
+                android:text=""
+                android:textSize="15sp"/>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/cho_lab_lin"/>
             <RadioButton
                 android:id="@+id/rb_goods_center_clothing"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:button="@null"
+                android:paddingTop="10dp"
                 android:drawableTop="@drawable/radiobutton_goods_center"
                 android:gravity="center"
                 android:background="@drawable/radiobutton_goods_menuback"
                 android:textColor="@color/radiobutton_textcolor"
-                android:text="服装"
-                android:textSize="18sp"/>
+                android:text=""
+                android:textSize="15sp"/>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/cho_lab_lin"/>
+            <RadioButton
+                android:id="@+id/rb_goods_center_5"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:button="@null"
+                android:paddingTop="10dp"
+                android:drawableTop="@drawable/radiobutton_goods_center"
+                android:gravity="center"
+                android:background="@drawable/radiobutton_goods_menuback"
+                android:textColor="@color/radiobutton_textcolor"
+                android:text=""
+                android:textSize="15sp"/>
         </RadioGroup>
 
         <!-- *********************************************************-->
@@ -142,28 +216,25 @@
             android:background="@color/white"
             android:visibility="gone"
             android:paddingBottom="5dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="111111111111"/>
-            <android.support.v4.view.ViewPager
-                android:id="@+id/menu_viewpager"
+            <GridView
+                android:id="@+id/gv_goods_center_grid"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"/>
-            <RelativeLayout
+                android:layout_height="200dp"
+                android:numColumns="3"
+                android:horizontalSpacing="50dp"
+                android:verticalSpacing="15dp"
+                android:padding="20dp"
+                android:paddingBottom="5dp"/>
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true">
-                    <TextView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:background="@drawable/textview_dot_on"/>
-                </LinearLayout>
-            </RelativeLayout>
+                android:layout_alignParentBottom="true"
+                android:gravity="center_horizontal">
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/textview_biankuang_maincolor"/>
+            </LinearLayout>
         </RelativeLayout>
         <View
             android:layout_width="fill_parent"
@@ -175,7 +246,7 @@
         android:id="@+id/darkview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/dark_view"
+        android:background="@color/black"
         android:alpha="0.7"
         android:visibility="gone" />
 </RelativeLayout>

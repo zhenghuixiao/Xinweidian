@@ -7,6 +7,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,12 +16,14 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.xinkaishi.apple.xinweidian.Activity.Goods_centerActivity;
 import com.xinkaishi.apple.xinweidian.Activity.Shopping_cartActivity;
 import com.xinkaishi.apple.xinweidian.DAO.ImgDAO;
 import com.xinkaishi.apple.xinweidian.DAO.ShoppingcartDAO;
 import com.xinkaishi.apple.xinweidian.R;
 import com.xinkaishi.apple.xinweidian.Until.Cache;
 import com.xinkaishi.apple.xinweidian.Until.LoadImg;
+import com.xinkaishi.apple.xinweidian.Until.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -103,9 +107,9 @@ public class Adapter_goods_center extends BaseAdapter{
         }
         holder.iv_goodscenter_image.setBackgroundColor(convertView.getResources().getColor(R.color.white));
         holder.tv_goodscenter_title.setText(list.get(position).get(flag[2]) + "");
-        holder.tv_goodscenter_price_out.setText(list.get(position).get(flag[3]) + "");
-        holder.tv_goodscenter_profit.setText(list.get(position).get(flag[4]) + "");
-        holder.tv_goodscenter_price_in.setText(list.get(position).get(flag[5]) + "");
+        holder.tv_goodscenter_price_out.setText("￥" + list.get(position).get(flag[3]));
+        holder.tv_goodscenter_profit.setText("￥" + list.get(position).get(flag[4]));
+        holder.tv_goodscenter_price_in.setText("￥" + list.get(position).get(flag[5]));
 
         HashMap<String, Object> hm = list.get(position);
         String goodId = list.get(position).get("id").toString();
@@ -134,8 +138,11 @@ public class Adapter_goods_center extends BaseAdapter{
 
     class MyOnclickListener implements View.OnClickListener {
         private HashMap<String, Object> hm;
+        private Animation animIn, animout;
         public MyOnclickListener(HashMap<String, Object> hm){
             this.hm = hm;
+            animIn = AnimationUtils.loadAnimation(context, R.anim.fade_in_anim);
+            animout = AnimationUtils.loadAnimation(context, R.anim.fade_out_anim);
         }
         @Override
         public void onClick(View v) {
@@ -151,20 +158,22 @@ public class Adapter_goods_center extends BaseAdapter{
                 //进货
                 case R.id.tv_goodscenter_goodsIn:
                     //todo 把商品加入数据库
-                    showPup(context);
+                    showPup();
                     // 背景变暗
+                    darkview.startAnimation(animIn);
                     darkview.setVisibility(View.VISIBLE);
                     break;
                 case R.id.tv_goodscenter_shoucang:
                     break;
             }
         }
-        private void showPup(final Context context) {
+        private void showPup() {
             final PopupWindow popWindow_picknum;
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            final View vPopWindow=inflater.inflate(R.layout.layout_popup_goodsin, null, false);
-            //宽300 高180
-            popWindow_picknum = new PopupWindow(vPopWindow,300,180,false);
+            popWindow_picknum = new PopupWindow(context);
+            View vPopWindow = LayoutInflater.from(context).inflate(R.layout.layout_popup_goodsin, null);
+            popWindow_picknum.setContentView(vPopWindow);
+            popWindow_picknum.setWidth(ScreenUtils.getScreenW(Goods_centerActivity.instance)*2/3); //获取activty宽
+            popWindow_picknum.setHeight(ScreenUtils.getScreenH(Goods_centerActivity.instance)*1/4); //获取activty宽减60
             popWindow_picknum.setFocusable(true);
             popWindow_picknum.setOutsideTouchable(true);
             popWindow_picknum.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.textview_yuanjiao_white));
@@ -195,7 +204,7 @@ public class Adapter_goods_center extends BaseAdapter{
                 public void onClick(View v) {
                     hm.put("state", 1);
                     hm.put("num", tv_num.getText());
-                    if(shoppingcartDAO.isInShop((Integer)hm.get("id"))){
+                    if(shoppingcartDAO.isInShop((Long)hm.get("id"))){
 
                         shoppingcartDAO.update(hm);
                     }else {
@@ -212,7 +221,7 @@ public class Adapter_goods_center extends BaseAdapter{
                 public void onClick(View v) {
                     hm.put("state", 1);
                     hm.put("num", tv_num.getText());
-                    if(shoppingcartDAO.isInShop((Integer)hm.get("id"))){
+                    if(shoppingcartDAO.isInShop((Long)hm.get("id"))){
 
                         shoppingcartDAO.update(hm);
                     }else {
@@ -232,6 +241,7 @@ public class Adapter_goods_center extends BaseAdapter{
                     if (!popWindow_picknum.isShowing()) {
                         num = 1;
                         darkview.setVisibility(View.GONE);
+                        darkview.startAnimation(animout);
                     }
                 }
             });

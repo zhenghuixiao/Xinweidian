@@ -113,6 +113,7 @@ public class Shopping_cartActivity extends ActionBarActivity {
         list = new ArrayList<HashMap<String, Object>>();
         imgdao = new ImgDAO(getApplication());
         buttonAll = true;
+
     }
 
     private void setListView() {
@@ -139,23 +140,25 @@ public class Shopping_cartActivity extends ActionBarActivity {
                     // 选中的state状态改为1 作为数据库删除依据
                     list.get(position).put("state", 1);
                     shoppingcartDAO.update(list.get(position));
-                    totalPrice = shoppingcart_totalprice.getTotalprice() + (float) list.get(position).get("price_in") * (Integer) list.get(position).get("num");
+                    totalPrice = shoppingcart_totalprice.getTotalprice() +
+                            (float) list.get(position).get("import_price") * (Integer) list.get(position).get("num");
                     shoppingcart_totalprice.setTotalprice(totalPrice);
                 } else {
                     checkNum--;
                     // 未选中的state状态改为0
                     list.get(position).put("state", 0);
                     shoppingcartDAO.update(list.get(position));
-                    totalPrice = shoppingcart_totalprice.getTotalprice() - (float) list.get(position).get("price_in") * (Integer) list.get(position).get("num");
+                    totalPrice = shoppingcart_totalprice.getTotalprice() -
+                            (float) list.get(position).get("import_price") * (Integer) list.get(position).get("num");
                     shoppingcart_totalprice.setTotalprice(totalPrice);
 
                 }
                 if(checkNum == list.size()){
                     buttonAll = true;
-                    bt_shopping_selectall.setBackgroundResource(R.color.red);
+                    bt_shopping_selectall.setBackgroundResource(R.drawable.col_btn_sel);
                 }else{
                     buttonAll = false;
-                    bt_shopping_selectall.setBackgroundResource(R.color.black);
+                    bt_shopping_selectall.setBackgroundResource(R.drawable.col_btn_rec);
                 }
                 // 用TextView显示
                 tv_shopping_cart_showNum.setText("当前结算商品" + checkNum + "件");
@@ -170,7 +173,7 @@ public class Shopping_cartActivity extends ActionBarActivity {
         totalPrice = 0;
         for(int a = 0; a < list.size(); a ++){
             list.get(a).put("state", 1);
-            totalPrice = totalPrice + (float)list.get(a).get("price_in")*(Integer) list.get(a).get("num");
+            totalPrice = totalPrice + (float)list.get(a).get("import_price")*(Integer) list.get(a).get("num");
             buttonAll_totalPrice = totalPrice;
         }
 
@@ -230,14 +233,15 @@ public class Shopping_cartActivity extends ActionBarActivity {
                     // TextView显示最新的选中数目
                     tv_shopping_cart_showNum.setText("当前结算商品"+checkNum+"件");
                     tv_shopping_cart_totalPrice.setText("￥" + String.format("%.2f", totalPrice));
-                    bt_shopping_selectall.setBackgroundResource(R.color.black);
+                    bt_shopping_selectall.setBackgroundResource(R.drawable.col_btn_rec);
                 }else{
                     buttonAll = true;
+                    totalPrice = 0;
                     // 遍历list的长度，将Adapter中的state值全部设为true
                     for (int i = 0; i < list.size(); i++) {
                         list.get(i).put("state", 1);//改变全部商品的状态
                         Adapter_shopping_list.getIsSelected().put(i, true);
-                        totalPrice = totalPrice + (float)list.get(i).get("price_in")*(Integer) list.get(i).get("num");
+                        totalPrice = totalPrice + (float)list.get(i).get("import_price")*(Integer) list.get(i).get("num");
                     }
                     //全选设置总价
                     shoppingcart_totalprice.setTotalprice(totalPrice);
@@ -248,7 +252,7 @@ public class Shopping_cartActivity extends ActionBarActivity {
                     // TextView显示最新的选中数目
                     tv_shopping_cart_showNum.setText("当前结算商品"+checkNum+"件");
                     tv_shopping_cart_totalPrice.setText("￥" + String.format("%.2f", totalPrice));
-                    bt_shopping_selectall.setBackgroundResource(R.color.red);
+                    bt_shopping_selectall.setBackgroundResource(R.drawable.col_btn_sel);
                 }
             }
         });
@@ -266,7 +270,7 @@ public class Shopping_cartActivity extends ActionBarActivity {
                     if((Integer)list.get(a).get("state") == 1){
                         bl = true;
                         checkNum --;
-                        totalPrice = totalPrice - (float) list.get(a).get("price_in") * (Integer) list.get(a).get("num");
+                        totalPrice = totalPrice - (float) list.get(a).get("import_price") * (Integer) list.get(a).get("num");
                     }
                     // 将CheckBox的选中状况全部设为未选中
                     Adapter_shopping_list.getIsSelected().put(a, false);

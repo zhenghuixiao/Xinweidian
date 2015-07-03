@@ -144,7 +144,7 @@ public class Confirm_ordersActivity extends ActionBarActivity {
         lv_confirm_orders_list.setAdapter(adapter);
 
         for(int a = 0; a < list.size(); a ++){
-            allprice = allprice + (float)list.get(a).get("price_in") * (Integer)list.get(a).get("num");
+            allprice = allprice + (float)list.get(a).get("import_price") * (Integer)list.get(a).get("num");
         }
         allprice = allprice + yunfei;
         tv_confirm_orders_allprice.setText(String.format("%.2f", allprice));

@@ -5,46 +5,11 @@
     android:background="@color/white"
     tools:context="com.xinkaishi.apple.xinweidian.Activity.Shopping_cartActivity">
 
-    <!--<RelativeLayout
-        android:id="@+id/rl_shopping_cart_head"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:background="@drawable/abc_btn_check_material"/>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="购物车"/>
-            <TextView
-                android:id="@+id/tv_shopping_cart_headNum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="11"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="件"/>
-        </LinearLayout>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/abc_btn_check_material"/>
-    </RelativeLayout>-->
-    <!--android:layout_below="@+id/rl_shopping_cart_head"-->
-    <View
-        android:id="@+id/div_shopping_cart_head"
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="@color/black"/>
+    <!--<View-->
+        <!--android:id="@+id/div_shopping_cart_head"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="@color/black"/>-->
     <LinearLayout
         android:id="@+id/ll_shopping_cart_down"
         android:layout_width="fill_parent"
@@ -74,19 +39,19 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="5dp"
-                        android:background="@color/red"/>
+                        android:background="@drawable/col_btn_sel"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:text="全选"
-                        android:textSize="25sp"/>
+                        android:textSize="20sp"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginLeft="20dp">
+                    android:layout_marginLeft="10dp">
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
@@ -95,13 +60,13 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
                             android:text="总价"
-                            android:textSize="20sp"/>
+                            android:textSize="18sp"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
                             android:text="(不含运费)"
-                            android:textSize="15sp"/>
+                            android:textSize="13sp"/>
                     </LinearLayout>
                     <TextView
                         android:id="@+id/tv_shopping_cart_totalPrice"
@@ -120,7 +85,7 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:gravity="center"
-                android:text="去结算(1)"
+                android:text="去结算"
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:textColor="@color/white"
@@ -129,14 +94,14 @@
     </LinearLayout>
     <LinearLayout
         android:layout_above="@+id/ll_shopping_cart_down"
-        android:layout_below="@+id/div_shopping_cart_head"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical">
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="50dp"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:background="@color/h_dark">
             <TextView
                 android:id="@+id/tv_shopping_cart_showNum"
                 android:layout_width="wrap_content"
@@ -151,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/abc_btn_radio_to_on_mtrl_000"/>
+                android:src="@drawable/rep_btn_tra"/>
         </RelativeLayout>
         <View
             android:layout_width="fill_parent"

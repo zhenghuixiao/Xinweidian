@@ -75,7 +75,7 @@
                 android:layout_height="fill_parent"
                 android:layout_marginLeft="60dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/textview_getinshop_onc"
+                android:background="@drawable/textview_biankuang_maincolor"
                 android:gravity="center"
                 android:layout_centerInParent="true"
                 android:textColor="@color/white"
@@ -92,7 +92,8 @@
         <RelativeLayout
             android:id="@+id/rl_confirm_orders_receiving"
             android:layout_width="fill_parent"
-            android:layout_height="120dp">
+            android:layout_height="120dp"
+            android:background="@color/h_dark">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
@@ -155,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
                 android:layout_centerVertical="true"
-                android:background="@drawable/abc_btn_radio_to_on_mtrl_000"/>
+                android:background="@drawable/col_btn_sel_1"/>
         </RelativeLayout>
         <View
             android:layout_width="fill_parent"

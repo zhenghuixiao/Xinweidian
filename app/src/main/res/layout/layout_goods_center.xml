@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:padding="5dp">
     <RelativeLayout
         android:layout_width="100dp"
         android:layout_height="100dp">
@@ -21,7 +22,7 @@
             android:gravity="center"
             android:textColor="@color/white"
             android:background="@drawable/textview_biankuang_backdack"
-            android:alpha="0.3"/>
+            android:alpha="0.3" />
     </RelativeLayout>
 
     <LinearLayout
@@ -34,38 +35,66 @@
             android:id="@+id/tv_goodscenter_title"
             android:layout_width="fill_parent"
             android:layout_height="30dp"
-            android:text="商品名称"/>
+            android:text="商品名称"
+            android:textSize="18sp"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:singleLine="true"/>
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="30dp"
             android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:text="售价"/>
-            <TextView
-                android:id="@+id/tv_goodscenter_price_out"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:text="¥580"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:text="利润"/>
-            <TextView
-                android:id="@+id/tv_goodscenter_profit"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:text="¥580"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:text="进价"/>
-            <TextView
-                android:id="@+id/tv_goodscenter_price_in"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:text="¥580"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="售价"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/tv_goodscenter_price_out"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="¥580"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="利润"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/tv_goodscenter_profit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="¥580"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="进价"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/tv_goodscenter_price_in"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="¥580"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="fill_parent"
@@ -75,26 +104,29 @@
                 android:id="@+id/tv_goodscenter_shoucang"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:background="@drawable/textview_collection_unc"
+                android:background="@drawable/cho_lie_rec1"
                 android:text="收藏"
                 android:gravity="center"
+                android:textColor="@color/black"
                 android:layout_weight="1"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginRight="15dp"/>
             <TextView
                 android:id="@+id/tv_goodscenter_goodsIn"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:background="@drawable/textview_goodsin_unc"
+                android:background="@drawable/cho_lie_rec2"
                 android:text="进货"
+                android:textColor="@color/black"
                 android:gravity="center"
                 android:layout_weight="1"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginRight="15dp"/>
             <TextView
                 android:id="@+id/tv_goodscenter_getInshop"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:background="@drawable/textview_getinshop_unc"
+                android:background="@drawable/cho_lie_rec3"
                 android:text="加入店铺"
+                android:textColor="@color/white"
                 android:gravity="center"
                 android:layout_weight="1"/>
         </LinearLayout>
