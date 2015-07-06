@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -47,6 +48,7 @@ public class Goods_detailActivity extends ActionBarActivity {
             tv_detailgoods_price_out, tv_detailgoods_saleNum, tv_detailgoods_collection,
             tv_detailgoods_inventory, tv_detailgoods_profit;
     private ViewPager detail_viewpager;//轮播图
+    private Handler handler;//轮播图
     private LinearLayout ll_detailgoods_dot; //viewpager dot 位置
     private ArrayList<ImageView> list_img; //viewpager 图片
     private ArrayList<View> list_dot;  // viewpager dot
@@ -121,13 +123,13 @@ public class Goods_detailActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
         //activity启动3秒钟后，发送一个message，用来将viewPager中的图片切换到下一个
-        handlerPage.sendEmptyMessageDelayed(1, 3000);
+        handler.sendEmptyMessageDelayed(1, 3000);
     }
 
     @Override
     protected void onStop() {
         // 当Activity不可见的时候停止切换
-        handlerPage.removeMessages(1);
+        handler.removeMessages(1);
         super.onStop();
     }
 
@@ -162,6 +164,7 @@ public class Goods_detailActivity extends ActionBarActivity {
         list_dot = new ArrayList<View>();
         currentItem = 0;
         list_img = new ArrayList<ImageView>();
+        handler = new MyHandler();
 
         cache = new Cache();
         shoppingcartDAO = new ShoppingcartDAO(this);
@@ -171,7 +174,7 @@ public class Goods_detailActivity extends ActionBarActivity {
     private void initViewpager() {
         for(int i = 0; i < listimg.size(); i ++){
             final ImageView iv = new ImageView(getApplicationContext());
-            LoadImg.onLoadImage(listimg.get(i), cache, imgDAO, new LoadImg.OnLoadImageListener() {
+            LoadImg.onLoadImage(listimg.get(i) + "!i", cache, imgDAO, new LoadImg.OnLoadImageListener() {
                 @Override
                 public void OnLoadImage(Bitmap bitmap, String bitmapPath) {
                     iv.setImageBitmap(bitmap);
@@ -217,9 +220,10 @@ public class Goods_detailActivity extends ActionBarActivity {
             }
         });
     }
+    class MyHandler extends Handler {
 
-    private Handler handlerPage = new Handler() {
-        public void handleMessage(android.os.Message msg) {
+        @Override
+        public void handleMessage(Message msg) {
             switch(msg.what) {
                 case 1:
                     if(list_img.size() == 0){
@@ -235,14 +239,13 @@ public class Goods_detailActivity extends ActionBarActivity {
                         scroller.setmDuration(300); //设置轮播图片的滑动速度
                     } catch (Exception e) {
                     }
-                    detail_viewpager.setCurrentItem(currentItem);// 切换当前显示的图片
+                    detail_viewpager.setCurrentItem(currentItem);// 切换当前编号显示的图片
 
                     //每5秒钟发送一个message，用于切换viewPager中的图片
                     this.sendEmptyMessageDelayed(1, 5000);
             }
-        };
-    };
-
+        }
+    }
 
     private void initDetail() {
         tv_detailgoods_title.setText(hm.get("name").toString());

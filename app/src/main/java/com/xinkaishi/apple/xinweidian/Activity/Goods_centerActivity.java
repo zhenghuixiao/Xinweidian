@@ -3,6 +3,7 @@ package com.xinkaishi.apple.xinweidian.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -68,14 +70,15 @@ public class Goods_centerActivity extends ActionBarActivity {
 
     private ListView lv_goods_center_list;
     private ListState listState;
-    private ArrayList<HashMap<String, Object>> list;// 数据
+    private ArrayList<HashMap<String, Object>> list;// 列表数据
     private View darkview;//暗色背景
+
     private ImgDAO imgdao;
     private MenuDAO menuDAO;
     private ShoppingcartDAO shoppingcartDAO;
 
     private Gson gson;
-    private String finalurl;
+    private String finalurl; //最终读取地址
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,16 +86,14 @@ public class Goods_centerActivity extends ActionBarActivity {
         setContentView(R.layout.activity_goods_center);
 
         instance = this;
+
         initActionBar();
         initView(); //加载控件
-
-        finalurl = Interface.GOODS_LIST;
         new initList(finalurl).execute();
         initMain();//主界面的控件显示
         initMenu();
         setFragmentLlistener(); //监听菜单栏
-
-//        setListView();
+        setSortLlistener(); //监听排序
     }
 
     private void initActionBar() {
@@ -170,6 +171,9 @@ public class Goods_centerActivity extends ActionBarActivity {
         tv_goods_center_menu1 = (TextView)findViewById(R.id.tv_goods_center_menu1);
         tv_goods_center_menu2 = (TextView)findViewById(R.id.tv_goods_center_menu2);
         tv_goods_center_counts = (TextView)findViewById(R.id.tv_goods_center_counts);
+        tv_goods_center_sales = (TextView)findViewById(R.id.tv_goods_center_sales);
+        tv_goods_center_profit = (TextView)findViewById(R.id.tv_goods_center_profit);
+        tv_goods_center_pricein = (TextView)findViewById(R.id.tv_goods_center_pricein);
         darkview = findViewById(R.id.darkview);
         imgdao = new ImgDAO(getApplication());
         menuDAO = new MenuDAO(getApplication());
@@ -177,6 +181,9 @@ public class Goods_centerActivity extends ActionBarActivity {
         shoppingcartDAO = new ShoppingcartDAO(getApplication());
         list = new ArrayList<HashMap<String, Object>>();
 
+        lv_goods_center_list.setOnScrollListener(new MyScrollListener());
+
+        finalurl = Interface.GOODS_LIST;//初始化默认地址
         isopen = false;//默认关闭
         checkedID = 0;//默认0 无选中
         //设置图片大小
@@ -215,6 +222,7 @@ public class Goods_centerActivity extends ActionBarActivity {
      */
     private void setFragmentLlistener() {
         List<MenuParent> listmp = menu.getData().getList();
+        //5个分类名字可能要改 12345
         rb_goods_center_digital.setOnClickListener(new Myonclick_menu(1));
         rb_goods_center_appliance.setOnClickListener(new Myonclick_menu(2));
         rb_goods_center_infant.setOnClickListener(new Myonclick_menu(3));
@@ -460,7 +468,7 @@ public class Goods_centerActivity extends ActionBarActivity {
                     HashMap<String, Object> hm = new HashMap<String, Object>();
                     hm.put("id", list1.get(a).getId());
                     hm.put("name", list1.get(a).getName());
-                    hm.put("default_img", list1.get(a).getDefault_img());//默认展示图
+                    hm.put("default_img", list1.get(a).getDefault_img() + "!i");//默认展示图  !i为缩略图
                     hm.put("roll_images", list1.get(a).getRoll_images());//轮播图
                     hm.put("price", list1.get(a).getPrice());//价格
                     hm.put("import_price", list1.get(a).getImport_price());//进价
@@ -479,7 +487,7 @@ public class Goods_centerActivity extends ActionBarActivity {
                     HashMap<String, Object> hm = new HashMap<String, Object>();
                     hm.put("id", list1.get(a).getId());
                     hm.put("name", list1.get(a).getName());
-                    hm.put("default_img", list1.get(a).getDefault_img());//默认展示图
+                    hm.put("default_img", list1.get(a).getDefault_img() + "!i");//默认展示图
                     hm.put("roll_images", list1.get(a).getRoll_images());//轮播图
                     hm.put("price", list1.get(a).getPrice());//价格
                     hm.put("import_price", list1.get(a).getImport_price());//进价
@@ -498,4 +506,98 @@ public class Goods_centerActivity extends ActionBarActivity {
         }
     }
 
+    private void setSortLlistener() {
+        //这里暂时加  “？”   到时加shopid前面
+        tv_goods_center_sales.setOnClickListener(new SortListener("?&order=sale_amount"));
+        tv_goods_center_profit.setOnClickListener(new SortListener("?&order=price"));
+        tv_goods_center_pricein.setOnClickListener(new SortListener("?&order=price_asc"));
+    }
+
+    class SortListener implements View.OnClickListener {
+        private String add;
+        private SortListener(String add){
+            this.add = add;
+        }
+        @Override
+        public void onClick(View v) {
+            list.clear();
+            new initList(finalurl + add).execute();
+        }
+    }
+
+    /**
+     * 底部自动加载监听
+     *
+     */
+    private int number = 20; // 每次获取多少条数据
+    private int maxpage = 5; // 总共有多少页
+    private boolean loadfinish = true; // 指示数据是否加载完成
+
+    private final class MyScrollListener implements AbsListView.OnScrollListener {
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem,
+                             int visibleItemCount, int totalItemCount) {
+            Log.i("list", "onScroll(firstVisibleItem="
+                    + firstVisibleItem + ",visibleItemCount="
+                    + visibleItemCount + ",totalItemCount=" + totalItemCount
+                    + ")");
+
+            final int loadtotal = totalItemCount;
+            int lastItemid = lv_goods_center_list.getLastVisiblePosition(); // 获取当前屏幕最后Item的ID
+            if ((lastItemid + 1) == totalItemCount) { // 达到数据的最后一条记录
+                if (totalItemCount > 0) {
+                    // 当前页
+                    int currentpage = totalItemCount % number == 0 ? totalItemCount
+                            / number
+                            : totalItemCount / number + 1;
+                    int nextpage = currentpage + 1; // 下一页
+                    if (nextpage <= maxpage && loadfinish) {
+                        loadfinish = false;
+//                        lv_goods_center_list.addFooterView(footer);
+
+                        // 开一个线程加载数据
+                        new Thread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                try {
+                                    Log.e("加载", "开始加载...............................");
+                                    Thread.sleep(3000);
+                                    Log.e("加载", "加载完成...............................");
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+//                                List<String> result = DataService.getData(
+//                                        loadtotal, number);
+//                                // 发送消息
+//                                handler.sendMessage(handler.obtainMessage(100,
+//                                        data));
+                            }
+                        }).start();
+                    }
+                }
+            }
+
+        }
+
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+            Log.i("MainActivity", "onScrollStateChanged(scrollState="
+                    + scrollState + ")");
+        }
+
+    }
+
+    private Handler handler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            list.addAll(list);
+            // 告诉ListView数据已经发生改变，要求ListView更新界面显示
+            adapter_goods_center.notifyDataSetChanged();
+//            if (lv_goods_center_list.getFooterViewsCount() > 0) { // 如果有底部视图
+//                lv_goods_center_list.removeFooterView(footer);
+//            }
+            loadfinish = true; // 加载完成
+        };
+    };
 }

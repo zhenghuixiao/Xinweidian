@@ -112,6 +112,9 @@ public class Adapter_goods_center extends BaseAdapter{
         holder.tv_goodscenter_price_out.setText("￥" + list.get(position).get(flag[3]));
         holder.tv_goodscenter_profit.setText("￥" + list.get(position).get(flag[4]));
         holder.tv_goodscenter_price_in.setText("￥" + list.get(position).get(flag[5]));
+        //暂时用白背景代替默认图片
+//        holder.iv_goodscenter_image.setBackground(context.getResources().getDrawable(R.color.white));
+
         if(hasadd == 0){
             holder.tv_goodscenter_getInshop.setText("加入店铺");
         }else{
