@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +25,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xinkaishi.apple.xinweidian.Adapter.Adapter_goods_center;
 import com.xinkaishi.apple.xinweidian.Adapter.Adapter_goods_menugrid;
+import com.xinkaishi.apple.xinweidian.Bean.Interface;
 import com.xinkaishi.apple.xinweidian.Bean.ListBean.ListGoods;
 import com.xinkaishi.apple.xinweidian.Bean.ListBean.ListState;
 import com.xinkaishi.apple.xinweidian.Bean.MenuBean.MenuParent;
@@ -75,8 +74,8 @@ public class Goods_centerActivity extends ActionBarActivity {
     private MenuDAO menuDAO;
     private ShoppingcartDAO shoppingcartDAO;
 
-
     private Gson gson;
+    private String finalurl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +85,9 @@ public class Goods_centerActivity extends ActionBarActivity {
         instance = this;
         initActionBar();
         initView(); //加载控件
-        new initList("").execute();
+
+        finalurl = Interface.GOODS_LIST;
+        new initList(finalurl).execute();
         initMain();//主界面的控件显示
         initMenu();
         setFragmentLlistener(); //监听菜单栏
@@ -128,11 +129,11 @@ public class Goods_centerActivity extends ActionBarActivity {
                 Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_collection:
-                Toast t = Toast.makeText(this, "", Toast.LENGTH_SHORT);
-                t.setGravity(Gravity.CENTER, 0, 0);
-                View layout = LayoutInflater.from(this).inflate(R.layout.layout_toast_style_inshop, null);
-                t.setView(layout);
-                t.show();
+//                Toast t = Toast.makeText(this, "", Toast.LENGTH_SHORT);
+//                t.setGravity(Gravity.CENTER, 0, 0);
+//                View layout = LayoutInflater.from(this).inflate(R.layout.layout_toast_style_inshop, null);
+//                t.setView(layout);
+//                t.show();
                 return true;
             case R.id.action_search:
                 Intent intent4 = new Intent(Goods_centerActivity.this, SearchActivity.class);
@@ -409,7 +410,8 @@ public class Goods_centerActivity extends ActionBarActivity {
                 rl_goods_center_menu.setVisibility(View.GONE);
                 if(a == 1){
                     list.clear();
-                    new initList("").execute();
+                    //todo url
+                    new initList(finalurl).execute();
                 }
             }
 
@@ -437,7 +439,7 @@ public class Goods_centerActivity extends ActionBarActivity {
             String json = null;
             try {
 
-                json = DataAnalysis.readParse("http://pc.xinkaishi.com/shop/item/list");
+                json = DataAnalysis.readParse(url);
                 Log.e("list", json);
             } catch (Exception e) {
                 e.printStackTrace();

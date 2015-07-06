@@ -1,7 +1,9 @@
 package com.xinkaishi.apple.xinweidian.Activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -11,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -21,12 +24,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xinkaishi.apple.xinweidian.Adapter.Img_Pageradapter;
+import com.xinkaishi.apple.xinweidian.CustomView.FixedSpeedScroller;
+import com.xinkaishi.apple.xinweidian.DAO.ImgDAO;
 import com.xinkaishi.apple.xinweidian.DAO.ShoppingcartDAO;
 import com.xinkaishi.apple.xinweidian.R;
+import com.xinkaishi.apple.xinweidian.Until.Cache;
+import com.xinkaishi.apple.xinweidian.Until.LoadImg;
 import com.xinkaishi.apple.xinweidian.Until.ScreenUtils;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class Goods_detailActivity extends ActionBarActivity {
@@ -41,7 +50,10 @@ public class Goods_detailActivity extends ActionBarActivity {
     private LinearLayout ll_detailgoods_dot; //viewpager dot 位置
     private ArrayList<ImageView> list_img; //viewpager 图片
     private ArrayList<View> list_dot;  // viewpager dot
+    private int currentItem;
+    private List<String> listimg;//轮播图 地址
     private TextView tv_detailgoods_inshopcar;
+
     //底部 控件
     private LinearLayout ll_detailgoods_down1; //加入购物车 收藏
     private RelativeLayout rl_detailgoods_down2;  // 隐藏确定页
@@ -49,7 +61,10 @@ public class Goods_detailActivity extends ActionBarActivity {
     private TextView tv_min, tv_add, tv_num, tv_allprice, tv_enter; // 加减 数量  总价  确认
     private int shopNum;//购物车中已有的商品数量
 
+
+    private Cache cache;
     private ShoppingcartDAO shoppingcartDAO;
+    private ImgDAO imgDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +86,7 @@ public class Goods_detailActivity extends ActionBarActivity {
         //hm为商品信息
         hm = (HashMap<String,Object>)bundle.getSerializable("goods");
         id = (Long)hm.get("id");
+        listimg = (List<String>)hm.get("roll_images");
     }
 
     @Override
@@ -102,6 +118,20 @@ public class Goods_detailActivity extends ActionBarActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        //activity启动3秒钟后，发送一个message，用来将viewPager中的图片切换到下一个
+        handlerPage.sendEmptyMessageDelayed(1, 3000);
+    }
+
+    @Override
+    protected void onStop() {
+        // 当Activity不可见的时候停止切换
+        handlerPage.removeMessages(1);
+        super.onStop();
+    }
+
+    @Override
     protected void onDestroy() {
         shoppingcartDAO.closeDB();
         super.onDestroy();
@@ -130,36 +160,33 @@ public class Goods_detailActivity extends ActionBarActivity {
         ll_detailgoods_dot = (LinearLayout)findViewById(R.id.ll_detailgoods_dot);
 
         list_dot = new ArrayList<View>();
+        currentItem = 0;
         list_img = new ArrayList<ImageView>();
 
+        cache = new Cache();
         shoppingcartDAO = new ShoppingcartDAO(this);
+        imgDAO = new ImgDAO(this);
     }
 
     private void initViewpager() {
-        ImageView iv1 = new ImageView(getApplication());
-        iv1.setImageDrawable(getResources().getDrawable(R.drawable.che1));
-        ImageView iv2 = new ImageView(getApplication());
-        iv2.setImageDrawable(getResources().getDrawable(R.drawable.che2));
-        ImageView iv3 = new ImageView(getApplication());
-        iv3.setImageDrawable(getResources().getDrawable(R.drawable.che3));
-        ImageView iv4 = new ImageView(getApplication());
-        iv4.setImageDrawable(getResources().getDrawable(R.drawable.che4));
-        ImageView iv5 = new ImageView(getApplication());
-        iv5.setImageDrawable(getResources().getDrawable(R.drawable.che5));
+        for(int i = 0; i < listimg.size(); i ++){
+            final ImageView iv = new ImageView(getApplicationContext());
+            LoadImg.onLoadImage(listimg.get(i), cache, imgDAO, new LoadImg.OnLoadImageListener() {
+                @Override
+                public void OnLoadImage(Bitmap bitmap, String bitmapPath) {
+                    iv.setImageBitmap(bitmap);
+                }
+            });
+            list_img.add(iv);
+        }
 
-        list_img.add(iv1);
-        list_img.add(iv2);
-        list_img.add(iv3);
-        list_img.add(iv4);
-        list_img.add(iv5);
-
-        for(int a = 0; a < 5; a ++){
+        for(int a = 0; a < list_img.size(); a ++){
             View dot = new View(getApplicationContext());
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(15,15);
             if(a ==0){
-                dot.setBackgroundResource(R.drawable.dot_focused); //第一个默认选中
+                dot.setBackgroundResource(R.drawable.cho_lab_sel); //第一个默认选中
             }else{
-                dot.setBackgroundResource(R.drawable.dot_normal);
+                dot.setBackgroundResource(R.drawable.cho_lab_unc);
                 lp.leftMargin = 5; //除了第一个 设置间距
             }
             dot.setLayoutParams(lp);
@@ -177,8 +204,9 @@ public class Goods_detailActivity extends ActionBarActivity {
 
             @Override
             public void onPageSelected(int position) {
-                list_dot.get(oldposition).setBackgroundResource(R.drawable.dot_normal);
-                list_dot.get(position).setBackgroundResource(R.drawable.dot_focused);
+                currentItem = position;
+                list_dot.get(oldposition).setBackgroundResource(R.drawable.cho_lab_unc);
+                list_dot.get(position).setBackgroundResource(R.drawable.cho_lab_sel);
                 oldposition = position;
                 Log.e("1111", "11111");
             }
@@ -189,6 +217,31 @@ public class Goods_detailActivity extends ActionBarActivity {
             }
         });
     }
+
+    private Handler handlerPage = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            switch(msg.what) {
+                case 1:
+                    if(list_img.size() == 0){
+                        break;
+                    }
+                    currentItem = (currentItem + 1) % list_img.size();
+                    try {
+                        Field field = ViewPager.class.getDeclaredField("mScroller");
+                        field.setAccessible(true);
+                        FixedSpeedScroller scroller = new FixedSpeedScroller(detail_viewpager.getContext(),
+                                new AccelerateInterpolator());
+                        field.set(detail_viewpager, scroller);
+                        scroller.setmDuration(300); //设置轮播图片的滑动速度
+                    } catch (Exception e) {
+                    }
+                    detail_viewpager.setCurrentItem(currentItem);// 切换当前显示的图片
+
+                    //每5秒钟发送一个message，用于切换viewPager中的图片
+                    this.sendEmptyMessageDelayed(1, 5000);
+            }
+        };
+    };
 
 
     private void initDetail() {
@@ -284,15 +337,16 @@ public class Goods_detailActivity extends ActionBarActivity {
     }
 
     public void setPopup(){
-
+        final View view = findViewById(R.id.view);
         final PopupWindow popupWindow = new PopupWindow(this);
         View vPopWindow = LayoutInflater.from(this).inflate(R.layout.layout_popup_goodsin_detail, null);
         popupWindow.setContentView(vPopWindow);
         popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(true);
         popupWindow.setHeight(ScreenUtils.getScreenH(this));
+        popupWindow.setWidth(ScreenUtils.getScreenW(this));
 //        popupWindow.setHeight(ScreenUtils.getScreenH(this) * 3 / 10);
 //        popupWindow.setWidth(ScreenUtils.getScreenW(this) * 4 / 5);
-        popupWindow.setWidth(ScreenUtils.getScreenW(this));
         popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.textview_biankuang_black));
 
         TextView tv_continue = (TextView)vPopWindow.findViewById(R.id.tv_continue);
@@ -308,10 +362,12 @@ public class Goods_detailActivity extends ActionBarActivity {
                 overridePendingTransition(R.anim.pic_left_in, R.anim.pic_left_out);
             }
         });
+        view.setVisibility(View.VISIBLE);
         tv_continue.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick (View v){
+            public void onClick(View v) {
                 popupWindow.dismiss();
+                view.setVisibility(View.GONE);
             }
         });
 

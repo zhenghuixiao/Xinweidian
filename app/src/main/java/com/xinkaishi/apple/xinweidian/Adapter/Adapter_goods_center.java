@@ -49,6 +49,7 @@ public class Adapter_goods_center extends BaseAdapter{
     private ShoppingcartDAO shoppingcartDAO;
     private String add;
     private int num = 1;//进货商品数量
+    private int hasadd;
     /**
      * @param context class
      * @param list 数据集合list
@@ -105,17 +106,23 @@ public class Adapter_goods_center extends BaseAdapter{
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
+        hasadd = (Integer)list.get(position).get("has_add");
         holder.iv_goodscenter_image.setBackgroundColor(convertView.getResources().getColor(R.color.white));
         holder.tv_goodscenter_title.setText(list.get(position).get(flag[2]) + "");
         holder.tv_goodscenter_price_out.setText("￥" + list.get(position).get(flag[3]));
         holder.tv_goodscenter_profit.setText("￥" + list.get(position).get(flag[4]));
         holder.tv_goodscenter_price_in.setText("￥" + list.get(position).get(flag[5]));
+        if(hasadd == 0){
+            holder.tv_goodscenter_getInshop.setText("加入店铺");
+        }else{
+            holder.tv_goodscenter_getInshop.setText("已加入");
+        }
 
         HashMap<String, Object> hm = list.get(position);
         String goodId = list.get(position).get("id").toString();
-        holder.tv_goodscenter_getInshop.setOnClickListener(new MyOnclickListener(hm));
-        holder.tv_goodscenter_goodsIn.setOnClickListener(new MyOnclickListener(hm));
-        holder.tv_goodscenter_shoucang.setOnClickListener(new MyOnclickListener(hm));
+        holder.tv_goodscenter_getInshop.setOnClickListener(new MyOnclickListener(hm, holder));
+        holder.tv_goodscenter_goodsIn.setOnClickListener(new MyOnclickListener(hm, holder));
+        holder.tv_goodscenter_shoucang.setOnClickListener(new MyOnclickListener(hm, holder));
 
 
         add = list.get(position).get(flag[1]).toString();
@@ -139,8 +146,10 @@ public class Adapter_goods_center extends BaseAdapter{
     class MyOnclickListener implements View.OnClickListener {
         private HashMap<String, Object> hm;
         private Animation animIn, animout;
-        public MyOnclickListener(HashMap<String, Object> hm){
+        private ViewHolder holder;
+        public MyOnclickListener(HashMap<String, Object> hm, ViewHolder holder){
             this.hm = hm;
+            this.holder = holder;
             animIn = AnimationUtils.loadAnimation(context, R.anim.fade_in_anim);
             animout = AnimationUtils.loadAnimation(context, R.anim.fade_out_anim);
         }
@@ -149,15 +158,20 @@ public class Adapter_goods_center extends BaseAdapter{
             switch (v.getId()){
                 //加入店铺
                 case R.id.tv_goodscenter_getInshop:
-                    Toast t = Toast.makeText(context, "", Toast.LENGTH_SHORT);
-                    t.setGravity(Gravity.CENTER, 0, 0);
-                    View layout = LayoutInflater.from(context).inflate(R.layout.layout_toast_style_inshop, null);
-                    t.setView(layout);
-                    t.show();
+                    if((Integer)hm.get("has_add") == 0) {
+                        //todo post接口
+                        hm.put("has_add", 1);
+                        holder.tv_goodscenter_getInshop.setText("已加入");
+                        Toast t = Toast.makeText(context, "", Toast.LENGTH_SHORT);
+                        t.setGravity(Gravity.CENTER, 0, 0);
+                        View layout = LayoutInflater.from(context).inflate(R.layout.layout_toast_style_inshop, null);
+                        t.setView(layout);
+                        t.show();
+                    }
                     break;
                 //进货
                 case R.id.tv_goodscenter_goodsIn:
-                    //todo 把商品加入数据库
+                    // 把商品加入数据库
                     showPup();
                     // 背景变暗
                     darkview.startAnimation(animIn);

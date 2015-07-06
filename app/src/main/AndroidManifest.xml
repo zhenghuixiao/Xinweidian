@@ -45,7 +45,7 @@
         </activity>
         <activity
             android:name=".Activity.Shopping_cartActivity"
-            android:label="@string/title_activity_shopping_cart"
+            android:label="补货单"
             android:theme="@style/MyActionBarTheme" >
         </activity>
         <activity

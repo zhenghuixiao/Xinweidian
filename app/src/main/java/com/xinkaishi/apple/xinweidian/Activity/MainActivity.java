@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.xinkaishi.apple.xinweidian.Bean.Interface;
 import com.xinkaishi.apple.xinweidian.Bean.MenuBean.MenuState;
 import com.xinkaishi.apple.xinweidian.DAO.MenuDAO;
 import com.xinkaishi.apple.xinweidian.R;
@@ -37,7 +38,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        new initMenu().execute();
+        new initMenu(Interface.MENU_LIST).execute(); //预读商品页菜单
 
     }
 
@@ -46,6 +47,10 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private class initMenu extends AsyncTask<Void, Void, String>{
+        private String url;
+        public initMenu(String url){
+            this.url = url;
+        }
 
         @Override
         protected String doInBackground(Void... params) {
@@ -53,7 +58,7 @@ public class MainActivity extends ActionBarActivity {
             String json = null;
             try {
 
-                json = DataAnalysis.readParse("http://pc.xinkaishi.com/shop/item/category");
+                json = DataAnalysis.readParse(url);
             } catch (Exception e) {
                 e.printStackTrace();
             }
