@@ -50,6 +50,7 @@ public class Adapter_goods_center extends BaseAdapter{
     private String add;
     private int num = 1;//进货商品数量
     private int hasadd;
+    private boolean isopen;  //主界面菜单开关
     /**
      * @param context class
      * @param list 数据集合list
@@ -72,6 +73,13 @@ public class Adapter_goods_center extends BaseAdapter{
         this.imgDAO = imgDAO;
         this.shoppingcartDAO = shoppingcartDAO;
         add = null;
+        isopen = false;
+    }
+    public boolean getmenu(){
+        return isopen;
+    }
+    public void setmenu(boolean isopen){
+        this.isopen = isopen;
     }
     @Override
     public int getCount() {
@@ -113,7 +121,7 @@ public class Adapter_goods_center extends BaseAdapter{
         holder.tv_goodscenter_profit.setText("￥" + list.get(position).get(flag[4]));
         holder.tv_goodscenter_price_in.setText("￥" + list.get(position).get(flag[5]));
         //暂时用白背景代替默认图片
-//        holder.iv_goodscenter_image.setBackground(context.getResources().getDrawable(R.color.white));
+        holder.iv_goodscenter_image.setImageDrawable(context.getResources().getDrawable(R.color.white));
 
         if(hasadd == 0){
             holder.tv_goodscenter_getInshop.setText("加入店铺");
@@ -158,6 +166,11 @@ public class Adapter_goods_center extends BaseAdapter{
         }
         @Override
         public void onClick(View v) {
+            //如果菜单是打开状态的，则关闭菜单
+            if(isopen){
+                Goods_centerActivity.instance.colseMenu(0);
+                return;
+            }
             switch (v.getId()){
                 //加入店铺
                 case R.id.tv_goodscenter_getInshop:

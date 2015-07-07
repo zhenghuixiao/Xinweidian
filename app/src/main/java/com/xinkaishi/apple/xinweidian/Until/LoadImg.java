@@ -25,7 +25,7 @@ import java.util.concurrent.Executors;
  * 修改备注：
  */
 public class LoadImg {
-    private static ExecutorService executorService = Executors.newFixedThreadPool(2);
+    private static ExecutorService executorService = Executors.newFixedThreadPool(3);
     public static void onLoadImage(final String bitmapUrl,final Cache cache, final ImgDAO imgdao, final OnLoadImageListener onLoadImageListener){
         final Handler handler = new Handler(){
             public void handleMessage(Message msg){
