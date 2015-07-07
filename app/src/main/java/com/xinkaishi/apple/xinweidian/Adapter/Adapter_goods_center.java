@@ -202,7 +202,7 @@ public class Adapter_goods_center extends BaseAdapter{
             popWindow_picknum = new PopupWindow(context);
             View vPopWindow = LayoutInflater.from(context).inflate(R.layout.layout_popup_goodsin, null);
             popWindow_picknum.setContentView(vPopWindow);
-            popWindow_picknum.setWidth(ScreenUtils.getScreenW(Goods_centerActivity.instance)*2/3); //获取activty宽
+            popWindow_picknum.setWidth(ScreenUtils.getScreenW(Goods_centerActivity.instance)*3/4); //获取activty宽
             popWindow_picknum.setHeight(ScreenUtils.getScreenH(Goods_centerActivity.instance)*1/4); //获取activty宽减60
             popWindow_picknum.setFocusable(true);
             popWindow_picknum.setOutsideTouchable(true);

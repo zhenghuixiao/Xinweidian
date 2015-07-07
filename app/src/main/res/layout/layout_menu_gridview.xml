@@ -10,6 +10,6 @@
         android:layout_height="40dp"
         android:background="@color/white"
         android:text="全部"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:gravity="center"/>
 </LinearLayout>

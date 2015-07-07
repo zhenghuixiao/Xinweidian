@@ -11,8 +11,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -241,86 +242,86 @@ public class Goods_centerActivity extends ActionBarActivity {
         gr_goods_center_menu.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-            switch (checkedId) {
-                case R.id.rb_goods_center_digital:
-                    Toast.makeText(Goods_centerActivity.this, "数码", Toast.LENGTH_SHORT).show();
-                    //todo
-                    menulist.clear();
-                    for(int a = 0; a < menu.getData().getList().get(0).getChild().size(); a ++){
-                        HashMap<String, Object> hm = new HashMap<>();
-                        hm.put("name", menu.getData().getList().get(0).getChild().get(a).getName());
-                        menulist.add(hm);
-                    }
-                    if(checked == 1){ //判断是否是刷新列表时的菜单
-                        adapter_goods_menugrid.setSelected(menuchecked);
-                    }else{
-                        adapter_goods_menugrid.setSelected(0);
-                    }
-                    adapter_goods_menugrid.notifyDataSetChanged();
-                    break;
-                case R.id.rb_goods_center_appliance:
-                    Toast.makeText(Goods_centerActivity.this, "电器", Toast.LENGTH_SHORT).show();
-                    menulist.clear();
-                    for(int a = 0; a < menu.getData().getList().get(1).getChild().size(); a ++){
-                        HashMap<String, Object> hm = new HashMap<>();
-                        hm.put("name", menu.getData().getList().get(1).getChild().get(a).getName());
-                        menulist.add(hm);
-                    }
-                    if(checked == 2){ //判断是否是刷新列表时的菜单
-                        adapter_goods_menugrid.setSelected(menuchecked);
-                    }else{
-                        adapter_goods_menugrid.setSelected(0);
-                    }
-                    adapter_goods_menugrid.notifyDataSetChanged();
-                    break;
-                case R.id.rb_goods_center_infant:
-                    Toast.makeText(Goods_centerActivity.this, "母婴", Toast.LENGTH_SHORT).show();
-                    menulist.clear();
-                    for(int a = 0; a < menu.getData().getList().get(2).getChild().size(); a ++){
-                        HashMap<String, Object> hm = new HashMap<>();
-                        hm.put("name", menu.getData().getList().get(2).getChild().get(a).getName());
-                        menulist.add(hm);
-                    }
-                    if(checked == 3){ //判断是否是刷新列表时的菜单
-                        adapter_goods_menugrid.setSelected(menuchecked);
-                    }else{
-                        adapter_goods_menugrid.setSelected(0);
-                    }
-                    adapter_goods_menugrid.notifyDataSetChanged();
-                    break;
-                case R.id.rb_goods_center_clothing:
-                    Toast.makeText(Goods_centerActivity.this, "服装", Toast.LENGTH_SHORT).show();
-                    menulist.clear();
-                    for(int a = 0; a < menu.getData().getList().get(3).getChild().size(); a ++){
-                        HashMap<String, Object> hm = new HashMap<>();
-                        hm.put("name", menu.getData().getList().get(3).getChild().get(a).getName());
-                        menulist.add(hm);
-                    }
-                    if(checked == 4){ //判断是否是刷新列表时的菜单
-                        adapter_goods_menugrid.setSelected(menuchecked);
-                    }else{
-                        adapter_goods_menugrid.setSelected(0);
-                    }
-                    adapter_goods_menugrid.notifyDataSetChanged();
-                    break;
-                case R.id.rb_goods_center_5:
-                    Toast.makeText(Goods_centerActivity.this, "", Toast.LENGTH_SHORT).show();
-                    menulist.clear();
-                    for(int a = 0; a < menu.getData().getList().get(4).getChild().size(); a ++){
-                        HashMap<String, Object> hm = new HashMap<>();
-                        hm.put("name", menu.getData().getList().get(4).getChild().get(a).getName());
-                        menulist.add(hm);
-                    }
-                    if(checked == 5){ //判断是否是刷新列表时的菜单
-                        adapter_goods_menugrid.setSelected(menuchecked);
-                    }else{
-                        adapter_goods_menugrid.setSelected(0);
-                    }
-                    adapter_goods_menugrid.notifyDataSetChanged();
-                    break;
+                switch (checkedId) {
+                    case R.id.rb_goods_center_digital:
+                        Toast.makeText(Goods_centerActivity.this, "数码", Toast.LENGTH_SHORT).show();
+                        //todo
+                        menulist.clear();
+                        for (int a = 0; a < menu.getData().getList().get(0).getChild().size(); a++) {
+                            HashMap<String, Object> hm = new HashMap<>();
+                            hm.put("name", menu.getData().getList().get(0).getChild().get(a).getName());
+                            menulist.add(hm);
+                        }
+                        if (checked == 1) { //判断是否是刷新列表时的菜单
+                            adapter_goods_menugrid.setSelected(menuchecked);
+                        } else {
+                            adapter_goods_menugrid.setSelected(0);
+                        }
+                        adapter_goods_menugrid.notifyDataSetChanged();
+                        break;
+                    case R.id.rb_goods_center_appliance:
+                        Toast.makeText(Goods_centerActivity.this, "电器", Toast.LENGTH_SHORT).show();
+                        menulist.clear();
+                        for (int a = 0; a < menu.getData().getList().get(1).getChild().size(); a++) {
+                            HashMap<String, Object> hm = new HashMap<>();
+                            hm.put("name", menu.getData().getList().get(1).getChild().get(a).getName());
+                            menulist.add(hm);
+                        }
+                        if (checked == 2) { //判断是否是刷新列表时的菜单
+                            adapter_goods_menugrid.setSelected(menuchecked);
+                        } else {
+                            adapter_goods_menugrid.setSelected(0);
+                        }
+                        adapter_goods_menugrid.notifyDataSetChanged();
+                        break;
+                    case R.id.rb_goods_center_infant:
+                        Toast.makeText(Goods_centerActivity.this, "母婴", Toast.LENGTH_SHORT).show();
+                        menulist.clear();
+                        for (int a = 0; a < menu.getData().getList().get(2).getChild().size(); a++) {
+                            HashMap<String, Object> hm = new HashMap<>();
+                            hm.put("name", menu.getData().getList().get(2).getChild().get(a).getName());
+                            menulist.add(hm);
+                        }
+                        if (checked == 3) { //判断是否是刷新列表时的菜单
+                            adapter_goods_menugrid.setSelected(menuchecked);
+                        } else {
+                            adapter_goods_menugrid.setSelected(0);
+                        }
+                        adapter_goods_menugrid.notifyDataSetChanged();
+                        break;
+                    case R.id.rb_goods_center_clothing:
+                        Toast.makeText(Goods_centerActivity.this, "服装", Toast.LENGTH_SHORT).show();
+                        menulist.clear();
+                        for (int a = 0; a < menu.getData().getList().get(3).getChild().size(); a++) {
+                            HashMap<String, Object> hm = new HashMap<>();
+                            hm.put("name", menu.getData().getList().get(3).getChild().get(a).getName());
+                            menulist.add(hm);
+                        }
+                        if (checked == 4) { //判断是否是刷新列表时的菜单
+                            adapter_goods_menugrid.setSelected(menuchecked);
+                        } else {
+                            adapter_goods_menugrid.setSelected(0);
+                        }
+                        adapter_goods_menugrid.notifyDataSetChanged();
+                        break;
+                    case R.id.rb_goods_center_5:
+                        Toast.makeText(Goods_centerActivity.this, "", Toast.LENGTH_SHORT).show();
+                        menulist.clear();
+                        for (int a = 0; a < menu.getData().getList().get(4).getChild().size(); a++) {
+                            HashMap<String, Object> hm = new HashMap<>();
+                            hm.put("name", menu.getData().getList().get(4).getChild().get(a).getName());
+                            menulist.add(hm);
+                        }
+                        if (checked == 5) { //判断是否是刷新列表时的菜单
+                            adapter_goods_menugrid.setSelected(menuchecked);
+                        } else {
+                            adapter_goods_menugrid.setSelected(0);
+                        }
+                        adapter_goods_menugrid.notifyDataSetChanged();
+                        break;
 
 
-            }
+                }
             }
         });
 
@@ -337,16 +338,7 @@ public class Goods_centerActivity extends ActionBarActivity {
             Log.e("点击", "checkid=" + checkedID + " id=" + id + " isopen=" + isopen);
             if (!isopen) {
                 //打开菜单
-
-                Animation animation_on = AnimationUtils.loadAnimation(Goods_centerActivity.this, R.anim.translate_menu_on);
-                ll_goods_center_down.startAnimation(animation_on);
-                rl_goods_center_menu.setVisibility(View.VISIBLE);
-                //相同的菜单打开，显示选中的子菜单
-                if(checkedID == id){
-                    adapter_goods_menugrid.setSelected(menuchecked);
-                }
-                isopen = true;
-                adapter_goods_center.setmenu(true);//通知适配器菜单状态
+                openMenu(0, id);
                 Log.e("打开","1111111");
             }else if(checkedID == id) {
                 colseMenu(0);
@@ -406,10 +398,10 @@ public class Goods_centerActivity extends ActionBarActivity {
 
                 //还需传url
                 colseMenu(1);//1 表示是子菜单单击 触发关闭
-                tv_goods_center_menu1.setText(listmp.get(checked-1).getName().toString());
-                if(position == 0){
+                tv_goods_center_menu1.setText(listmp.get(checked - 1).getName().toString());
+                if (position == 0) {
                     tv_goods_center_menu2.setText("");
-                }else {
+                } else {
                     tv_goods_center_menu2.setText(" > " + listmp.get(checked - 1).getChild().get(position - 1).getName().toString());
                 }
             }
@@ -418,38 +410,68 @@ public class Goods_centerActivity extends ActionBarActivity {
 
     /**
      *
-     * 关闭菜单
-     * a为1时代表需要刷新列表
+     * 打开菜单
+     * a为1时代表需要刷新列表 0不变
      */
-    public void colseMenu(final int a){
-        Animation animation_off = AnimationUtils.loadAnimation(Goods_centerActivity.this, R.anim.translate_menu_off);
-        ll_goods_center_down.startAnimation(animation_off);
+    public void openMenu(int a, int id){
+        int open = 1;
+        slideview(gr_goods_center_menu.getHeight()*2, 0, a, open);
+
+        rl_goods_center_menu.setVisibility(View.VISIBLE);
+        //相同的菜单打开，显示选中的子菜单
+        if(checkedID == id){
+            adapter_goods_menugrid.setSelected(menuchecked);
+        }
+        isopen = true; //菜单打开标记
+        adapter_goods_center.setmenu(true);//通知适配器菜单状态
+    }
+    /**
+     *
+     * 关闭菜单
+     * a为1时代表需要刷新列表 0不变
+     */
+    public void colseMenu(int a){
+        int close = 0;
+        slideview(0, gr_goods_center_menu.getHeight()*2, a, close);
+
         isopen = false; //菜单关闭标记
         adapter_goods_center.setmenu(false);//通知适配器菜单状态
 
-        animation_off.setFillEnabled(true);   //解决移动后的闪烁问题
-        animation_off.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                rl_goods_center_menu.setVisibility(View.GONE);
-                if(a == 1){
-                    list.clear();
-                    //todo url
-                    new initList(finalurl).execute();
-                }
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
     }
+
+    /**
+     *
+     * 原位置  偏移位置  是否刷新列表  打开1/关闭0
+     */
+    public void slideview(final float p1, final float p2, final int a, int b) {
+        TranslateAnimation animation = new TranslateAnimation(0, 0, p1, p2);
+        animation.setInterpolator(new AccelerateDecelerateInterpolator());
+        animation.setDuration(400);
+        animation.setFillEnabled(true);
+        if(b == 0){
+            animation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    rl_goods_center_menu.setVisibility(View.GONE);
+                    if (a == 1) {
+                        list.clear();
+                        //todo url
+                        new initList(finalurl).execute();
+                    }
+                }
+            });
+        }
+        ll_goods_center_down.startAnimation(animation);
+    }
+
 
     /**
      *
