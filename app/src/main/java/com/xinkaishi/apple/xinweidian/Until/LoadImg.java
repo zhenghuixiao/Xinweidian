@@ -29,7 +29,7 @@ public class LoadImg {
     public static void onLoadImage(final String bitmapUrl,final Cache cache, final ImgDAO imgdao, final OnLoadImageListener onLoadImageListener){
         final Handler handler = new Handler(){
             public void handleMessage(Message msg){
-                onLoadImageListener.OnLoadImage((Bitmap) msg.obj, null);
+                onLoadImageListener.OnLoadImage((Bitmap) msg.obj, bitmapUrl);
             }
         };
 

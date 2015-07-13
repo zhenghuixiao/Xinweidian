@@ -325,6 +325,10 @@ public class Goods_detailActivity extends ActionBarActivity {
         tv_enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(shopNum > (Integer)hm.get("inventory")){
+                    Toast.makeText(getApplication(), "库存不足", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 hm.put("state", 1);//进入购物车的选择状态
                 hm.put("num", shopNum);
                 if (shoppingcartDAO.isInShop(id)) {
@@ -388,21 +392,20 @@ public class Goods_detailActivity extends ActionBarActivity {
             //加号
             case 1:
                 if(shopNum >= (Integer)hm.get("inventory")){ //判断是否超过库存
-                    return;
                 }else{
                     shopNum ++;
                     tv_num.setText(shopNum + "");
-                    tv_allprice.setText("￥" + String.format("%.2f", shopNum * (float)hm.get("price_in")));
+                    tv_allprice.setText("￥" + String.format("%.2f", shopNum * (float)hm.get("import_price")));
                 }
                 break;
             //减号
             case 0:
                 if(shopNum <= 1){
-                    return;
                 }else{
                     shopNum --;
+                    Log.e("减号", "");
                     tv_num.setText(shopNum + "");
-                    tv_allprice.setText("￥" + String.format("%.2f", shopNum * (float)hm.get("price_in")));
+                    tv_allprice.setText("￥" + String.format("%.2f", shopNum * (float)hm.get("import_price")));
                 }
                 break;
             }

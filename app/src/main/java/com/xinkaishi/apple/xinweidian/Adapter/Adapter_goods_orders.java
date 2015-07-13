@@ -2,6 +2,8 @@ package com.xinkaishi.apple.xinweidian.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +14,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xinkaishi.apple.xinweidian.Activity.Order_detailActivity;
+import com.xinkaishi.apple.xinweidian.Bean.Order_Bean.OrderDetail;
+import com.xinkaishi.apple.xinweidian.Bean.Order_Bean.OrderList;
 import com.xinkaishi.apple.xinweidian.R;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 /**
  * 项目名称：Xinweidian
@@ -28,10 +31,10 @@ import java.util.HashMap;
  */
 public class Adapter_goods_orders extends BaseExpandableListAdapter{
     private Context context;
-    private ArrayList<HashMap<String, Object>> grouplist;
-    public Adapter_goods_orders(Context context, ArrayList<HashMap<String, Object>> list){
+    private List<OrderList> grouplist;
+    public Adapter_goods_orders(Context context, List<OrderList> orderLists){
         this.context = context;
-        this.grouplist = list;
+        this.grouplist = orderLists;
     }
 
     @Override
@@ -42,19 +45,19 @@ public class Adapter_goods_orders extends BaseExpandableListAdapter{
     @Override
     public int getChildrenCount(int groupPosition) {
         //如果有超过两个商品，则显示两行
-        ArrayList<HashMap<String, Object>> childlist = (ArrayList<HashMap<String, Object>>)grouplist.get(groupPosition).get("child");
+        List<OrderDetail> childlist = grouplist.get(groupPosition).getTrade();
 
         return childlist.size() < 2? childlist.size() : 2;
     }
 
     @Override
-    public HashMap<String, Object> getGroup(int groupPosition) {
+    public OrderList getGroup(int groupPosition) {
         return grouplist.get(groupPosition);
     }
 
     @Override
-    public ArrayList<HashMap<String, Object>> getChild(int groupPosition, int childPosition) {
-        return (ArrayList<HashMap<String, Object>>)grouplist.get(groupPosition).get("child");
+    public List<OrderDetail> getChild(int groupPosition, int childPosition) {
+        return grouplist.get(groupPosition).getTrade();
     }
 
     @Override
@@ -85,7 +88,7 @@ public class Adapter_goods_orders extends BaseExpandableListAdapter{
         }
         convertView.setClickable(true);
 
-        holder.tv_ordergroup_jiaoyihao.setText(getGroup(groupPosition).get("transaction").toString());
+        holder.tv_ordergroup_jiaoyihao.setText(getGroup(groupPosition).getTrade_group_id());
         //todo 数据适配
         return convertView;
     }
@@ -93,7 +96,7 @@ public class Adapter_goods_orders extends BaseExpandableListAdapter{
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         final ViewHolder holder;
-        if(true){
+        if(convertView == null){
             holder = new ViewHolder();
             convertView = LayoutInflater.from(context).inflate(R.layout.layout_goods_orderchild, null);
             holder.tv_goodscenter_title = (TextView)convertView.findViewById(R.id.tv_goodscenter_title);
@@ -110,13 +113,13 @@ public class Adapter_goods_orders extends BaseExpandableListAdapter{
             holder = (ViewHolder) convertView.getTag();
         }
         //子列表数据
-        HashMap<String, Object> hm = getChild(groupPosition, childPosition).get(childPosition);
+        OrderDetail detail = getChild(groupPosition, childPosition).get(childPosition);
         //判断是否有两条数据，两条则移除第一条的状态栏
         if(getChildrenCount(groupPosition) == 2 & childPosition == 0){
             holder.ll_orderchild_state.setVisibility(View.GONE);
         }
         holder.ll_orderchild_item.setOnClickListener(new OrderOnclick(groupPosition));
-        switch ((Integer)getGroup(groupPosition).get("state")){
+        switch ((Integer)getGroup(groupPosition).getState()){
             case 0:  // 未支付
                 holder.rl_orderchild_unpay.setVisibility(View.VISIBLE);
                 //todo 按钮监听
@@ -140,7 +143,7 @@ public class Adapter_goods_orders extends BaseExpandableListAdapter{
                 holder.rl_orderchild_success.setVisibility(View.VISIBLE);
                 break;
         }
-        holder.tv_goodscenter_title.setText(hm.get("name").toString());
+        holder.tv_goodscenter_title.setText(detail.getTitle());
         return convertView;
     }
 
@@ -167,8 +170,12 @@ public class Adapter_goods_orders extends BaseExpandableListAdapter{
         }
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(context, Order_detailActivity.class);
-            intent.putExtra("child", grouplist.get(groupPosition));
+            Intent intent = new Intent();
+            intent.setClass(context, Order_detailActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("child", grouplist.get(groupPosition));
+            intent.putExtras(bundle);
+            Log.e("传递", "对象传递成功");
             context.startActivity(intent);
         }
     }

@@ -54,6 +54,8 @@ public class Goods_centerActivity extends ActionBarActivity {
 
     private List<MenuParent> listmp;//菜单列表
     private LinearLayout ll_goods_center_down; //菜单栏 layout
+    private int menuheight;//菜单栏高度
+    private boolean be_onclick;//菜单动画结束标识  默认结束，true可点击；动画过程，false不可点击。
     private MenuState menu;//数据对象
     private RelativeLayout rl_goods_center_menu;//隐藏子菜单栏
     private GridView gv_goods_center_grid;
@@ -107,7 +109,7 @@ public class Goods_centerActivity extends ActionBarActivity {
         // 显示导航按钮
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.pay_nav_ret);//设置返回键图标
+        actionBar.setHomeAsUpIndicator(R.mipmap.pay_nav_back);//设置返回键图标
 
         //        //TODO 自定义布局 标题
 //        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -190,6 +192,7 @@ public class Goods_centerActivity extends ActionBarActivity {
 
         lv_goods_center_list.setOnScrollListener(new MyScrollListener());
 
+        be_onclick = true;//动画标识
         finalurl = Interface.GOODS_LIST + "?";//初始化默认地址
         handler = new MyHandler();
         gson = new Gson();
@@ -224,7 +227,7 @@ public class Goods_centerActivity extends ActionBarActivity {
         rb_goods_center_infant.setText(listmp.get(2).getName());
         rb_goods_center_clothing.setText(listmp.get(3).getName());
         rb_goods_center_5.setText(listmp.get(4).getName());
-
+        setGridview();//菜单列表初始化
     }
     /**
      *
@@ -244,7 +247,6 @@ public class Goods_centerActivity extends ActionBarActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rb_goods_center_digital:
-                        Toast.makeText(Goods_centerActivity.this, "数码", Toast.LENGTH_SHORT).show();
                         //todo
                         menulist.clear();
                         for (int a = 0; a < menu.getData().getList().get(0).getChild().size(); a++) {
@@ -260,7 +262,6 @@ public class Goods_centerActivity extends ActionBarActivity {
                         adapter_goods_menugrid.notifyDataSetChanged();
                         break;
                     case R.id.rb_goods_center_appliance:
-                        Toast.makeText(Goods_centerActivity.this, "电器", Toast.LENGTH_SHORT).show();
                         menulist.clear();
                         for (int a = 0; a < menu.getData().getList().get(1).getChild().size(); a++) {
                             HashMap<String, Object> hm = new HashMap<>();
@@ -275,7 +276,6 @@ public class Goods_centerActivity extends ActionBarActivity {
                         adapter_goods_menugrid.notifyDataSetChanged();
                         break;
                     case R.id.rb_goods_center_infant:
-                        Toast.makeText(Goods_centerActivity.this, "母婴", Toast.LENGTH_SHORT).show();
                         menulist.clear();
                         for (int a = 0; a < menu.getData().getList().get(2).getChild().size(); a++) {
                             HashMap<String, Object> hm = new HashMap<>();
@@ -290,7 +290,6 @@ public class Goods_centerActivity extends ActionBarActivity {
                         adapter_goods_menugrid.notifyDataSetChanged();
                         break;
                     case R.id.rb_goods_center_clothing:
-                        Toast.makeText(Goods_centerActivity.this, "服装", Toast.LENGTH_SHORT).show();
                         menulist.clear();
                         for (int a = 0; a < menu.getData().getList().get(3).getChild().size(); a++) {
                             HashMap<String, Object> hm = new HashMap<>();
@@ -305,7 +304,6 @@ public class Goods_centerActivity extends ActionBarActivity {
                         adapter_goods_menugrid.notifyDataSetChanged();
                         break;
                     case R.id.rb_goods_center_5:
-                        Toast.makeText(Goods_centerActivity.this, "", Toast.LENGTH_SHORT).show();
                         menulist.clear();
                         for (int a = 0; a < menu.getData().getList().get(4).getChild().size(); a++) {
                             HashMap<String, Object> hm = new HashMap<>();
@@ -336,6 +334,10 @@ public class Goods_centerActivity extends ActionBarActivity {
         @Override
         public void onClick(View v) {
             Log.e("点击", "checkid=" + checkedID + " id=" + id + " isopen=" + isopen);
+            if(!be_onclick){
+                Log.e("是否可按","不可按");
+                return;
+            }
             if (!isopen) {
                 //打开菜单
                 openMenu(0, id);
@@ -364,7 +366,7 @@ public class Goods_centerActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //如果菜单是打开状态的，则关闭菜单
-                if(isopen){
+                if (isopen) {
                     colseMenu(0);
                     return;
                 }
@@ -377,8 +379,6 @@ public class Goods_centerActivity extends ActionBarActivity {
                 overridePendingTransition(R.anim.pic_left_in, R.anim.pic_left_out);
             }
         });
-
-        setGridview();
 
     }
     /**
@@ -415,9 +415,12 @@ public class Goods_centerActivity extends ActionBarActivity {
      */
     public void openMenu(int a, int id){
         int open = 1;
-        slideview(gr_goods_center_menu.getHeight()*2, 0, a, open);
-
+        be_onclick = false;//不可点击
+        //高度是rl_goods_center_menu的高度，这里gone取不到  180是rl_goods_center_menu，80是gr_goods_center_menu
+        menuheight = gr_goods_center_menu.getHeight()*180/80; //80 180为菜单和子菜单高度
+        slideview(menuheight, 0, a, open);
         rl_goods_center_menu.setVisibility(View.VISIBLE);
+
         //相同的菜单打开，显示选中的子菜单
         if(checkedID == id){
             adapter_goods_menugrid.setSelected(menuchecked);
@@ -432,7 +435,8 @@ public class Goods_centerActivity extends ActionBarActivity {
      */
     public void colseMenu(int a){
         int close = 0;
-        slideview(0, gr_goods_center_menu.getHeight()*2, a, close);
+        be_onclick = false;//不可点击
+        slideview(0, menuheight, a, close);
 
         isopen = false; //菜单关闭标记
         adapter_goods_center.setmenu(false);//通知适配器菜单状态
@@ -443,32 +447,35 @@ public class Goods_centerActivity extends ActionBarActivity {
      *
      * 原位置  偏移位置  是否刷新列表  打开1/关闭0
      */
-    public void slideview(final float p1, final float p2, final int a, int b) {
-        TranslateAnimation animation = new TranslateAnimation(0, 0, p1, p2);
+    public void slideview(final float old_p, final float new_p, final int reinit, final int isopen) {
+        TranslateAnimation animation = new TranslateAnimation(0, 0, old_p, new_p);
         animation.setInterpolator(new AccelerateDecelerateInterpolator());
-        animation.setDuration(400);
+        animation.setDuration(400);//动画时长
         animation.setFillEnabled(true);
-        if(b == 0){
-            animation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                }
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
 
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-                }
+            }
 
-                @Override
-                public void onAnimationEnd(Animation animation) {
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (isopen == 0) {
                     rl_goods_center_menu.setVisibility(View.GONE);
-                    if (a == 1) {
+                    if (reinit == 1) {
                         list.clear();
                         //todo url
                         new initList(finalurl).execute();
                     }
                 }
-            });
-        }
+                be_onclick = true; //可点击
+                Log.e("是否可按", "可点击");
+            }
+        });
         ll_goods_center_down.startAnimation(animation);
     }
 
@@ -478,30 +485,34 @@ public class Goods_centerActivity extends ActionBarActivity {
      * 显示或刷新列表
      * 提供url string
      */
-    private class initList extends AsyncTask<Void, Void, String> {
+    private class initList extends AsyncTask<Void, Void, Integer> {
         private  String url;
         public initList(String url){
             this.url = url;
         }
 
         @Override
-        protected String doInBackground(Void... params) {
+        protected Integer doInBackground(Void... params) {
 
             String json = null;
             try {
 
                 json = DataAnalysis.readParse(url);
                 Log.e("list", json);
+                listState = gson.fromJson(json, new TypeToken<ListState>() {}.getType());
+                Log.e("error", listState.getError() + "");
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return json;
+            return listState.getError();
         }
 
         @Override
-        protected void onPostExecute(String json) {
-            listState = gson.fromJson(json, new TypeToken<ListState>() {}.getType());
-            Log.e("list", listState.getMessage());
+        protected void onPostExecute(Integer error) {
+            if(error == 1){
+                Log.e("list", "接口返回错误");
+                return;
+            }
             List<ListGoods> list1 = listState.getData().getList();
             maxpage = listState.getData().getCount() / 20 + 1;//最大 页数
             Log.e("读取数据", "一共" + listState.getData().getCount() + "件商品 " + "共" + maxpage + "页");
@@ -544,10 +555,14 @@ public class Goods_centerActivity extends ActionBarActivity {
                 }
                 adapter_goods_center.notifyDataSetChanged();
             }
-            super.onPostExecute(json);
+            super.onPostExecute(error);
         }
     }
 
+    /**
+     * 排序
+     *
+     */
     private void setSortLlistener() {
         tv_goods_center_sales.setOnClickListener(new SortListener("&order=sale_amount"));
         tv_goods_center_profit.setOnClickListener(new SortListener("&order=price"));
@@ -645,6 +660,24 @@ public class Goods_centerActivity extends ActionBarActivity {
         public void onScrollStateChanged(AbsListView view, int scrollState) {
             Log.i("MainActivity", "onScrollStateChanged(scrollState="
                     + scrollState + ")");
+            switch (scrollState) {
+
+                case AbsListView.OnScrollListener.SCROLL_STATE_FLING://处于滚动状态
+
+                    break;
+
+                case AbsListView.OnScrollListener.SCROLL_STATE_IDLE://静止
+
+                    break;
+
+                case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL://手指拖动
+                    break;
+
+                default:
+
+                    break;
+
+            }
         }
 
     }

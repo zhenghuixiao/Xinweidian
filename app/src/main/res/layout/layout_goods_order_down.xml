@@ -9,10 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:padding="10dp">
 
         <ImageView
             android:id="@+id/iv_orderdown_image"
@@ -23,8 +20,7 @@
             android:layout_width="fill_parent"
             android:layout_height="100dp"
             android:orientation="vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
+            android:layout_marginLeft="10dp">
             <TextView
                 android:id="@+id/tv_orderdown_title"
                 android:layout_width="fill_parent"
@@ -45,7 +41,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
                         android:textSize="16sp"
-                        android:text="规格："
+                        android:text="规格: "
                         android:textColor="@color/black"
                         android:gravity="center_vertical"/>
                     <TextView
@@ -65,7 +61,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
-                        android:text="进价："
+                        android:text="进价: "
+                        android:textSize="16sp"
                         android:textColor="@color/black"
                         android:gravity="center_vertical"/>
                     <TextView
@@ -73,14 +70,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
                         android:text="￥34.50"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="@color/red"
                         android:gravity="center_vertical"/>
                     <TextView
                         android:id="@+id/tv_orderdown_num"
-                        android:layout_width="26dp"
-                        android:layout_height="26dp"
-                        android:layout_marginLeft="5dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
                         android:textColor="@color/white"
                         android:text="×1"
                         android:textSize="16sp"

@@ -85,7 +85,11 @@ public class Adapter_goods_orders_down extends BaseAdapter{
         holder.tv_orderdown_title.setText(list.get(position).get("name").toString());
 //        holder.tv_orderdown_format.setText(list.get(position).get("sku_desc").toString());
         holder.tv_orderdown_inprice.setText("￥" + String.format("%.2f", list.get(position).get("import_price")));
-        holder.tv_orderdown_num.setText("×" + list.get(position).get("num"));
+        if((Integer)list.get(position).get("num") < 10){
+            holder.tv_orderdown_num.setText("×" + list.get(position).get("num"));
+        }else{
+            holder.tv_orderdown_num.setText(list.get(position).get("num") + "");
+        }
         LoadImg.onLoadImage(list.get(position).get("default_img").toString(), cache, imgDAO, new LoadImg.OnLoadImageListener() {
             @Override
             public void OnLoadImage(Bitmap bitmap, String bitmapPath) {

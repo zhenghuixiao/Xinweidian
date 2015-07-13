@@ -42,6 +42,7 @@
                             android:text="订单状态："
                             android:textSize="16sp"/>
                         <TextView
+                            android:id="@+id/ll_order_detail_state"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="状态信息"
@@ -56,6 +57,7 @@
                             android:text="订单总价："
                             android:textSize="16sp"/>
                         <TextView
+                            android:id="@+id/ll_order_detail_fee"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="￥178.00(含运费:￥5.00)"
@@ -80,6 +82,7 @@
                         android:text="收货人："
                         android:textSize="18sp"/>
                     <TextView
+                        android:id="@+id/ll_order_detail_consignee"
                         android:text="王老头   13333333333"
                         android:textSize="18sp"/>
                 </TableRow>
@@ -89,6 +92,7 @@
                         android:text="收货地址："
                         android:textSize="18sp"/>
                     <TextView
+                        android:id="@+id/ll_order_detail_address"
                         android:text="王老头   13333333333"
                         android:textSize="18sp"/>
                 </TableRow>
@@ -98,6 +102,7 @@
                         android:text="下单时间："
                         android:textSize="18sp"/>
                     <TextView
+                        android:id="@+id/ll_order_detail_doneat"
                         android:text="王老头   13333333333"
                         android:textSize="18sp"/>
                 </TableRow>
@@ -107,6 +112,7 @@
                         android:text="付款时间："
                         android:textSize="18sp"/>
                     <TextView
+                        android:id="@+id/ll_order_detail_payat"
                         android:text="王老头   13333333333"
                         android:textSize="18sp"/>
                 </TableRow>
@@ -116,6 +122,7 @@
                         android:text="发货时间："
                         android:textSize="18sp"/>
                     <TextView
+                        android:id="@+id/ll_order_detail_sendat"
                         android:text="王老头   13333333333"
                         android:textSize="18sp"/>
                 </TableRow>
@@ -125,7 +132,7 @@
                         android:text="物流信息："
                         android:textSize="18sp"/>
                     <TextView
-                        android:text="王老头   13333333333"
+                        android:text=""
                         android:textSize="18sp"/>
                 </TableRow>
             </TableLayout>

@@ -47,9 +47,9 @@ public class Adapter_goods_center extends BaseAdapter{
     private Cache cache;
     private ImgDAO imgDAO;
     private ShoppingcartDAO shoppingcartDAO;
-    private String add;
+    private String add;//url
     private int num = 1;//进货商品数量
-    private int hasadd;
+    private int hasadd;//是否已加入店铺
     private boolean isopen;  //主界面菜单开关
     /**
      * @param context class
@@ -114,14 +114,14 @@ public class Adapter_goods_center extends BaseAdapter{
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
+        add = list.get(position).get(flag[1]).toString();
         hasadd = (Integer)list.get(position).get("has_add");
+
         holder.iv_goodscenter_image.setBackgroundColor(convertView.getResources().getColor(R.color.white));
         holder.tv_goodscenter_title.setText(list.get(position).get(flag[2]) + "");
         holder.tv_goodscenter_price_out.setText("￥" + list.get(position).get(flag[3]));
         holder.tv_goodscenter_profit.setText("￥" + list.get(position).get(flag[4]));
         holder.tv_goodscenter_price_in.setText("￥" + list.get(position).get(flag[5]));
-        //暂时用白背景代替默认图片
-        holder.iv_goodscenter_image.setImageDrawable(context.getResources().getDrawable(R.color.white));
 
         if(hasadd == 0){
             holder.tv_goodscenter_getInshop.setText("加入店铺");
@@ -135,14 +135,22 @@ public class Adapter_goods_center extends BaseAdapter{
         holder.tv_goodscenter_goodsIn.setOnClickListener(new MyOnclickListener(hm, holder));
         holder.tv_goodscenter_shoucang.setOnClickListener(new MyOnclickListener(hm, holder));
 
-
-        add = list.get(position).get(flag[1]).toString();
-        LoadImg.onLoadImage(add, cache, imgDAO, new LoadImg.OnLoadImageListener() {
-            @Override
-            public void OnLoadImage(Bitmap bitmap, String bitmapPath) {
-                holder.iv_goodscenter_image.setImageBitmap(bitmap);
-            }
-        });
+        //给imageview做标识
+        holder.iv_goodscenter_image.setTag(add);
+        //默认图片   暂时用白背景代替默认图片
+        holder.iv_goodscenter_image.setImageDrawable(context.getResources().getDrawable(R.color.white)) ;
+        if(true){
+            LoadImg.onLoadImage(add, cache, imgDAO, new LoadImg.OnLoadImageListener() {
+                @Override
+                public void OnLoadImage(Bitmap bitmap, String bitmapPath) {
+                    //只有当当前地址和view标识一致时才加载图片   解决图片重复问题
+                    if(holder.iv_goodscenter_image.getTag().equals(bitmapPath)){
+                        holder.iv_goodscenter_image.setImageDrawable(context.getResources().getDrawable(R.color.white));
+                        holder.iv_goodscenter_image.setImageBitmap(bitmap);
+                    };
+                }
+            });
+        }
 
         return convertView;
     }

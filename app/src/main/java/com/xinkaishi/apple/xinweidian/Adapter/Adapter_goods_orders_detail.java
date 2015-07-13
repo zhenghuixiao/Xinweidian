@@ -9,11 +9,12 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.xinkaishi.apple.xinweidian.Bean.Order_Bean.OrderDetail;
+import com.xinkaishi.apple.xinweidian.Bean.Order_Bean.OrderList;
 import com.xinkaishi.apple.xinweidian.CustomView.SwipeItemLayout;
 import com.xinkaishi.apple.xinweidian.R;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 /**
  * 项目名称：Xinweidian
@@ -26,10 +27,10 @@ import java.util.HashMap;
  */
 public class Adapter_goods_orders_detail extends BaseExpandableListAdapter{
     private Context context;
-    private HashMap<String, Object> hm;
-    public Adapter_goods_orders_detail(Context context, HashMap<String, Object> hm){
+    private OrderList orderlist;
+    public Adapter_goods_orders_detail(Context context, OrderList orderlist){
         this.context = context;
-        this.hm = hm;
+        this.orderlist = orderlist;
     }
 
     @Override
@@ -39,19 +40,19 @@ public class Adapter_goods_orders_detail extends BaseExpandableListAdapter{
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        ArrayList<HashMap<String, Object>> childlist = (ArrayList<HashMap<String, Object>>)hm.get("child");
+        List<OrderDetail> childlist = orderlist.getTrade();
 
         return childlist.size();
     }
 
     @Override
-    public HashMap<String, Object> getGroup(int groupPosition) {
-        return hm;
+    public OrderList getGroup(int groupPosition) {
+        return orderlist;
     }
 
     @Override
-    public HashMap<String, Object> getChild(int groupPosition, int childPosition) {
-        ArrayList<HashMap<String, Object>> list = (ArrayList<HashMap<String, Object>>)hm.get("child");
+    public OrderDetail getChild(int groupPosition, int childPosition) {
+        List<OrderDetail> list = orderlist.getTrade();
         return list.get(childPosition);
     }
 
@@ -83,7 +84,7 @@ public class Adapter_goods_orders_detail extends BaseExpandableListAdapter{
         }
         convertView.setClickable(true);
 
-        holder.tv_ordergroup_jiaoyihao.setText(hm.get("transaction").toString());
+        holder.tv_ordergroup_jiaoyihao.setText(orderlist.getTrade_group_id());
         //todo 数据适配
         return convertView;
     }
@@ -103,10 +104,11 @@ public class Adapter_goods_orders_detail extends BaseExpandableListAdapter{
         }else{
             holder = (ViewHolder) convertView.getTag();
         }
-        if((Integer)getChild(groupPosition, childPosition).get("childstate") == 0){
-            holder.tv_goodscenter_title.setText(getChild(groupPosition, childPosition).get("name").toString());
+        //todo 这里是判断子订单的状态是否退款 改变图片
+        if((Integer)getChild(groupPosition, childPosition).getStatus() == 0){
+            holder.tv_goodscenter_title.setText(getChild(groupPosition, childPosition).getTitle());
         }else{
-            holder.tv_goodscenter_title.setText(getChild(groupPosition, childPosition).get("name").toString() + "已退款");
+            holder.tv_goodscenter_title.setText(getChild(groupPosition, childPosition).getTitle() + "已退款");
         }
 
         holder.rl_moneyback.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +116,7 @@ public class Adapter_goods_orders_detail extends BaseExpandableListAdapter{
             public void onClick(View v) {
                 //todo 改变状态，刷新列表
                 Log.e("退款", "退款");
-                getChild(groupPosition, childPosition).put("childstate", 1);
+                getChild(groupPosition, childPosition).setStatus(1);
                 Adapter_goods_orders_detail.this.notifyDataSetChanged();
             }
         });

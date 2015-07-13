@@ -17,11 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xinkaishi.apple.xinweidian.Adapter.Adapter_goods_orders_detail;
+import com.xinkaishi.apple.xinweidian.Bean.Order_Bean.OrderList;
 import com.xinkaishi.apple.xinweidian.CustomView.PinnedHeaderExpandableListView;
 import com.xinkaishi.apple.xinweidian.CustomView.StickyLayout;
 import com.xinkaishi.apple.xinweidian.R;
-
-import java.util.HashMap;
 
 public class Order_detailActivity extends ActionBarActivity implements
         PinnedHeaderExpandableListView.OnHeaderUpdateListener,
@@ -30,9 +29,11 @@ public class Order_detailActivity extends ActionBarActivity implements
     private PinnedHeaderExpandableListView lv_order_detail_exlist;
     private StickyLayout stickyLayout;
     private Adapter_goods_orders_detail adapter;
-    private HashMap<String, Object> hm;//详情信息
+    private OrderList orderList;//详细数据对象
     private int state;//状态
     private TextView tv_orderchild_continue, tv_orderchild_close, tv_orderchild_other;  // 继续支付  关闭订单  其他单按钮
+    private TextView ll_order_detail_state, ll_order_detail_fee, ll_order_detail_consignee, ll_order_detail_address,
+                        ll_order_detail_doneat, ll_order_detail_payat, ll_order_detail_sendat;
     private LinearLayout rl_orderchild_unpay, rl_orderchild_other;  // 未支付状态ll  其他ll
 
     @Override
@@ -45,8 +46,8 @@ public class Order_detailActivity extends ActionBarActivity implements
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
-        hm = (HashMap<String, Object>)intent.getExtras().get("child");
-        state = (Integer)hm.get("state");
+        orderList = (OrderList)intent.getSerializableExtra("child");
+        state = orderList.getState();
 
         initView(); //加载控件
         //todo 获取数据
@@ -91,10 +92,10 @@ public class Order_detailActivity extends ActionBarActivity implements
 
     @Override
     public void updatePinnedHeader(View headerView, int firstVisibleGroupPos) {
-        HashMap<String, Object> firstVisibleGroup = (HashMap<String, Object>) adapter.getGroup(firstVisibleGroupPos);
+        OrderList firstVisibleGroup = adapter.getGroup(firstVisibleGroupPos);
         if (headerView != null) {
             TextView textView = (TextView) headerView.findViewById(R.id.tv_ordergroup_jiaoyihao);
-            textView.setText(firstVisibleGroup.get("transaction").toString());
+            textView.setText(firstVisibleGroup.getTrade_group_id());
         }
     }
 
@@ -118,6 +119,13 @@ public class Order_detailActivity extends ActionBarActivity implements
         tv_orderchild_other = (TextView)findViewById(R.id.tv_orderchild_other); //其他操作
         rl_orderchild_unpay = (LinearLayout)findViewById(R.id.rl_orderchild_unpay);
         rl_orderchild_other = (LinearLayout)findViewById(R.id.rl_orderchild_other);
+        ll_order_detail_state = (TextView)findViewById(R.id.ll_order_detail_state);
+        ll_order_detail_fee = (TextView)findViewById(R.id.ll_order_detail_fee);
+        ll_order_detail_consignee = (TextView)findViewById(R.id.ll_order_detail_consignee);
+        ll_order_detail_address = (TextView)findViewById(R.id.ll_order_detail_address);
+        ll_order_detail_doneat = (TextView)findViewById(R.id.ll_order_detail_doneat);
+        ll_order_detail_payat = (TextView)findViewById(R.id.ll_order_detail_payat);
+        ll_order_detail_sendat = (TextView)findViewById(R.id.ll_order_detail_sendat);
         if(state == 0){
             rl_orderchild_unpay.setVisibility(View.VISIBLE); //未支付ll  其他都为other
             tv_orderchild_close.setOnClickListener(new MyOnclick(5));
@@ -177,7 +185,7 @@ public class Order_detailActivity extends ActionBarActivity implements
         }
     }
     private void initAdapter() {
-        adapter = new Adapter_goods_orders_detail(Order_detailActivity.this, hm);
+        adapter = new Adapter_goods_orders_detail(Order_detailActivity.this, orderList);
         lv_order_detail_exlist.setAdapter(adapter);
         lv_order_detail_exlist.setOnHeaderUpdateListener(Order_detailActivity.this);
         stickyLayout.setOnGiveUpTouchEventListener(this);
