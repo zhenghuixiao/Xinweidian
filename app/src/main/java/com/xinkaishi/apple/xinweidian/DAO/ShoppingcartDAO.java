@@ -58,6 +58,7 @@ public class ShoppingcartDAO {
             hm.put("num", c.getInt(c.getColumnIndex("num")));
             hm.put("state", c.getInt(c.getColumnIndex("state")));
             hm.put("default_img", c.getString(c.getColumnIndex("default_img")));
+            hm.put("sku_id", c.getInt(c.getColumnIndex("sku_id")));
         }
         return hm;
     }
@@ -79,6 +80,7 @@ public class ShoppingcartDAO {
             hm.put("num", c.getInt(c.getColumnIndex("num")));
             hm.put("state", c.getInt(c.getColumnIndex("state")));
             hm.put("default_img", c.getString(c.getColumnIndex("default_img")));
+            hm.put("sku_id", c.getInt(c.getColumnIndex("sku_id")));
             list.add(hm);
         }
         return list;
@@ -93,9 +95,9 @@ public class ShoppingcartDAO {
 
         db.beginTransaction();  //开始事务
         try {
-            db.execSQL("insert into shopcar values(null, ?, ?, ?, ?, ?, ?, ?)",
+            db.execSQL("insert into shopcar values(null, ?, ?, ?, ?, ?, ?, ?, ?)",
                     new Object[]{hm.get("id"), hm.get("name"), hm.get("default_img"), hm.get("sku_desc"), hm.get("import_price"),
-                            hm.get("num"), hm.get("state")});
+                            hm.get("num"), hm.get("state"), hm.get("sku_id")});
             db.setTransactionSuccessful();  //设置事务成功完成
             Log.e("数据库操作", "加入购物车成功");
         } finally {

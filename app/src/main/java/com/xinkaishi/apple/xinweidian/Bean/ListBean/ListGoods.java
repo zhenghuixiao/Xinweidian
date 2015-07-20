@@ -24,6 +24,15 @@ public class ListGoods {
     private float profit;//利润
     private int has_add;//是否已加入店铺
     private int user_collect;//收藏
+    private int sku_id;//skuID 提交订单时需要
+
+    public int getSku_id() {
+        return sku_id;
+    }
+
+    public void setSku_id(int sku_id) {
+        this.sku_id = sku_id;
+    }
 
     public List<String> getRoll_images() {
         return roll_images;

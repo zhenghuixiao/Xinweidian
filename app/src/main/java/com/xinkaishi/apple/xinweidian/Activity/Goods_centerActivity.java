@@ -190,7 +190,7 @@ public class Goods_centerActivity extends ActionBarActivity {
         shoppingcartDAO = new ShoppingcartDAO(getApplication());
         list = new ArrayList<HashMap<String, Object>>();
 
-        lv_goods_center_list.setOnScrollListener(new MyScrollListener());
+
 
         be_onclick = true;//动画标识
         finalurl = Interface.GOODS_LIST + "?";//初始化默认地址
@@ -236,12 +236,12 @@ public class Goods_centerActivity extends ActionBarActivity {
     private void setFragmentLlistener() {
         List<MenuParent> listmp = menu.getData().getList();
         //5个分类名字可能要改 12345
-        rb_goods_center_digital.setOnClickListener(new Myonclick_menu(1));
-        rb_goods_center_appliance.setOnClickListener(new Myonclick_menu(2));
-        rb_goods_center_infant.setOnClickListener(new Myonclick_menu(3));
-        rb_goods_center_clothing.setOnClickListener(new Myonclick_menu(4));
-        rb_goods_center_5.setOnClickListener(new Myonclick_menu(5));
-        // 数码 家电 母婴 服装
+        rb_goods_center_digital.setOnClickListener(new Myonclick_menu(0));
+        rb_goods_center_appliance.setOnClickListener(new Myonclick_menu(1));
+        rb_goods_center_infant.setOnClickListener(new Myonclick_menu(2));
+        rb_goods_center_clothing.setOnClickListener(new Myonclick_menu(3));
+        rb_goods_center_5.setOnClickListener(new Myonclick_menu(4));
+        // 数码 家电 母婴 服装 5 (id未改)
         gr_goods_center_menu.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -254,7 +254,7 @@ public class Goods_centerActivity extends ActionBarActivity {
                             hm.put("name", menu.getData().getList().get(0).getChild().get(a).getName());
                             menulist.add(hm);
                         }
-                        if (checked == 1) { //判断是否是刷新列表时的菜单
+                        if (checked == 0) { //判断是否是刷新列表时的菜单
                             adapter_goods_menugrid.setSelected(menuchecked);
                         } else {
                             adapter_goods_menugrid.setSelected(0);
@@ -268,7 +268,7 @@ public class Goods_centerActivity extends ActionBarActivity {
                             hm.put("name", menu.getData().getList().get(1).getChild().get(a).getName());
                             menulist.add(hm);
                         }
-                        if (checked == 2) { //判断是否是刷新列表时的菜单
+                        if (checked == 1) { //判断是否是刷新列表时的菜单
                             adapter_goods_menugrid.setSelected(menuchecked);
                         } else {
                             adapter_goods_menugrid.setSelected(0);
@@ -282,7 +282,7 @@ public class Goods_centerActivity extends ActionBarActivity {
                             hm.put("name", menu.getData().getList().get(2).getChild().get(a).getName());
                             menulist.add(hm);
                         }
-                        if (checked == 3) { //判断是否是刷新列表时的菜单
+                        if (checked == 2) { //判断是否是刷新列表时的菜单
                             adapter_goods_menugrid.setSelected(menuchecked);
                         } else {
                             adapter_goods_menugrid.setSelected(0);
@@ -296,7 +296,7 @@ public class Goods_centerActivity extends ActionBarActivity {
                             hm.put("name", menu.getData().getList().get(3).getChild().get(a).getName());
                             menulist.add(hm);
                         }
-                        if (checked == 4) { //判断是否是刷新列表时的菜单
+                        if (checked == 3) { //判断是否是刷新列表时的菜单
                             adapter_goods_menugrid.setSelected(menuchecked);
                         } else {
                             adapter_goods_menugrid.setSelected(0);
@@ -310,7 +310,7 @@ public class Goods_centerActivity extends ActionBarActivity {
                             hm.put("name", menu.getData().getList().get(4).getChild().get(a).getName());
                             menulist.add(hm);
                         }
-                        if (checked == 5) { //判断是否是刷新列表时的菜单
+                        if (checked == 4) { //判断是否是刷新列表时的菜单
                             adapter_goods_menugrid.setSelected(menuchecked);
                         } else {
                             adapter_goods_menugrid.setSelected(0);
@@ -354,14 +354,16 @@ public class Goods_centerActivity extends ActionBarActivity {
     private void setListView() {
         adapter_goods_center = new Adapter_goods_center(
                 Goods_centerActivity.this, list, R.layout.layout_goods_center,
-                new String[]{"id", "default_img", "name", "price", "profit", "import_price"},
+                new String[]{"id", "default_img", "name", "price", "profit", "import_price", "sale_amount"},
                 new int[]{R.id.iv_goodscenter_image, R.id.tv_goodscenter_title, R.id.tv_goodscenter_price_out,
                         R.id.tv_goodscenter_profit, R.id.tv_goodscenter_price_in, R.id.tv_goodscenter_shoucang,
-                        R.id.tv_goodscenter_goodsIn, R.id.tv_goodscenter_getInshop}, imgdao, shoppingcartDAO, darkview);
+                        R.id.tv_goodscenter_goodsIn, R.id.tv_goodscenter_getInshop, R.id.tv_goodscenter_sales},
+                imgdao, shoppingcartDAO, darkview);
 
         lv_goods_center_list.addFooterView(footer);// 添加页脚（放在ListView最后）
         lv_goods_center_list.setAdapter(adapter_goods_center);
         lv_goods_center_list.removeFooterView(footer);
+        lv_goods_center_list.setOnScrollListener(new MyScrollListener());
         lv_goods_center_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -395,15 +397,28 @@ public class Goods_centerActivity extends ActionBarActivity {
                 adapter_goods_menugrid.notifyDataSetChanged();
                 menuchecked = position;
                 checked = checkedID;
+                //根据点击的item变更 url
+                int category_id;
+                String category_name;
+                if(position == 0){
+                    category_id = menu.getData().getList().get(checked).getId();
+                    category_name = menu.getData().getList().get(checked).getName();
+                    finalurl = Interface.GOODS_LIST + "?category_id=" + category_id;
+                }else {
+                    category_id = menu.getData().getList().get(checked).getChild().get(position - 1).getId();
+                    category_name = menu.getData().getList().get(checked).getChild().get(position - 1).getName();
+                    finalurl = Interface.GOODS_LIST + "?category_id=" + category_id;
+                }
+                Log.e("菜单category", "选中的ID为" + category_id + ".选中的菜单名为" + category_name);
 
-                //还需传url
                 colseMenu(1);//1 表示是子菜单单击 触发关闭
-                tv_goods_center_menu1.setText(listmp.get(checked - 1).getName().toString());
+                tv_goods_center_menu1.setText(listmp.get(checked).getName().toString());
                 if (position == 0) {
                     tv_goods_center_menu2.setText("");
                 } else {
-                    tv_goods_center_menu2.setText(" > " + listmp.get(checked - 1).getChild().get(position - 1).getName().toString());
+                    tv_goods_center_menu2.setText(" > " + listmp.get(checked).getChild().get(position - 1).getName().toString());
                 }
+                tv_goods_center_counts.setText("");
             }
         });
     }
@@ -466,9 +481,10 @@ public class Goods_centerActivity extends ActionBarActivity {
             public void onAnimationEnd(Animation animation) {
                 if (isopen == 0) {
                     rl_goods_center_menu.setVisibility(View.GONE);
+
+                    //为了流畅，刷新列表放在动画结束后
                     if (reinit == 1) {
                         list.clear();
-                        //todo url
                         new initList(finalurl).execute();
                     }
                 }
@@ -496,7 +512,6 @@ public class Goods_centerActivity extends ActionBarActivity {
 
             String json = null;
             try {
-
                 json = DataAnalysis.readParse(url);
                 Log.e("list", json);
                 listState = gson.fromJson(json, new TypeToken<ListState>() {}.getType());
@@ -532,6 +547,7 @@ public class Goods_centerActivity extends ActionBarActivity {
                     hm.put("user_collect", list1.get(a).getUser_collect());// 收藏
                     hm.put("has_add", list1.get(a).getHas_add());//是否已加入店铺 1为加入
                     hm.put("num", list1.get(a).getHas_add());//数据库数量key
+                    hm.put("sku_id", list1.get(a).getSku_id());//skuID
                     list.add(hm);
                 }
                 setListView();
@@ -551,6 +567,7 @@ public class Goods_centerActivity extends ActionBarActivity {
                     hm.put("user_collect", list1.get(a).getUser_collect());// 收藏
                     hm.put("has_add", list1.get(a).getHas_add());//是否已加入店铺 1为加入
                     hm.put("num", list1.get(a).getHas_add());//数据库数量key
+                    hm.put("sku_id", list1.get(a).getSku_id());//skuID
                     list.add(hm);
                 }
                 adapter_goods_center.notifyDataSetChanged();
@@ -560,22 +577,47 @@ public class Goods_centerActivity extends ActionBarActivity {
     }
 
     /**
-     * 排序
+     * list排序
      *
      */
     private void setSortLlistener() {
-        tv_goods_center_sales.setOnClickListener(new SortListener("&order=sale_amount"));
-        tv_goods_center_profit.setOnClickListener(new SortListener("&order=price"));
-        tv_goods_center_pricein.setOnClickListener(new SortListener("&order=price_asc"));
+        //销量
+        tv_goods_center_sales.setOnClickListener(new SortListener("&order=sale_amount", 0));
+        //价格
+        tv_goods_center_profit.setOnClickListener(new SortListener("&order=price", 1));
+        tv_goods_center_pricein.setOnClickListener(new SortListener("&order=price_asc", 2));
     }
 
+    /**
+     * 初始化排序
+     *
+     */
+    private void initSortLlistener() {
+        tv_goods_center_sales.setTextColor(getResources().getColor(R.color.black));
+        tv_goods_center_profit.setTextColor(getResources().getColor(R.color.black));
+        tv_goods_center_pricein.setTextColor(getResources().getColor(R.color.black));
+    }
     class SortListener implements View.OnClickListener {
         private String add;
-        private SortListener(String add){
+        private int num;
+        private SortListener(String add, int num){
             this.add = add;
+            this.num = num;
         }
         @Override
         public void onClick(View v) {
+            initSortLlistener();
+            switch (num){
+                case 0:
+                    tv_goods_center_sales.setTextColor(getResources().getColor(R.color.main));
+                    break;
+                case 1:
+                    tv_goods_center_profit.setTextColor(getResources().getColor(R.color.main));
+                    break;
+                case 2:
+                    tv_goods_center_pricein.setTextColor(getResources().getColor(R.color.main));
+                    break;
+            }
             list.clear();
             finalurl = finalurl + add;
             new initList(finalurl).execute();

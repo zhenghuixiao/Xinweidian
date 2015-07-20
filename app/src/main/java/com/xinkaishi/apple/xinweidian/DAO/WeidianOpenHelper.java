@@ -43,7 +43,8 @@ public class WeidianOpenHelper extends SQLiteOpenHelper {
         //创建购物车缓存表  shopcar
         //主键  商品ID 名称  图片地址  规格  进价  数量  状态 (待加入 轮播图片)
         db.execSQL("CREATE TABLE IF NOT EXISTS shopcar" +
-                "(_id INTEGER PRIMARY KEY AUTOINCREMENT, id INTEGER, name TEXT, default_img TEXT, sku_desc TEXT, import_price REAL, num TEXT, state INTEGER)");
+                "(_id INTEGER PRIMARY KEY AUTOINCREMENT, id INTEGER, name TEXT, default_img TEXT, " +
+                "sku_desc TEXT, import_price REAL, num TEXT, state INTEGER, sku_id INTEGER)");
         Log.e("sqlite", "购物车缓存表创建成功");
     }
 

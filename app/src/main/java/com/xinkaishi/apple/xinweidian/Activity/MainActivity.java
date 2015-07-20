@@ -18,9 +18,9 @@ import com.xinkaishi.apple.xinweidian.Until.DataAnalysis;
 
 
 public class MainActivity extends ActionBarActivity {
-    private TextView tv_toGoodscenter;
+    private TextView tv_toGoodscenter, tv_main_login, tv_main_get;
     private MenuState menu;
-
+    private String  a = null;
     private MenuDAO menuDAO;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +38,47 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        new initMenu(Interface.MENU_LIST).execute(); //预读商品页菜单
+
+
+
+        tv_main_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Log.e("返回", DataAnalysis.readParse("http://192.168.1.102:4000/shop/auth/login").toString());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+            }
+        });
+
+        tv_main_get.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            new initMenu(Interface.MENU_LIST).execute(); //预读商品页菜单
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+            }
+        });
 
     }
 
     private void initView() {
         menuDAO = new MenuDAO(this);
+        tv_main_login = (TextView)findViewById(R.id.tv_main_login);
+        tv_main_get = (TextView)findViewById(R.id.tv_main_get);
     }
 
     private class initMenu extends AsyncTask<Void, Void, String>{

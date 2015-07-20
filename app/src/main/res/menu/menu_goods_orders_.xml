@@ -5,6 +5,6 @@
     <item
         android:id="@+id/action_mainback"
         android:title="关闭"
-        android:icon="@drawable/abc_btn_check_material"
+        android:icon="@mipmap/pay_nav_del"
         app:showAsAction="always" />
 </menu>

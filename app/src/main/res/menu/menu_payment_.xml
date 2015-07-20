@@ -4,6 +4,6 @@
     tools:context="com.xinkaishi.apple.xinweidian.Activity.Payment_Activity">
     <item android:id="@+id/action_mainback"
         android:title="返回"
-        android:icon="@drawable/abc_btn_check_material"
+        android:icon="@mipmap/pay_nav_del"
         app:showAsAction="always" />
 </menu>

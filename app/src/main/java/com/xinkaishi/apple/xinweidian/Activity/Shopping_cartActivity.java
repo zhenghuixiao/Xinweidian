@@ -57,6 +57,7 @@ public class Shopping_cartActivity extends ActionBarActivity {
         // 显示导航按钮
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.mipmap.pay_nav_back);//设置返回键图标
 
         initView();
 

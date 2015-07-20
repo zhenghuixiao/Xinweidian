@@ -46,6 +46,7 @@ public class Payment_Activity extends ActionBarActivity {
         // 显示导航按钮
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.mipmap.pay_nav_back);//设置返回键图标
         if (actionBar == null) {
             Log.e("ActionBar", "payment页错误");
             return false;
@@ -74,9 +75,9 @@ public class Payment_Activity extends ActionBarActivity {
         list = new ArrayList<HashMap<String, Object>>();
         hm = new HashMap<String, Object>();
         list= (ArrayList<HashMap<String, Object>>)bundlelist.get(0);
-        hm.put("order", bundle.getString("order")); //交易号
+        hm.put("trade_group_id", bundle.getString("trade_group_id")); //交易号
         hm.put("time", bundle.getString("time")); //下单时间
-        hm.put("allprice", bundle.getFloat("allprice")); //付款金额
+        hm.put("fee", bundle.getFloat("fee")); //付款金额
         Log.e("数据", list.get(0).get("name") + "" + list.size());
     }
 
@@ -108,11 +109,9 @@ public class Payment_Activity extends ActionBarActivity {
     private void initView() {
         ll_payment_OrdersTime = (LinearLayout)findViewById(R.id.ll_payment_OrdersTime);
         ll_payment_OrdersAccount = (LinearLayout)findViewById(R.id.ll_payment_OrdersAccount);
-        ll_payment_ShopOwner = (LinearLayout)findViewById(R.id.ll_payment_ShopOwner);
         tv_payment_detail = (TextView)findViewById(R.id.tv_payment_detail);
         tv_payment_order = (TextView)findViewById(R.id.tv_payment_order);
         tv_payment_name = (TextView)findViewById(R.id.tv_payment_name);
-        tv_payment_shopmessage = (TextView)findViewById(R.id.tv_payment_shopmessage);
         tv_payment_accounts = (TextView)findViewById(R.id.tv_payment_accounts);
         tv_payment_time = (TextView)findViewById(R.id.tv_payment_time);
         tv_payment_money = (TextView)findViewById(R.id.tv_payment_money);
@@ -133,12 +132,11 @@ public class Payment_Activity extends ActionBarActivity {
             }
 
         }
-        tv_payment_order.setText("");
+        tv_payment_order.setText(hm.get("trade_group_id").toString());
         tv_payment_name.setText(stringBuffer);
-        tv_payment_shopmessage.setText("");
         tv_payment_accounts.setText("");
         tv_payment_time.setText(hm.get("time").toString());
-        tv_payment_money.setText("￥" + hm.get("allprice"));
+        tv_payment_money.setText("￥" + String.format("%.2f", hm.get("fee")));
     }
 
     private void setOnclick() {
@@ -149,7 +147,6 @@ public class Payment_Activity extends ActionBarActivity {
                     case 0:
                         ll_payment_OrdersTime.setVisibility(View.VISIBLE);
                         ll_payment_OrdersAccount.setVisibility(View.VISIBLE);
-                        ll_payment_ShopOwner.setVisibility(View.VISIBLE);
                         tv_payment_name.setSingleLine(false);
                         tv_payment_detail.setText("收");
                         state = 1;
@@ -157,7 +154,6 @@ public class Payment_Activity extends ActionBarActivity {
                     case 1:
                         ll_payment_OrdersTime.setVisibility(View.GONE);
                         ll_payment_OrdersAccount.setVisibility(View.GONE);
-                        ll_payment_ShopOwner.setVisibility(View.GONE);
                         tv_payment_name.setSingleLine(true);
                         tv_payment_detail.setText("详");
                         state = 0;

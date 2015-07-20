@@ -10,14 +10,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/payment"
-        android:paddingLeft="40dp"
+        android:paddingLeft="25dp"
         android:paddingTop="20dp"
         android:paddingBottom="20dp">
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginRight="40dp">
+            android:layout_marginRight="35dp">
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -57,26 +57,26 @@
                     android:textSize="18sp"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_payment_ShopOwner"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:visibility="gone">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="商家信息："
-                    android:textColor="@color/black"
-                    android:textSize="18sp"/>
-                <TextView
-                    android:id="@+id/tv_payment_shopmessage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"
-                    android:text="李老板/13333333333/广丰健身馆"/>
-            </LinearLayout>
+            <!--<LinearLayout-->
+                <!--android:id="@+id/ll_payment_ShopOwner"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:visibility="gone">-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="商家信息："-->
+                    <!--android:textColor="@color/black"-->
+                    <!--android:textSize="18sp"/>-->
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_payment_shopmessage"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="18sp"-->
+                    <!--android:textColor="@color/black"-->
+                    <!--android:text="李老板/13333333333/广丰健身馆"/>-->
+            <!--</LinearLayout>-->
             <LinearLayout
                 android:id="@+id/ll_payment_OrdersAccount"
                 android:layout_width="fill_parent"
@@ -160,9 +160,11 @@
         android:layout_height="60dp"
         android:gravity="center_vertical">
         <ImageView
-            android:layout_width="40dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/abc_btn_radio_to_on_mtrl_000"/>
+            android:background="@mipmap/btn_4_n"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -221,9 +223,11 @@
         android:layout_height="60dp"
         android:gravity="center_vertical">
         <ImageView
-            android:layout_width="40dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/abc_btn_radio_to_on_mtrl_000"/>
+            android:background="@mipmap/btn_4_n"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

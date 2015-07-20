@@ -110,6 +110,7 @@ public class Adapter_goods_center extends BaseAdapter{
             holder.tv_goodscenter_shoucang = (TextView) convertView.findViewById(ItemIDs[5]);
             holder.tv_goodscenter_goodsIn = (TextView) convertView.findViewById(ItemIDs[6]);
             holder.tv_goodscenter_getInshop = (TextView) convertView.findViewById(ItemIDs[7]);
+            holder.tv_goodscenter_sales = (TextView) convertView.findViewById(ItemIDs[8]);
             convertView.setTag(holder);
         }else {
             holder = (ViewHolder) convertView.getTag();
@@ -117,11 +118,13 @@ public class Adapter_goods_center extends BaseAdapter{
         add = list.get(position).get(flag[1]).toString();
         hasadd = (Integer)list.get(position).get("has_add");
 
-        holder.iv_goodscenter_image.setBackgroundColor(convertView.getResources().getColor(R.color.white));
+        //默认图片   暂时用白背景代替默认图片
+        holder.iv_goodscenter_image.setImageDrawable(context.getResources().getDrawable(R.color.white));
         holder.tv_goodscenter_title.setText(list.get(position).get(flag[2]) + "");
         holder.tv_goodscenter_price_out.setText("￥" + list.get(position).get(flag[3]));
         holder.tv_goodscenter_profit.setText("￥" + list.get(position).get(flag[4]));
         holder.tv_goodscenter_price_in.setText("￥" + list.get(position).get(flag[5]));
+        holder.tv_goodscenter_sales.setText("销量" + list.get(position).get(flag[6]));
 
         if(hasadd == 0){
             holder.tv_goodscenter_getInshop.setText("加入店铺");
@@ -137,28 +140,22 @@ public class Adapter_goods_center extends BaseAdapter{
 
         //给imageview做标识
         holder.iv_goodscenter_image.setTag(add);
-        //默认图片   暂时用白背景代替默认图片
-        holder.iv_goodscenter_image.setImageDrawable(context.getResources().getDrawable(R.color.white)) ;
-        if(true){
-            LoadImg.onLoadImage(add, cache, imgDAO, new LoadImg.OnLoadImageListener() {
-                @Override
-                public void OnLoadImage(Bitmap bitmap, String bitmapPath) {
-                    //只有当当前地址和view标识一致时才加载图片   解决图片重复问题
-                    if(holder.iv_goodscenter_image.getTag().equals(bitmapPath)){
-                        holder.iv_goodscenter_image.setImageDrawable(context.getResources().getDrawable(R.color.white));
-                        holder.iv_goodscenter_image.setImageBitmap(bitmap);
-                    };
-                }
-            });
-        }
-
+        LoadImg.onLoadImage(add, cache, imgDAO, new LoadImg.OnLoadImageListener() {
+            @Override
+            public void OnLoadImage(Bitmap bitmap, String bitmapPath) {
+                //只有当当前地址和view标识一致时才加载图片   解决图片重复问题
+                if(holder.iv_goodscenter_image.getTag().equals(bitmapPath)){
+                    holder.iv_goodscenter_image.setImageBitmap(bitmap);
+                };
+            }
+        });
         return convertView;
     }
 
     class ViewHolder{
-        // 商品名称  售价  利润  进价   收藏按钮， 进货按钮， 加入店铺按钮
+        // 商品名称  售价  利润  进价   收藏按钮， 进货按钮， 加入店铺按钮   销量
         TextView tv_goodscenter_title, tv_goodscenter_price_out, tv_goodscenter_profit, tv_goodscenter_price_in,
-                 tv_goodscenter_shoucang, tv_goodscenter_goodsIn, tv_goodscenter_getInshop;
+                 tv_goodscenter_shoucang, tv_goodscenter_goodsIn, tv_goodscenter_getInshop, tv_goodscenter_sales;
         ImageView iv_goodscenter_image;
     }
 

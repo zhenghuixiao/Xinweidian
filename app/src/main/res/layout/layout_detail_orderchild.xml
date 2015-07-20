@@ -12,11 +12,24 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <ImageView
-            android:id="@+id/iv_shoppingcart_image"
+        <RelativeLayout
             android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@color/black_light" />
+            android:layout_height="100dp">
+            <ImageView
+                android:id="@+id/iv_orderchild_image"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/white" />
+            <ImageView
+                android:id="@+id/iv_orderchild_image_back"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:visibility="gone"
+                android:padding="5dp"
+                android:src="@mipmap/ref_btn_ret"
+                android:background="@color/tuikuan_alpha"/>
+        </RelativeLayout>
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="100dp"
@@ -24,11 +37,13 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp">
             <TextView
-                android:id="@+id/tv_goodscenter_title"
+                android:id="@+id/tv_orderchild_title"
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
                 android:text="商品名称"
-                android:textSize="20sp"
+                android:textSize="22sp"
+                android:singleLine="true"
+                android:textColor="@color/black"
                 android:gravity="center_vertical"/>
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -38,12 +53,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
-                    android:text="订单号："/>
+                    android:text="订单号："
+                    android:textColor="@color/black"/>
                 <TextView
-                    android:id="@+id/tv_shoppingcart_format"
+                    android:id="@+id/tv_orderchild_orderid"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
                     android:text="11111111111111"
+                    android:textColor="@color/black"
                     android:gravity="center_vertical"/>
             </LinearLayout>
             <RelativeLayout
@@ -56,12 +73,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
-                        android:text="规格："/>
+                        android:text="规格："
+                        android:textColor="@color/black"/>
                     <TextView
-                        android:id="@+id/tv_shoppingcart_inprice"
+                        android:id="@+id/tv_orderchild_format"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
-                        android:text="A6601"/>
+                        android:text="A6601"
+                        android:textColor="@color/black"/>
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>

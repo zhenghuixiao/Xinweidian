@@ -2,6 +2,8 @@ package com.xinkaishi.apple.xinweidian.Until;
 
 import android.util.Log;
 
+import com.xinkaishi.apple.xinweidian.Bean.TESTLIST;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -26,11 +28,26 @@ public class DataAnalysis {
      * @throws Exception
      */
 	 public static String readParse(String urlPath) throws Exception {  
-         ByteArrayOutputStream outStream = new ByteArrayOutputStream();  
-         byte[] data = new byte[1024];  
-          int len = 0;  
-          URL url = new URL(urlPath);  
-          HttpURLConnection conn = (HttpURLConnection) url.openConnection();  
+         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+         byte[] data = new byte[1024];
+          int len = 0;
+          URL url = new URL(urlPath);
+          HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+         //session的收发
+         if(TESTLIST.sessionid != null) {
+             conn.setRequestProperty("cookie", TESTLIST.sessionid);
+             Log.e("这里是set", TESTLIST.sessionid);
+         }
+         // 取得sessionid.
+         String cookieval = conn.getHeaderField("set-cookie");
+         Log.e("这里是get", cookieval);
+
+
+         if(cookieval != null) {
+             TESTLIST.sessionid = cookieval.substring(0, cookieval.indexOf(";"));
+         }
+
+
           InputStream inStream = conn.getInputStream();  
           while ((len = inStream.read(data)) != -1) {  
               outStream.write(data, 0, len);  

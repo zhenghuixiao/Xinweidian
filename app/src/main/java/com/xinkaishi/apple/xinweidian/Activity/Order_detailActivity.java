@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +21,9 @@ import com.xinkaishi.apple.xinweidian.Adapter.Adapter_goods_orders_detail;
 import com.xinkaishi.apple.xinweidian.Bean.Order_Bean.OrderList;
 import com.xinkaishi.apple.xinweidian.CustomView.PinnedHeaderExpandableListView;
 import com.xinkaishi.apple.xinweidian.CustomView.StickyLayout;
+import com.xinkaishi.apple.xinweidian.DAO.ImgDAO;
 import com.xinkaishi.apple.xinweidian.R;
+import com.xinkaishi.apple.xinweidian.Until.Cache;
 
 public class Order_detailActivity extends ActionBarActivity implements
         PinnedHeaderExpandableListView.OnHeaderUpdateListener,
@@ -31,10 +34,13 @@ public class Order_detailActivity extends ActionBarActivity implements
     private Adapter_goods_orders_detail adapter;
     private OrderList orderList;//详细数据对象
     private int state;//状态
+    private ImageView iv_order_detail_state;//状态图片
     private TextView tv_orderchild_continue, tv_orderchild_close, tv_orderchild_other;  // 继续支付  关闭订单  其他单按钮
     private TextView ll_order_detail_state, ll_order_detail_fee, ll_order_detail_consignee, ll_order_detail_address,
                         ll_order_detail_doneat, ll_order_detail_payat, ll_order_detail_sendat;
     private LinearLayout rl_orderchild_unpay, rl_orderchild_other;  // 未支付状态ll  其他ll
+    private Cache cache;
+    private ImgDAO imgDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,6 +158,9 @@ public class Order_detailActivity extends ActionBarActivity implements
                     break;
             }
         }
+
+        cache = new Cache();
+        imgDAO = new ImgDAO(this);
     }
 
     class MyOnclick implements View.OnClickListener{
@@ -185,7 +194,7 @@ public class Order_detailActivity extends ActionBarActivity implements
         }
     }
     private void initAdapter() {
-        adapter = new Adapter_goods_orders_detail(Order_detailActivity.this, orderList);
+        adapter = new Adapter_goods_orders_detail(Order_detailActivity.this, orderList, cache, imgDAO);
         lv_order_detail_exlist.setAdapter(adapter);
         lv_order_detail_exlist.setOnHeaderUpdateListener(Order_detailActivity.this);
         stickyLayout.setOnGiveUpTouchEventListener(this);

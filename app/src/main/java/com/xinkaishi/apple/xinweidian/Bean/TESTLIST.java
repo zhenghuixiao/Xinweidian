@@ -14,6 +14,7 @@ import java.util.HashMap;
  */
 public class TESTLIST {
     public static ArrayList<HashMap<String, Object>> list;
+    public static String sessionid;
 
     public ArrayList<HashMap<String, Object>> getList(){
         list = new ArrayList<HashMap<String, Object>>();

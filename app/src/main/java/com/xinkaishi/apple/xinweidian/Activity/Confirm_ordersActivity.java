@@ -1,6 +1,7 @@
 package com.xinkaishi.apple.xinweidian.Activity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -13,16 +14,22 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.xinkaishi.apple.xinweidian.Adapter.Adapter_goods_orders_down;
+import com.xinkaishi.apple.xinweidian.Bean.Interface;
+import com.xinkaishi.apple.xinweidian.Bean.SetOrder.BackdataState;
 import com.xinkaishi.apple.xinweidian.DAO.AddressDAO;
 import com.xinkaishi.apple.xinweidian.DAO.ImgDAO;
 import com.xinkaishi.apple.xinweidian.DAO.ShoppingcartDAO;
 import com.xinkaishi.apple.xinweidian.R;
+import com.xinkaishi.apple.xinweidian.Until.Post;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Confirm_ordersActivity extends ActionBarActivity {
     private RelativeLayout rl_confirm_orders_receiving; //收货信息设置
@@ -34,12 +41,15 @@ public class Confirm_ordersActivity extends ActionBarActivity {
     private int yunfei;//运费
     private float allprice;
     private ShoppingcartDAO shoppingcartDAO;
+    private String sku;
 
     //姓名，手机，收货地址
     private TextView tv_confirm_orders_name, tv_confirm_orders_tel, tv_confirm_orders_address;
 
+    private BackdataState backdata;
     private AddressDAO addDAO;
     private ImgDAO imgDAO;
+    private Gson gson;
 
     private ArrayList<HashMap<String, Object>> list;
     @Override
@@ -50,6 +60,7 @@ public class Confirm_ordersActivity extends ActionBarActivity {
         // 显示导航按钮
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.mipmap.pay_nav_back);//设置返回键图标
 
         initIntent();
         initView();//初始化控件
@@ -121,6 +132,7 @@ public class Confirm_ordersActivity extends ActionBarActivity {
         shoppingcartDAO = new ShoppingcartDAO(this);
         addDAO = new AddressDAO(this);
         imgDAO = new ImgDAO(this);
+        gson = new Gson();
     }
 
     private void initMain() {
@@ -138,6 +150,7 @@ public class Confirm_ordersActivity extends ActionBarActivity {
     }
 
     private void initAdapter() {
+        StringBuffer stringBuffer = new StringBuffer();
         allprice = 0;
         Adapter_goods_orders_down adapter = new Adapter_goods_orders_down(Confirm_ordersActivity.this, list,
                 R.layout.layout_goods_order_down, imgDAO, addDAO);
@@ -145,7 +158,16 @@ public class Confirm_ordersActivity extends ActionBarActivity {
 
         for(int a = 0; a < list.size(); a ++){
             allprice = allprice + (float)list.get(a).get("import_price") * (Integer)list.get(a).get("num");
+            stringBuffer.append(list.get(a).get("sku_id"))
+                    .append(":")
+                    .append(list.get(a).get("num"))
+                    .append(",");
+
+            Log.e("sku_id", list.get(a).get("sku_id") + "");
         }
+        stringBuffer.deleteCharAt(stringBuffer.length() - 1);    //删除最后的一个","
+        sku = stringBuffer.toString();
+        Log.e("sku", sku);
         allprice = allprice + yunfei;
         tv_confirm_orders_allprice.setText(String.format("%.2f", allprice));
         //todo 运费本地算
@@ -171,16 +193,48 @@ public class Confirm_ordersActivity extends ActionBarActivity {
                     //todo 请先设置收货地址
                     return;
                 }
-                SimpleDateFormat df = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");//获取当前时间 设置日期格式
+                new POST().execute();
+            }
+        });
+    }
+
+    private class POST extends AsyncTask<Void, Void, Integer>{
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            String json = null;
+            Map<String, String> hm = new HashMap<String, String>();
+            hm.put("consignee", "1");
+            hm.put("cellphone", "11111111111");
+            hm.put("address", "1");
+            hm.put("area_id", "90909");//地区ID
+            hm.put("sku", sku);//
+            json = Post.submitPostData(hm, Interface.ORDER_POST);
+            backdata = gson.fromJson(json, new TypeToken<BackdataState>() {}.getType());
+            Log.e("error", backdata.getError() + "");
+            return backdata.getError();
+        }
+
+        @Override
+        protected void onPostExecute(Integer error) {
+            if(error == 1){
+                Log.e("提交订单", "接口返回错误");
+                return;
+            }
+            SimpleDateFormat df = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");//获取当前时间 设置日期格式
                 //todo post给服务器订单信息  返回交易号等 交易号等也要传递
+            if(allprice != backdata.getData().getFee()){
+                //todo
+            }
+            Log.e("总价校对", "服务器返回总价与计算总价---服务器：" + backdata.getData().getFee() + "本地：" + allprice);
                 ArrayList bundlelist = new ArrayList();
                 bundlelist.add(list);
                 Bundle bundle = new Bundle();
 
                 bundle.putParcelableArrayList("list", bundlelist);
-                bundle.putString("time", df.format(new Date()));//传递的全部价格
-                bundle.putFloat("allprice", allprice);//传递的全部价格
-                bundle.putString("order", "9999999999999");//返回的交易单号
+                bundle.putString("time", df.format(new Date()));//时间
+                bundle.putString("trade_group_id", backdata.getData().getTrade_group_id());//返回的交易号
+                bundle.putFloat("fee", backdata.getData().getFee());//传递的全部价格
                 Intent intent = new Intent(Confirm_ordersActivity.this, Payment_Activity.class);
                 intent.putExtras(bundle);
 
@@ -190,8 +244,7 @@ public class Confirm_ordersActivity extends ActionBarActivity {
                 Shopping_cartActivity.instance.finish();
                 startActivity(intent);
                 overridePendingTransition(R.anim.pic_left_in, R.anim.pic_left_out);
-            }
-        });
+            super.onPostExecute(error);
+        }
     }
-
 }

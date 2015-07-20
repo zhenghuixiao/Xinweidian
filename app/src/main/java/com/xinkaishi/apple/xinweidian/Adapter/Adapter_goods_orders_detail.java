@@ -1,18 +1,23 @@
 package com.xinkaishi.apple.xinweidian.Adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xinkaishi.apple.xinweidian.Bean.Order_Bean.OrderDetail;
 import com.xinkaishi.apple.xinweidian.Bean.Order_Bean.OrderList;
 import com.xinkaishi.apple.xinweidian.CustomView.SwipeItemLayout;
+import com.xinkaishi.apple.xinweidian.DAO.ImgDAO;
 import com.xinkaishi.apple.xinweidian.R;
+import com.xinkaishi.apple.xinweidian.Until.Cache;
+import com.xinkaishi.apple.xinweidian.Until.LoadImg;
 
 import java.util.List;
 
@@ -28,9 +33,13 @@ import java.util.List;
 public class Adapter_goods_orders_detail extends BaseExpandableListAdapter{
     private Context context;
     private OrderList orderlist;
-    public Adapter_goods_orders_detail(Context context, OrderList orderlist){
+    private Cache cache;
+    private ImgDAO imgDAO;
+    public Adapter_goods_orders_detail(Context context, OrderList orderlist, Cache cache, ImgDAO imgDAO){
         this.context = context;
         this.orderlist = orderlist;
+        this.cache = cache;
+        this.imgDAO = imgDAO;
     }
 
     @Override
@@ -99,17 +108,37 @@ public class Adapter_goods_orders_detail extends BaseExpandableListAdapter{
             //itemView  menuView
             convertView = new SwipeItemLayout(itemView, menuView, null, null);
             holder.rl_moneyback  = (RelativeLayout)menuView.findViewById(R.id.rl_moneyback);
-            holder.tv_goodscenter_title = (TextView)itemView.findViewById(R.id.tv_goodscenter_title);
+            holder.tv_orderchild_title = (TextView)itemView.findViewById(R.id.tv_orderchild_title);
+            holder.tv_orderchild_orderid = (TextView)itemView.findViewById(R.id.tv_orderchild_orderid);
+            holder.tv_orderchild_format = (TextView)itemView.findViewById(R.id.tv_orderchild_format);
+            holder.iv_orderchild_image = (ImageView)itemView.findViewById(R.id.iv_orderchild_image);
+            holder.iv_orderchild_image_back = (ImageView)itemView.findViewById(R.id.iv_orderchild_image_back);
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder) convertView.getTag();
         }
+        holder.tv_orderchild_title.setText(getChild(groupPosition, childPosition).getTitle());
+        holder.tv_orderchild_orderid.setText(getChild(groupPosition, childPosition).getTrade_id());
+        holder.tv_orderchild_format.setText(getChild(groupPosition, childPosition).getSpec());
         //todo 这里是判断子订单的状态是否退款 改变图片
-        if((Integer)getChild(groupPosition, childPosition).getStatus() == 0){
-            holder.tv_goodscenter_title.setText(getChild(groupPosition, childPosition).getTitle());
-        }else{
-            holder.tv_goodscenter_title.setText(getChild(groupPosition, childPosition).getTitle() + "已退款");
+        if((Integer)getChild(groupPosition, childPosition).getStatus() != 0){
+            holder.iv_orderchild_image_back.setVisibility(View.VISIBLE);
+        }else {
+            holder.iv_orderchild_image_back.setVisibility(View.GONE);
         }
+
+        //给imageview做标识
+        holder.iv_orderchild_image.setTag(getChild(groupPosition, childPosition).getPic());
+        LoadImg.onLoadImage(getChild(groupPosition, childPosition).getPic(), cache, imgDAO, new LoadImg.OnLoadImageListener() {
+            @Override
+            public void OnLoadImage(Bitmap bitmap, String bitmapPath) {
+            //只有当当前地址和view标识一致时才加载图片   解决图片重复问题
+            if(holder.iv_orderchild_image.getTag().equals(bitmapPath)){
+                holder.iv_orderchild_image.setImageBitmap(bitmap);
+            }
+            }
+        });
+
 
         holder.rl_moneyback.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,7 +159,8 @@ public class Adapter_goods_orders_detail extends BaseExpandableListAdapter{
 
     class ViewHolder{
         // 交易号  商品名称  订单号  规格  进价  数量
-        TextView tv_ordergroup_jiaoyihao, tv_goodscenter_title;
+        TextView tv_ordergroup_jiaoyihao, tv_orderchild_title, tv_orderchild_orderid, tv_orderchild_format;
+        ImageView iv_orderchild_image, iv_orderchild_image_back;
         RelativeLayout rl_moneyback;
     }
 }

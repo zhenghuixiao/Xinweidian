@@ -18,11 +18,18 @@
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:layout_alignParentBottom="true"
-            android:text="销量111"
             android:gravity="center"
             android:textColor="@color/white"
             android:background="@drawable/textview_biankuang_backdack"
-            android:alpha="0.3" />
+            android:alpha="0.7" />
+        <TextView
+            android:id="@+id/tv_goodscenter_sales"
+            android:layout_width="fill_parent"
+            android:layout_height="20dp"
+            android:layout_alignParentBottom="true"
+            android:text="销量999"
+            android:gravity="center"
+            android:textColor="@color/white"/>
     </RelativeLayout>
 
     <LinearLayout
