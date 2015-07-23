@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -56,17 +57,17 @@
         <activity
             android:name=".Activity.SetReceiveIfmActivity"
             android:label="@string/title_activity_set_receive_ifm"
-            android:theme="@style/MyActionBarTheme">
+            android:theme="@style/MyActionBarTheme" >
         </activity>
         <activity
             android:name=".Activity.Add_addressActivity"
             android:label="@string/title_activity_add_address"
-            android:theme="@style/MyActionBarTheme">
+            android:theme="@style/MyActionBarTheme" >
         </activity>
         <activity
             android:name=".Activity.Payment_Activity"
             android:label="@string/title_activity_payment_"
-            android:theme="@style/MyActionBarTheme">
+            android:theme="@style/MyActionBarTheme" >
         </activity>
         <activity
             android:name=".Activity.SearchActivity"
@@ -75,12 +76,16 @@
         <activity
             android:name=".Activity.Goods_OrdersActivity"
             android:label="@string/title_activity_goods__orders_"
-            android:theme="@style/MyActionBarTheme">
+            android:theme="@style/MyActionBarTheme" >
         </activity>
         <activity
             android:name=".Activity.Order_detailActivity"
             android:label="@string/title_activity_order_detail"
-            android:theme="@style/MyActionBarTheme">
+            android:theme="@style/MyActionBarTheme" >
+        </activity>
+        <activity
+            android:name=".Activity.TestWebActivity"
+            android:label="@string/title_activity_test_web" >
         </activity>
     </application>
 

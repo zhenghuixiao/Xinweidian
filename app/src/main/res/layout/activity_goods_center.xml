@@ -58,31 +58,57 @@
                 android:text="销量"
                 android:textColor="@color/black"/>
             <TextView
+                android:id="@+id/tv_sales_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="5dp"
+                android:visibility="gone"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/cho_sor"
                 android:layout_above="@+id/tv_goods_center_sales"/>
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tv_goods_center_profit"
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:gravity="center"
-            android:layout_marginRight="10dp"
-            android:text="利润"
-            android:textColor="@color/black"/>
-        <TextView
-            android:id="@+id/tv_goods_center_pricein"
+            android:layout_marginRight="10dp">
+            <TextView
+                android:id="@+id/tv_goods_center_profit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="利润"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/tv_profit_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="5dp"
+                android:visibility="gone"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/cho_sor"
+                android:layout_above="@+id/tv_goods_center_profit"/>
+        </RelativeLayout>
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:gravity="center"
-            android:layout_marginRight="10dp"
-            android:text="进价"
-            android:textColor="@color/black"/>
+            android:layout_marginRight="10dp">
+            <TextView
+                android:id="@+id/tv_goods_center_pricein"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="进价"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/tv_pricein_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="5dp"
+                android:visibility="gone"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/cho_sor"
+                android:layout_above="@+id/tv_goods_center_pricein"/>
+        </RelativeLayout>
     </LinearLayout>
     <View
         android:id="@+id/div_goods_center_head"

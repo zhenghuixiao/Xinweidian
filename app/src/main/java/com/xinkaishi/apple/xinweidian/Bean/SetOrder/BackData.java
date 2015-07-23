@@ -11,7 +11,16 @@ package com.xinkaishi.apple.xinweidian.Bean.SetOrder;
  */
 public class BackData {
     private String trade_group_id;
+    private String created_at;
     private float fee;
+
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
+    }
 
     public String getTrade_group_id() {
         return trade_group_id;

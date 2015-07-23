@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -25,9 +26,7 @@ import com.xinkaishi.apple.xinweidian.DAO.ShoppingcartDAO;
 import com.xinkaishi.apple.xinweidian.R;
 import com.xinkaishi.apple.xinweidian.Until.Post;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -156,6 +155,7 @@ public class Confirm_ordersActivity extends ActionBarActivity {
                 R.layout.layout_goods_order_down, imgDAO, addDAO);
         lv_confirm_orders_list.setAdapter(adapter);
 
+        //拼接sku  计算总价
         for(int a = 0; a < list.size(); a ++){
             allprice = allprice + (float)list.get(a).get("import_price") * (Integer)list.get(a).get("num");
             stringBuffer.append(list.get(a).get("sku_id"))
@@ -193,6 +193,7 @@ public class Confirm_ordersActivity extends ActionBarActivity {
                     //todo 请先设置收货地址
                     return;
                 }
+                //todo 加个加载标识
                 new POST().execute();
             }
         });
@@ -204,13 +205,18 @@ public class Confirm_ordersActivity extends ActionBarActivity {
         protected Integer doInBackground(Void... params) {
             String json = null;
             Map<String, String> hm = new HashMap<String, String>();
-            hm.put("consignee", "1");
-            hm.put("cellphone", "11111111111");
-            hm.put("address", "1");
+            //todo  数据获取
+            hm.put("consignee", tv_confirm_orders_name.getText().toString());
+            hm.put("cellphone", tv_confirm_orders_tel.getText().toString());
+            hm.put("address", tv_confirm_orders_address.getText().toString());
             hm.put("area_id", "90909");//地区ID
             hm.put("sku", sku);//
             json = Post.submitPostData(hm, Interface.ORDER_POST);
-            backdata = gson.fromJson(json, new TypeToken<BackdataState>() {}.getType());
+            Log.e("json", json);
+
+            backdata = gson.fromJson(json, new TypeToken<BackdataState>() {
+            }.getType());
+
             Log.e("error", backdata.getError() + "");
             return backdata.getError();
         }
@@ -219,21 +225,24 @@ public class Confirm_ordersActivity extends ActionBarActivity {
         protected void onPostExecute(Integer error) {
             if(error == 1){
                 Log.e("提交订单", "接口返回错误");
+                Toast.makeText(Confirm_ordersActivity.this, backdata.getMessage(), Toast.LENGTH_LONG).show();
                 return;
             }
-            SimpleDateFormat df = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");//获取当前时间 设置日期格式
-                //todo post给服务器订单信息  返回交易号等 交易号等也要传递
+//            SimpleDateFormat df = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");//获取当前时间 设置日期格式
+
             if(allprice != backdata.getData().getFee()){
                 //todo
+                Log.e("总价校对", "服务器返回总价与计算总价---服务器：" + backdata.getData().getFee() + "本地：" + allprice);
             }
-            Log.e("总价校对", "服务器返回总价与计算总价---服务器：" + backdata.getData().getFee() + "本地：" + allprice);
                 ArrayList bundlelist = new ArrayList();
                 bundlelist.add(list);
                 Bundle bundle = new Bundle();
 
                 bundle.putParcelableArrayList("list", bundlelist);
-                bundle.putString("time", df.format(new Date()));//时间
+                bundle.putString("created_at", backdata.getData().getCreated_at());//时间
                 bundle.putString("trade_group_id", backdata.getData().getTrade_group_id());//返回的交易号
+                bundle.putString("consignee", tv_confirm_orders_name.getText().toString());//返回的联系人
+                bundle.putString("cellphone", tv_confirm_orders_tel.getText().toString());//返回的手机号
                 bundle.putFloat("fee", backdata.getData().getFee());//传递的全部价格
                 Intent intent = new Intent(Confirm_ordersActivity.this, Payment_Activity.class);
                 intent.putExtras(bundle);

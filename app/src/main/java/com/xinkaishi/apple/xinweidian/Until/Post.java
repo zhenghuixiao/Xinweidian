@@ -2,7 +2,7 @@ package com.xinkaishi.apple.xinweidian.Until;
 
 import android.util.Log;
 
-import com.xinkaishi.apple.xinweidian.Bean.TESTLIST;
+import com.xinkaishi.apple.xinweidian.Bean.Session;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -28,6 +28,7 @@ public class Post {
      * @return
      */
     public static String submitPostData(Map<String, String> params, String urlPath) {
+        Log.e("Post地址", urlPath);
         URL url;
         byte[] data = getRequestData(params).toString().getBytes();
         try {
@@ -45,9 +46,9 @@ public class Post {
             //设置请求体的长度
             httpURLConnection.setRequestProperty("Content-Length", String.valueOf(data.length));
 
-            if(TESTLIST.sessionid != null) {
-                httpURLConnection.setRequestProperty("cookie", TESTLIST.sessionid);
-                Log.e("这里是set", TESTLIST.sessionid);
+            if(Session.sessionid != null) {
+                httpURLConnection.setRequestProperty("cookie", Session.sessionid);
+                Log.e("这里是set", Session.sessionid);
             }
 //            // 取得sessionid.
 //            String cookieval = httpURLConnection.getHeaderField("set-cookie");
@@ -55,7 +56,7 @@ public class Post {
 //
 //
 //            if(cookieval != null) {
-//                TESTLIST.sessionid = cookieval.substring(0, cookieval.indexOf(";"));
+//                Session.sessionid = cookieval.substring(0, cookieval.indexOf(";"));
 //            }
             //获得输出流，向服务器写入数据
             OutputStream outputStream = httpURLConnection.getOutputStream();

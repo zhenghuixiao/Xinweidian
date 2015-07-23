@@ -38,6 +38,7 @@ public class LoadImg {
             @Override
             public void run() {
                 URL imageUrl ;
+                Log.e("图片地址", bitmapUrl);
                 if(cache.getBitmapFromMemCache(bitmapUrl) != null){
                     msg.obj = cache.getBitmapFromMemCache(bitmapUrl);
                     handler.sendMessage(msg);

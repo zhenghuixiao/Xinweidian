@@ -1,8 +1,11 @@
 package com.xinkaishi.apple.xinweidian.Until;
 
+import android.content.Context;
 import android.util.Log;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 
-import com.xinkaishi.apple.xinweidian.Bean.TESTLIST;
+import com.xinkaishi.apple.xinweidian.Bean.Session;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -27,26 +30,26 @@ public class DataAnalysis {
      * @return
      * @throws Exception
      */
-	 public static String readParse(String urlPath) throws Exception {  
+	 public static String readParse(String urlPath) throws Exception {
+         Log.e("请求地址", urlPath);
          ByteArrayOutputStream outStream = new ByteArrayOutputStream();
          byte[] data = new byte[1024];
           int len = 0;
           URL url = new URL(urlPath);
           HttpURLConnection conn = (HttpURLConnection) url.openConnection();
          //session的收发
-         if(TESTLIST.sessionid != null) {
-             conn.setRequestProperty("cookie", TESTLIST.sessionid);
-             Log.e("这里是set", TESTLIST.sessionid);
+         if(Session.sessionid != null) {
+             conn.setRequestProperty("cookie", Session.sessionid);
+             Log.e("这里是set", Session.sessionid);
          }
-         // 取得sessionid.
-         String cookieval = conn.getHeaderField("set-cookie");
-         Log.e("这里是get", cookieval);
-
-
-         if(cookieval != null) {
-             TESTLIST.sessionid = cookieval.substring(0, cookieval.indexOf(";"));
+         if(Session.sessionid == null) {
+             // 取得sessionid.
+             String cookieval = conn.getHeaderField("set-cookie");
+             Log.e("这里是get", cookieval);
+             if(cookieval != null) {
+                 Session.sessionid = cookieval.substring(0, cookieval.indexOf(";"));
+             }
          }
-
 
           InputStream inStream = conn.getInputStream();  
           while ((len = inStream.read(data)) != -1) {  
@@ -55,7 +58,7 @@ public class DataAnalysis {
           inStream.close();  
           return new String(outStream.toByteArray());//通过out.Stream.toByteArray获取到写的数据  
       }
-	 
+
 	 /**
       * 访问数据库并返回JSON数据字符串
       * 
@@ -98,4 +101,18 @@ public class DataAnalysis {
 
          return result;
      }
+
+    /**
+     * 同步一下cookie
+     */
+    public static void synCookies(Context context, String url) {
+        CookieSyncManager.createInstance(context);
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);
+//        cookieManager.removeSessionCookie();//移除
+        cookieManager.setCookie(url, Session.sessionid);//cookies是在HttpClient中获得的cookie
+        Log.e("cookies", Session.sessionid);
+        CookieSyncManager.getInstance().sync();
+
+    }
 }

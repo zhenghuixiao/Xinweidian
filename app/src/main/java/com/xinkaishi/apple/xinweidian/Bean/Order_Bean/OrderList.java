@@ -18,6 +18,7 @@ public class OrderList implements Serializable { //实现Serializable接口为�
     private String state_text;      //状态文字
     private String trade_group_id;  //交易号
     private String consignee;       //收货人
+    private String cellphone;       //手机号
     private String address;         //收货地址
     private float fee;              //总价
     private float express_fee;      //邮费
@@ -29,6 +30,14 @@ public class OrderList implements Serializable { //实现Serializable接口为�
     private String recv_at;         //收货时间
     private String done_at;         //下单时间
     private List<OrderDetail> trade;      //交易号内详情
+
+    public String getCellphone() {
+        return cellphone;
+    }
+
+    public void setCellphone(String cellphone) {
+        this.cellphone = cellphone;
+    }
 
     public int getState() {
         return state;

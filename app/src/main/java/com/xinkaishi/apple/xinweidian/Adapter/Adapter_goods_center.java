@@ -18,10 +18,12 @@ import android.widget.Toast;
 
 import com.xinkaishi.apple.xinweidian.Activity.Goods_centerActivity;
 import com.xinkaishi.apple.xinweidian.Activity.Shopping_cartActivity;
+import com.xinkaishi.apple.xinweidian.Bean.Interface;
 import com.xinkaishi.apple.xinweidian.DAO.ImgDAO;
 import com.xinkaishi.apple.xinweidian.DAO.ShoppingcartDAO;
 import com.xinkaishi.apple.xinweidian.R;
 import com.xinkaishi.apple.xinweidian.Until.Cache;
+import com.xinkaishi.apple.xinweidian.Until.DataAnalysis;
 import com.xinkaishi.apple.xinweidian.Until.LoadImg;
 import com.xinkaishi.apple.xinweidian.Until.ScreenUtils;
 
@@ -180,7 +182,16 @@ public class Adapter_goods_center extends BaseAdapter{
                 //加入店铺
                 case R.id.tv_goodscenter_getInshop:
                     if((Integer)hm.get("has_add") == 0) {
-                        //todo post接口
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    DataAnalysis.readParse(Interface.GETIN_MYSHOP + "?item_id=" + hm.get("id"));
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
                         hm.put("has_add", 1);
                         holder.tv_goodscenter_getInshop.setText("已加入");
                         Toast t = Toast.makeText(context, "", Toast.LENGTH_SHORT);

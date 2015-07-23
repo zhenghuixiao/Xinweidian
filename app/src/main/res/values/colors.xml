@@ -25,6 +25,6 @@
     <color name="main">#18B2AE</color>
     <!-- 半透明-->
     <color name="black_alpha">#b0000000</color>
-    <color name="tuikuan_alpha">#60000000</color>
+    <color name="order_alpha">#50000000</color>
 </resources>
 

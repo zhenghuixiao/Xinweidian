@@ -76,6 +76,7 @@ public class Goods_detailActivity extends ActionBarActivity {
         // 显示导航按钮
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.mipmap.pay_nav_back);//设置返回键图标
         initIntent();// 取到上级传的信息
         initView();
         initViewpager();
@@ -174,7 +175,7 @@ public class Goods_detailActivity extends ActionBarActivity {
     private void initViewpager() {
         for(int i = 0; i < listimg.size(); i ++){
             final ImageView iv = new ImageView(getApplicationContext());
-            LoadImg.onLoadImage(listimg.get(i) + "!i", cache, imgDAO, new LoadImg.OnLoadImageListener() {
+            LoadImg.onLoadImage(listimg.get(i), cache, imgDAO, new LoadImg.OnLoadImageListener() {
                 @Override
                 public void OnLoadImage(Bitmap bitmap, String bitmapPath) {
                     iv.setImageBitmap(bitmap);
@@ -211,7 +212,6 @@ public class Goods_detailActivity extends ActionBarActivity {
                 list_dot.get(oldposition).setBackgroundResource(R.drawable.cho_lab_unc);
                 list_dot.get(position).setBackgroundResource(R.drawable.cho_lab_sel);
                 oldposition = position;
-                Log.e("1111", "11111");
             }
 
             @Override

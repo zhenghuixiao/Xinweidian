@@ -22,6 +22,16 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:background="@color/white" />
+            <TextView
+                android:id="@+id/tv_orderchild_image_state"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:visibility="gone"
+                android:text="已发货"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:background="@color/order_alpha"/>
             <ImageView
                 android:id="@+id/iv_orderchild_image_back"
                 android:layout_width="fill_parent"
@@ -29,7 +39,7 @@
                 android:padding="5dp"
                 android:visibility="gone"
                 android:src="@mipmap/ref_btn_ret"
-                android:background="@color/tuikuan_alpha"/>
+                android:background="@color/order_alpha"/>
         </RelativeLayout>
 
         <LinearLayout

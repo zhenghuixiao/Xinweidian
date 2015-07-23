@@ -235,7 +235,7 @@
                     android:text="关闭订单"
                     android:gravity="center"
                     android:textColor="@color/white"
-                    android:background="@drawable/textview_test"
+                    android:background="@drawable/textview_biankuang_red"
                     android:layout_marginRight="20dp"
                     android:textSize="18sp"/>
                 <TextView
@@ -246,7 +246,7 @@
                     android:text="继续支付"
                     android:gravity="center"
                     android:textColor="@color/white"
-                    android:background="@drawable/textview_test"
+                    android:background="@drawable/textview_biankuang_maincolor"
                     android:textSize="18sp"/>
             </LinearLayout>
 
@@ -263,10 +263,10 @@
                     android:id="@+id/tv_orderchild_other"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:text="关闭订单"
+                    android:text="返回"
                     android:gravity="center"
                     android:textColor="@color/white"
-                    android:background="@drawable/textview_test"
+                    android:background="@drawable/textview_biankuang_maincolor"
                     android:textSize="18sp"/>
             </LinearLayout>
         </RelativeLayout>

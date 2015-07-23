@@ -27,6 +27,8 @@ import com.xinkaishi.apple.xinweidian.R;
 import com.xinkaishi.apple.xinweidian.Until.Cache;
 import com.xinkaishi.apple.xinweidian.Until.DataAnalysis;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Goods_OrdersActivity extends ActionBarActivity{
@@ -35,6 +37,7 @@ public class Goods_OrdersActivity extends ActionBarActivity{
     private ExpandableListView lv_goods_orders_exlist;
     private Adapter_goods_orders adapter;
     private List<OrderList> orderList;//列表数据
+    private List<HashMap<String, Object>> orderlist;//列表数据
     private Gson gson;
     private OrderState orderState;
     private int maxpage;//列表最大页数
@@ -129,6 +132,7 @@ public class Goods_OrdersActivity extends ActionBarActivity{
         footer = getLayoutInflater().inflate(R.layout.layout_goods_center_listfoot, null); //list页脚
         gson = new Gson();
         orderState = new OrderState();
+        orderlist = new ArrayList<HashMap<String, Object>>();
         finalurl = Interface.ORDER_LIST + "?state=0";//默认地址为全部订单
         handler = new MyHandler();
 
@@ -174,27 +178,28 @@ public class Goods_OrdersActivity extends ActionBarActivity{
                     orderState.getData().getCount() / number
                     : orderState.getData().getCount() / number + 1;
             Log.e("读取数据", "一共" + orderState.getData().getCount() + "件商品 " + "共" + maxpage + "页");
-//            for(int a = 0; a < listorder.size(); a ++){
+            initAdapter();
+//
+//            for(int a = 0; a < orderList.size(); a ++){
 //                HashMap<String, Object> hm = new HashMap<String, Object>();
-//                hm.put("trade_group_id", listorder.get(a).getTrade_group_id());     //交易号
-//                hm.put("consignee", listorder.get(a).getConsignee());               //收货人
-//                hm.put("address", listorder.get(a).getAddress() + "!i");            //收货地址
-//                hm.put("fee", listorder.get(a).getFee());                           //总价
-//                hm.put("express_fee", listorder.get(a).getExpress_fee());           //邮费
-//                hm.put("source", listorder.get(a).getSource());                     //来源编号
-//                hm.put("source_text", listorder.get(a).getSource_text());           //来源text
-//                hm.put("state", listorder.get(a).getState());                       //交易单号状态
-//                hm.put("state_text", listorder.get(a).getState_text());             //状态文字
-//                hm.put("created_at", listorder.get(a).getCreated_at());             //创建时间
-//                hm.put("pay_at", listorder.get(a).getPay_at());                     //付款时间
-//                hm.put("send_at", listorder.get(a).getSend_at());                   //发货时间
-//                hm.put("recv_at", listorder.get(a).getRecv_at());                   //收货时间
-//                hm.put("done_at", listorder.get(a).getDone_at());                   //下单时间
-//                hm.put("trade", listorder.get(a).getTrade());                       //交易号内详情
+//                hm.put("trade_group_id", orderList.get(a).getTrade_group_id());     //交易号
+//                hm.put("consignee", orderList.get(a).getConsignee());               //收货人
+//                hm.put("address", orderList.get(a).getAddress() + "!i");            //收货地址
+//                hm.put("fee", orderList.get(a).getFee());                           //总价
+//                hm.put("express_fee", orderList.get(a).getExpress_fee());           //邮费
+//                hm.put("source", orderList.get(a).getSource());                     //来源编号
+//                hm.put("source_text", orderList.get(a).getSource_text());           //来源text
+//                hm.put("state", orderList.get(a).getState());                       //交易单号状态
+//                hm.put("state_text", orderList.get(a).getState_text());             //状态文字
+//                hm.put("created_at", orderList.get(a).getCreated_at());             //创建时间
+//                hm.put("pay_at", orderList.get(a).getPay_at());                     //付款时间
+//                hm.put("send_at", orderList.get(a).getSend_at());                   //发货时间
+//                hm.put("recv_at", orderList.get(a).getRecv_at());                   //收货时间
+//                hm.put("done_at", orderList.get(a).getDone_at());                   //下单时间
+//                hm.put("trade", orderList.get(a).getTrade());                       //交易号内详情
 //                orderlist.add(hm);
 //            }
-            Log.e("orderlist", "数据转换成功");
-            initAdapter();
+//            Log.e("orderlist", "数据转换成功");
             super.onPostExecute(error);
         }
     }

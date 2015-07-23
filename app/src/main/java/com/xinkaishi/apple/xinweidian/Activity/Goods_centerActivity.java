@@ -50,7 +50,8 @@ public class Goods_centerActivity extends ActionBarActivity {
     //选择的分类 子分类 商品数量
     private TextView tv_goods_center_menu1, tv_goods_center_menu2, tv_goods_center_counts;
     //三个排序
-    private TextView tv_goods_center_sales, tv_goods_center_profit, tv_goods_center_pricein;
+    private TextView tv_goods_center_sales, tv_goods_center_profit, tv_goods_center_pricein,
+                      tv_sales_icon, tv_profit_icon, tv_pricein_icon;
 
     private List<MenuParent> listmp;//菜单列表
     private LinearLayout ll_goods_center_down; //菜单栏 layout
@@ -183,6 +184,9 @@ public class Goods_centerActivity extends ActionBarActivity {
         tv_goods_center_sales = (TextView)findViewById(R.id.tv_goods_center_sales);
         tv_goods_center_profit = (TextView)findViewById(R.id.tv_goods_center_profit);
         tv_goods_center_pricein = (TextView)findViewById(R.id.tv_goods_center_pricein);
+        tv_sales_icon = (TextView)findViewById(R.id.tv_sales_icon);
+        tv_profit_icon = (TextView)findViewById(R.id.tv_profit_icon);
+        tv_pricein_icon = (TextView)findViewById(R.id.tv_pricein_icon);
         darkview = findViewById(R.id.darkview);
         imgdao = new ImgDAO(getApplication());
         menuDAO = new MenuDAO(getApplication());
@@ -485,6 +489,7 @@ public class Goods_centerActivity extends ActionBarActivity {
                     //为了流畅，刷新列表放在动画结束后
                     if (reinit == 1) {
                         list.clear();
+                        Log.e("url", finalurl + "");
                         new initList(finalurl).execute();
                     }
                 }
@@ -537,7 +542,7 @@ public class Goods_centerActivity extends ActionBarActivity {
                     HashMap<String, Object> hm = new HashMap<String, Object>();
                     hm.put("id", list1.get(a).getId());
                     hm.put("name", list1.get(a).getName());
-                    hm.put("default_img", list1.get(a).getDefault_img() + "!i");//默认展示图  !i为缩略图
+                    hm.put("default_img", list1.get(a).getDefault_img());//默认展示图  !i为缩略图
                     hm.put("roll_images", list1.get(a).getRoll_images());//轮播图
                     hm.put("price", list1.get(a).getPrice());//价格
                     hm.put("import_price", list1.get(a).getImport_price());//进价
@@ -557,7 +562,7 @@ public class Goods_centerActivity extends ActionBarActivity {
                     HashMap<String, Object> hm = new HashMap<String, Object>();
                     hm.put("id", list1.get(a).getId());
                     hm.put("name", list1.get(a).getName());
-                    hm.put("default_img", list1.get(a).getDefault_img() + "!i");//默认展示图
+                    hm.put("default_img", list1.get(a).getDefault_img());//默认展示图
                     hm.put("roll_images", list1.get(a).getRoll_images());//轮播图
                     hm.put("price", list1.get(a).getPrice());//价格
                     hm.put("import_price", list1.get(a).getImport_price());//进价
@@ -582,10 +587,10 @@ public class Goods_centerActivity extends ActionBarActivity {
      */
     private void setSortLlistener() {
         //销量
-        tv_goods_center_sales.setOnClickListener(new SortListener("&order=sale_amount", 0));
+        tv_goods_center_sales.setOnClickListener(new SortListener(Interface.LIST_SALES, 0));
         //价格
-        tv_goods_center_profit.setOnClickListener(new SortListener("&order=price", 1));
-        tv_goods_center_pricein.setOnClickListener(new SortListener("&order=price_asc", 2));
+        tv_goods_center_profit.setOnClickListener(new SortListener(Interface.LIST_PROFIT, 1));
+        tv_goods_center_pricein.setOnClickListener(new SortListener(Interface.LIST_PRICE, 2));
     }
 
     /**
@@ -596,6 +601,9 @@ public class Goods_centerActivity extends ActionBarActivity {
         tv_goods_center_sales.setTextColor(getResources().getColor(R.color.black));
         tv_goods_center_profit.setTextColor(getResources().getColor(R.color.black));
         tv_goods_center_pricein.setTextColor(getResources().getColor(R.color.black));
+        tv_sales_icon.setVisibility(View.GONE);
+        tv_profit_icon.setVisibility(View.GONE);
+        tv_pricein_icon.setVisibility(View.GONE);
     }
     class SortListener implements View.OnClickListener {
         private String add;
@@ -609,12 +617,15 @@ public class Goods_centerActivity extends ActionBarActivity {
             initSortLlistener();
             switch (num){
                 case 0:
+                    tv_sales_icon.setVisibility(View.VISIBLE);
                     tv_goods_center_sales.setTextColor(getResources().getColor(R.color.main));
                     break;
                 case 1:
+                    tv_profit_icon.setVisibility(View.VISIBLE);
                     tv_goods_center_profit.setTextColor(getResources().getColor(R.color.main));
                     break;
                 case 2:
+                    tv_pricein_icon.setVisibility(View.VISIBLE);
                     tv_goods_center_pricein.setTextColor(getResources().getColor(R.color.main));
                     break;
             }
@@ -670,7 +681,7 @@ public class Goods_centerActivity extends ActionBarActivity {
                                     HashMap<String, Object> hm = new HashMap<String, Object>();
                                     hm.put("id", list1.get(a).getId());
                                     hm.put("name", list1.get(a).getName());
-                                    hm.put("default_img", list1.get(a).getDefault_img() + "!i");//默认展示图
+                                    hm.put("default_img", list1.get(a).getDefault_img());//默认展示图
                                     hm.put("roll_images", list1.get(a).getRoll_images());//轮播图
                                     hm.put("price", list1.get(a).getPrice());//价格
                                     hm.put("import_price", list1.get(a).getImport_price());//进价

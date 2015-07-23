@@ -35,6 +35,7 @@ public class Adapter_goods_orders_detail extends BaseExpandableListAdapter{
     private OrderList orderlist;
     private Cache cache;
     private ImgDAO imgDAO;
+    private int status;
     public Adapter_goods_orders_detail(Context context, OrderList orderlist, Cache cache, ImgDAO imgDAO){
         this.context = context;
         this.orderlist = orderlist;
@@ -113,6 +114,7 @@ public class Adapter_goods_orders_detail extends BaseExpandableListAdapter{
             holder.tv_orderchild_format = (TextView)itemView.findViewById(R.id.tv_orderchild_format);
             holder.iv_orderchild_image = (ImageView)itemView.findViewById(R.id.iv_orderchild_image);
             holder.iv_orderchild_image_back = (ImageView)itemView.findViewById(R.id.iv_orderchild_image_back);
+            holder.tv_orderchild_image_state = (TextView)itemView.findViewById(R.id.tv_orderchild_image_state);
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder) convertView.getTag();
@@ -120,8 +122,28 @@ public class Adapter_goods_orders_detail extends BaseExpandableListAdapter{
         holder.tv_orderchild_title.setText(getChild(groupPosition, childPosition).getTitle());
         holder.tv_orderchild_orderid.setText(getChild(groupPosition, childPosition).getTrade_id());
         holder.tv_orderchild_format.setText(getChild(groupPosition, childPosition).getSpec());
+        status = getChild(groupPosition, childPosition).getStatus();
+        //这里是判断子订单的状态 0-未付款, 1-已付款/待备货 2-已发货 3-已收货/确认收货 4-已完成 5-已取消',
+        holder.tv_orderchild_image_state.setVisibility(View.GONE);
+        switch (status){
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                holder.tv_orderchild_image_state.setVisibility(View.VISIBLE);
+                break;
+            case 3:
+                holder.tv_orderchild_image_state.setVisibility(View.VISIBLE);
+                break;
+            case 4:
+                holder.tv_orderchild_image_state.setVisibility(View.VISIBLE);
+                break;
+            case 5:
+                break;
+        }
         //todo 这里是判断子订单的状态是否退款 改变图片
-        if((Integer)getChild(groupPosition, childPosition).getStatus() != 0){
+        if(getChild(groupPosition, childPosition).getRefund_id() != 0){
             holder.iv_orderchild_image_back.setVisibility(View.VISIBLE);
         }else {
             holder.iv_orderchild_image_back.setVisibility(View.GONE);
@@ -161,6 +183,7 @@ public class Adapter_goods_orders_detail extends BaseExpandableListAdapter{
         // 交易号  商品名称  订单号  规格  进价  数量
         TextView tv_ordergroup_jiaoyihao, tv_orderchild_title, tv_orderchild_orderid, tv_orderchild_format;
         ImageView iv_orderchild_image, iv_orderchild_image_back;
+        TextView tv_orderchild_image_state;
         RelativeLayout rl_moneyback;
     }
 }

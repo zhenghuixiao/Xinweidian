@@ -1,9 +1,11 @@
 package com.xinkaishi.apple.xinweidian.Activity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,12 +20,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xinkaishi.apple.xinweidian.Adapter.Adapter_goods_orders_detail;
+import com.xinkaishi.apple.xinweidian.Bean.Interface;
 import com.xinkaishi.apple.xinweidian.Bean.Order_Bean.OrderList;
 import com.xinkaishi.apple.xinweidian.CustomView.PinnedHeaderExpandableListView;
 import com.xinkaishi.apple.xinweidian.CustomView.StickyLayout;
 import com.xinkaishi.apple.xinweidian.DAO.ImgDAO;
 import com.xinkaishi.apple.xinweidian.R;
 import com.xinkaishi.apple.xinweidian.Until.Cache;
+import com.xinkaishi.apple.xinweidian.Until.DataAnalysis;
 
 public class Order_detailActivity extends ActionBarActivity implements
         PinnedHeaderExpandableListView.OnHeaderUpdateListener,
@@ -134,27 +138,47 @@ public class Order_detailActivity extends ActionBarActivity implements
         ll_order_detail_sendat = (TextView)findViewById(R.id.ll_order_detail_sendat);
         if(state == 0){
             rl_orderchild_unpay.setVisibility(View.VISIBLE); //未支付ll  其他都为other
-            tv_orderchild_close.setOnClickListener(new MyOnclick(5));
-            tv_orderchild_continue.setOnClickListener(new MyOnclick(6));
+            tv_orderchild_close.setOnClickListener(new MyOnclick(3)); //关闭订单
+            tv_orderchild_continue.setOnClickListener(new MyOnclick(4)); //继续支付
         }else {
             rl_orderchild_other.setVisibility(View.VISIBLE);
             switch (state) {
-            // 1 返回（交易成功）  2 删除订单（已关闭）  3 提醒发货（已支付等待发货）  4 查看物流（已发货）
+            //    0 => 订单创建/未付款   1 => 已付款/待备货   2 => 已发货   3 => 已收货/确认收货
+            //    4 => 已完成   5 => 订单已取消    6 => 部分发货    7 => 订单已退
                 case 1:
-                    tv_orderchild_other.setText("返回");
+                    tv_orderchild_other.setText("提醒发货");
+                    tv_orderchild_other.setBackgroundResource(R.drawable.textview_biankuang_maincolor);
                     tv_orderchild_other.setOnClickListener(new MyOnclick(1));
                     break;
                 case 2:
-                    tv_orderchild_other.setText("删除订单");
+                    tv_orderchild_other.setText("确认收货");
+                    tv_orderchild_other.setBackgroundResource(R.drawable.textview_biankuang_maincolor);
                     tv_orderchild_other.setOnClickListener(new MyOnclick(2));
                     break;
                 case 3:
-                    tv_orderchild_other.setText("提醒发货");
-                    tv_orderchild_other.setOnClickListener(new MyOnclick(3));
+                    tv_orderchild_other.setText("返回");
+                    tv_orderchild_other.setBackgroundResource(R.drawable.textview_biankuang_maincolor);
+                    tv_orderchild_other.setOnClickListener(new MyOnclick(0));
                     break;
                 case 4:
-                    tv_orderchild_other.setText("查看物流");
-                    tv_orderchild_other.setOnClickListener(new MyOnclick(4));
+                    tv_orderchild_other.setText("返回");
+                    tv_orderchild_other.setBackgroundResource(R.drawable.textview_biankuang_maincolor);
+                    tv_orderchild_other.setOnClickListener(new MyOnclick(0));
+                    break;
+                case 5:
+                    tv_orderchild_other.setText("返回");
+                    tv_orderchild_other.setBackgroundResource(R.drawable.textview_biankuang_backdack);
+                    tv_orderchild_other.setOnClickListener(new MyOnclick(0));
+                    break;
+                case 6:
+                    tv_orderchild_other.setText("返回");
+                    tv_orderchild_other.setBackgroundResource(R.drawable.textview_biankuang_maincolor);
+                    tv_orderchild_other.setOnClickListener(new MyOnclick(0));
+                    break;
+                case 7:
+                    tv_orderchild_other.setText("返回");
+                    tv_orderchild_other.setBackgroundResource(R.drawable.textview_biankuang_backdack);
+                    tv_orderchild_other.setOnClickListener(new MyOnclick(0));
                     break;
             }
         }
@@ -172,23 +196,24 @@ public class Order_detailActivity extends ActionBarActivity implements
         @Override
         public void onClick(View v) {
             switch (a){
-                case 1:
+                case 0:
                     finish();
+                    overridePendingTransition(R.anim.fade_out_anim, R.anim.fade_in_anim);
+                    break;
+                case 1:
                     break;
                 case 2:
-                    break;
-                case 3:
                     Toast t = Toast.makeText(Order_detailActivity.this, "", Toast.LENGTH_SHORT);
                     t.setGravity(Gravity.CENTER, 0, 0);
                     View layout = LayoutInflater.from(Order_detailActivity.this).inflate(R.layout.layout_toast_style_remind, null);
                     t.setView(layout);
                     t.show();
                     break;
-                case 4:
+                case 3:
+                    String url = Interface.ORDER_COLSE + "?trade_group_id=" + orderList.getTrade_group_id() + "&reason=" + "测试，不要了";
+                    new statePost(url, orderList).execute();
                     break;
-                case 5:
-                    //弹出pop
-
+                case 4:
                     break;
             }
         }
@@ -208,5 +233,41 @@ public class Order_detailActivity extends ActionBarActivity implements
                 return true;
             }
         }, false);
+    }
+
+    /**
+     * 关闭订单接口
+     */
+
+    class statePost extends AsyncTask<Void, Void, String> {
+        private String url;
+        private OrderList orderList;
+
+        public statePost(String url, OrderList orderList){
+            this.url = url;
+            this.orderList = orderList;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            try {
+                DataAnalysis.readParse(url);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            rl_orderchild_unpay.setVisibility(View.GONE);
+            tv_orderchild_other.setVisibility(View.VISIBLE);
+            tv_orderchild_other.setBackgroundResource(R.drawable.textview_biankuang_backdack);
+            tv_orderchild_other.setText("查看详情");
+//            holder.tv_orderchild_statetext.setText("已取消");
+            orderList.setState(5);
+            Log.e("改变状态", "成功");
+            super.onPostExecute(s);
+        }
     }
 }

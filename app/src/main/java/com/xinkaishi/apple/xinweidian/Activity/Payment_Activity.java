@@ -28,7 +28,6 @@ public class Payment_Activity extends ActionBarActivity {
 
     private ArrayList<HashMap<String, Object>> list; //订单数据
     private HashMap<String, Object> hm; //传递过来的交易号等返回数据
-    private float allprice;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +75,9 @@ public class Payment_Activity extends ActionBarActivity {
         hm = new HashMap<String, Object>();
         list= (ArrayList<HashMap<String, Object>>)bundlelist.get(0);
         hm.put("trade_group_id", bundle.getString("trade_group_id")); //交易号
-        hm.put("time", bundle.getString("time")); //下单时间
+        hm.put("created_at", bundle.getString("created_at")); //下单时间
+        hm.put("consignee", bundle.getString("consignee")); //联系人
+        hm.put("cellphone", bundle.getString("cellphone")); //手机号
         hm.put("fee", bundle.getFloat("fee")); //付款金额
         Log.e("数据", list.get(0).get("name") + "" + list.size());
     }
@@ -134,8 +135,8 @@ public class Payment_Activity extends ActionBarActivity {
         }
         tv_payment_order.setText(hm.get("trade_group_id").toString());
         tv_payment_name.setText(stringBuffer);
-        tv_payment_accounts.setText("");
-        tv_payment_time.setText(hm.get("time").toString());
+        tv_payment_accounts.setText(hm.get("consignee") + "/" + hm.get("cellphone"));
+        tv_payment_time.setText(hm.get("created_at").toString());
         tv_payment_money.setText("￥" + String.format("%.2f", hm.get("fee")));
     }
 

@@ -11,39 +11,39 @@
         android:id="@+id/tv_toGoodscenter"
         android:text="跳转到货源中心"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="200dp"
-        android:background="@color/black_light">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/cho_lab_dri_1"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/cho_nav_sho"/>
-        <ImageView
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:src="@color/red"/>
-    </LinearLayout>
+        android:layout_height="30dp"
+        android:background="@color/main"
+        android:layout_centerHorizontal="true"/>
+
     <TextView
         android:id="@+id/tv_main_login"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:background="@color/main"
         android:text="登入"/>
     <TextView
         android:id="@+id/tv_main_get"
         android:layout_toRightOf="@+id/tv_main_login"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
         android:background="@color/red"
         android:layout_alignParentBottom="true"
-        android:text="登入"/>
+        android:text="加载菜单"/>
 
+    <TextView
+        android:id="@+id/tv_main_setweb"
+        android:layout_toRightOf="@+id/tv_main_get"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:background="@color/red"
+        android:layout_alignParentBottom="true"
+        android:text="加载网页"/>
+
+    <WebView
+        android:id="@+id/wb_main"
+        android:layout_below="@+id/tv_toGoodscenter"
+        android:layout_above="@+id/tv_main_login"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"></WebView>
 </RelativeLayout>
