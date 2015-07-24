@@ -11,8 +11,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.xinkaishi.apple.xinweidian.Adapter.Adapter_shopping_list;
 import com.xinkaishi.apple.xinweidian.Bean.Shoppingcart_totalprice;
@@ -42,6 +44,7 @@ public class Shopping_cartActivity extends ActionBarActivity {
     private TextView tv_shopping_cart_showNum;// 用于显示选中的条目数量
     private TextView tv_shopping_cart_totalPrice;// 需支付总价
     private Button bt_shopping_selectall;
+    private LinearLayout ll_shopping_selectall;
     private float totalPrice;//全部商品价格
     private Shoppingcart_totalprice shoppingcart_totalprice;//全部商品价格对象
 
@@ -109,6 +112,7 @@ public class Shopping_cartActivity extends ActionBarActivity {
         tv_shopping_cart_showNum = (TextView)findViewById(R.id.tv_shopping_cart_showNum);
         tv_shopping_cart_totalPrice = (TextView)findViewById(R.id.tv_shopping_cart_totalPrice);
         bt_shopping_selectall = (Button)findViewById(R.id.bt_shopping_selectall);
+        ll_shopping_selectall = (LinearLayout)findViewById(R.id.ll_shopping_selectall);
         shoppingcart_totalprice = new Shoppingcart_totalprice();
         shoppingcartDAO = new ShoppingcartDAO(this);
         list = new ArrayList<HashMap<String, Object>>();
@@ -201,6 +205,7 @@ public class Shopping_cartActivity extends ActionBarActivity {
                 }
                 if(listchecked.size() == 0){
                     //todo 提示未选中商品
+                    Toast.makeText(Shopping_cartActivity.this, "无选中商品！", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 bundlelist.add(listchecked);
@@ -215,48 +220,8 @@ public class Shopping_cartActivity extends ActionBarActivity {
         });
 
         // 全选按钮的回调接口
-        bt_shopping_selectall.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if(buttonAll){
-                    buttonAll = false;
-                    // 遍历list的长度，将Adapter中的state值全部设为true
-                    for (int i = 0; i < list.size(); i++) {
-                        list.get(i).put("state", 0);//改变全部商品的状态
-                        Adapter_shopping_list.getIsSelected().put(i, false);
-                    }
-                    checkNum = 0;
-                    totalPrice = 0;
-                    shoppingcart_totalprice.setTotalprice(totalPrice);
-                    // 通知listView刷新
-                    adapter.notifyDataSetChanged();
-                    // TextView显示最新的选中数目
-                    tv_shopping_cart_showNum.setText("当前结算商品"+checkNum+"件");
-                    tv_shopping_cart_totalPrice.setText("￥" + String.format("%.2f", totalPrice));
-                    bt_shopping_selectall.setBackgroundResource(R.drawable.col_btn_rec);
-                }else{
-                    buttonAll = true;
-                    totalPrice = 0;
-                    // 遍历list的长度，将Adapter中的state值全部设为true
-                    for (int i = 0; i < list.size(); i++) {
-                        list.get(i).put("state", 1);//改变全部商品的状态
-                        Adapter_shopping_list.getIsSelected().put(i, true);
-                        totalPrice = totalPrice + (float)list.get(i).get("import_price")*(Integer) list.get(i).get("num");
-                    }
-                    //全选设置总价
-                    shoppingcart_totalprice.setTotalprice(totalPrice);
-                    // 数量设为list的长度
-                    checkNum = list.size();
-                    // 通知listView刷新
-                    adapter.notifyDataSetChanged();
-                    // TextView显示最新的选中数目
-                    tv_shopping_cart_showNum.setText("当前结算商品"+checkNum+"件");
-                    tv_shopping_cart_totalPrice.setText("￥" + String.format("%.2f", totalPrice));
-                    bt_shopping_selectall.setBackgroundResource(R.drawable.col_btn_sel);
-                }
-            }
-        });
+        bt_shopping_selectall.setOnClickListener(new SelAllListener());
+        ll_shopping_selectall.setOnClickListener(new SelAllListener());
 
         //删除购物车商品按钮
         iv_shopping_cart_del.setOnClickListener(new View.OnClickListener() {
@@ -293,5 +258,53 @@ public class Shopping_cartActivity extends ActionBarActivity {
                 Log.e("购物车删除", "成功删除商品");
             }
         });
+    }
+
+
+    /**
+     * 全选功能
+     */
+
+    class SelAllListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            if(buttonAll){
+                buttonAll = false;
+                // 遍历list的长度，将Adapter中的state值全部设为true
+                for (int i = 0; i < list.size(); i++) {
+                    list.get(i).put("state", 0);//改变全部商品的状态
+                    Adapter_shopping_list.getIsSelected().put(i, false);
+                }
+                checkNum = 0;
+                totalPrice = 0;
+                shoppingcart_totalprice.setTotalprice(totalPrice);
+                // 通知listView刷新
+                adapter.notifyDataSetChanged();
+                // TextView显示最新的选中数目
+                tv_shopping_cart_showNum.setText("当前结算商品"+checkNum+"件");
+                tv_shopping_cart_totalPrice.setText("￥" + String.format("%.2f", totalPrice));
+                bt_shopping_selectall.setBackgroundResource(R.drawable.col_btn_rec);
+            }else{
+                buttonAll = true;
+                totalPrice = 0;
+                // 遍历list的长度，将Adapter中的state值全部设为true
+                for (int i = 0; i < list.size(); i++) {
+                    list.get(i).put("state", 1);//改变全部商品的状态
+                    Adapter_shopping_list.getIsSelected().put(i, true);
+                    totalPrice = totalPrice + (float)list.get(i).get("import_price")*(Integer) list.get(i).get("num");
+                }
+                //全选设置总价
+                shoppingcart_totalprice.setTotalprice(totalPrice);
+                // 数量设为list的长度
+                checkNum = list.size();
+                // 通知listView刷新
+                adapter.notifyDataSetChanged();
+                // TextView显示最新的选中数目
+                tv_shopping_cart_showNum.setText("当前结算商品"+checkNum+"件");
+                tv_shopping_cart_totalPrice.setText("￥" + String.format("%.2f", totalPrice));
+                bt_shopping_selectall.setBackgroundResource(R.drawable.col_btn_sel);
+            }
+        }
     }
 }

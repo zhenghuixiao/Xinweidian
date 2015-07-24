@@ -21,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:text="交易号:"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:textColor="@color/black"
                 android:gravity="center_vertical"/>
             <TextView
@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:text="0000000000"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:textColor="@color/black"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"/>
@@ -42,14 +42,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:text="来源:"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:textColor="@color/black"
                 android:gravity="center_vertical"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:text="新开始"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:textColor="@color/black"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"/>

@@ -38,6 +38,8 @@ public class Goods_OrdersActivity extends ActionBarActivity{
     private Adapter_goods_orders adapter;
     private List<OrderList> orderList;//列表数据
     private List<HashMap<String, Object>> orderlist;//列表数据
+    private int order_check = 0; //异步加载标记，防止列表重复展示  默认0
+
     private Gson gson;
     private OrderState orderState;
     private int maxpage;//列表最大页数
@@ -58,7 +60,7 @@ public class Goods_OrdersActivity extends ActionBarActivity{
 
         initActionBar();
         initView();
-        new initData(Interface.ORDER_LIST).execute();//获取数据
+        new initData(Interface.ORDER_LIST, order_check).execute();//获取数据
         initSetOnclick();
 //        initAdapter();
     }
@@ -145,9 +147,11 @@ public class Goods_OrdersActivity extends ActionBarActivity{
      * 加载订单数据
      */
     private class initData extends AsyncTask<Void, Void, Integer> {
-        private  String url;
-        public initData(String url){
+        private String url;
+        private int order_checked;
+        public initData(String url, int order_checked){
             this.url = url;
+            this.order_checked = order_checked;
         }
 
         @Override
@@ -170,6 +174,10 @@ public class Goods_OrdersActivity extends ActionBarActivity{
         protected void onPostExecute(Integer error) {
             if(error == 1){
                 Log.e("orderlist", "接口返回错误");
+                return;
+            }
+            //如果预展示页与当前选中页不一致，则不展示
+            if(order_checked != order_check){
                 return;
             }
             orderList = orderState.getData().getList(); //订单列表数据集
@@ -216,23 +224,36 @@ public class Goods_OrdersActivity extends ActionBarActivity{
         rg_goods_orders_head.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                rb_goods_orders_all.setTextSize(16);
+                rb_goods_orders_unpay.setTextSize(16);
+                rb_goods_orders_untake.setTextSize(16);
+                rb_goods_orders_unget.setTextSize(16);
+                orderList.clear();
+                adapter.notifyDataSetChanged();
                 switch (checkedId){
                     case R.id.rb_goods_orders_all:
-                        //todo 刷新列表
+                        rb_goods_orders_all.setTextSize(20);
                         finalurl = Interface.ORDER_LIST + "?state=0";
-                        new initData(finalurl).execute();
+                        order_check = 0;
+                        new initData(finalurl, order_check).execute();
                         break;
                     case R.id.rb_goods_orders_unpay:
+                        rb_goods_orders_unpay.setTextSize(20);
                         finalurl = Interface.ORDER_LIST + "?state=1";
-                        new initData(finalurl).execute();
+                        order_check = 1;
+                        new initData(finalurl, order_check).execute();
                         break;
                     case R.id.rb_goods_orders_untake:
+                        rb_goods_orders_untake.setTextSize(20);
                         finalurl = Interface.ORDER_LIST + "?state=2";
-                        new initData(finalurl).execute();
+                        order_check = 2;
+                        new initData(finalurl, order_check).execute();
                         break;
                     case R.id.rb_goods_orders_unget:
+                        rb_goods_orders_unget.setTextSize(20);
                         finalurl = Interface.ORDER_LIST + "?state=3";
-                        new initData(finalurl).execute();
+                        order_check = 3;
+                        new initData(finalurl, order_check).execute();
                         break;
                 }
             }

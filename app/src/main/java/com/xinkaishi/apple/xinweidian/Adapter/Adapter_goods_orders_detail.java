@@ -115,6 +115,8 @@ public class Adapter_goods_orders_detail extends BaseExpandableListAdapter{
             holder.iv_orderchild_image = (ImageView)itemView.findViewById(R.id.iv_orderchild_image);
             holder.iv_orderchild_image_back = (ImageView)itemView.findViewById(R.id.iv_orderchild_image_back);
             holder.tv_orderchild_image_state = (TextView)itemView.findViewById(R.id.tv_orderchild_image_state);
+            holder.tv_orderchild_num = (TextView)itemView.findViewById(R.id.tv_orderchild_num);
+            holder.tv_orderchild_importprice = (TextView)itemView.findViewById(R.id.tv_orderchild_importprice);
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder) convertView.getTag();
@@ -122,6 +124,13 @@ public class Adapter_goods_orders_detail extends BaseExpandableListAdapter{
         holder.tv_orderchild_title.setText(getChild(groupPosition, childPosition).getTitle());
         holder.tv_orderchild_orderid.setText(getChild(groupPosition, childPosition).getTrade_id());
         holder.tv_orderchild_format.setText(getChild(groupPosition, childPosition).getSpec());
+        holder.tv_orderchild_importprice.setText("￥" + String.format("%.2f", getChild(groupPosition, childPosition).getPrice()));
+        if(getChild(groupPosition, childPosition).getNum() < 10){
+            holder.tv_orderchild_num.setText("×" + getChild(groupPosition, childPosition).getNum());
+        }else{
+            holder.tv_orderchild_num.setText(getChild(groupPosition, childPosition).getNum());
+        }
+
         status = getChild(groupPosition, childPosition).getStatus();
         //这里是判断子订单的状态 0-未付款, 1-已付款/待备货 2-已发货 3-已收货/确认收货 4-已完成 5-已取消',
         holder.tv_orderchild_image_state.setVisibility(View.GONE);
@@ -181,7 +190,8 @@ public class Adapter_goods_orders_detail extends BaseExpandableListAdapter{
 
     class ViewHolder{
         // 交易号  商品名称  订单号  规格  进价  数量
-        TextView tv_ordergroup_jiaoyihao, tv_orderchild_title, tv_orderchild_orderid, tv_orderchild_format;
+        TextView tv_ordergroup_jiaoyihao, tv_orderchild_title, tv_orderchild_orderid, tv_orderchild_format,
+                tv_orderchild_num, tv_orderchild_importprice;
         ImageView iv_orderchild_image, iv_orderchild_image_back;
         TextView tv_orderchild_image_state;
         RelativeLayout rl_moneyback;

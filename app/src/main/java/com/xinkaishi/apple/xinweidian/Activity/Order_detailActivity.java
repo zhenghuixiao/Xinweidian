@@ -29,6 +29,10 @@ import com.xinkaishi.apple.xinweidian.R;
 import com.xinkaishi.apple.xinweidian.Until.Cache;
 import com.xinkaishi.apple.xinweidian.Until.DataAnalysis;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class Order_detailActivity extends ActionBarActivity implements
         PinnedHeaderExpandableListView.OnHeaderUpdateListener,
         StickyLayout.OnGiveUpTouchEventListener {
@@ -40,8 +44,10 @@ public class Order_detailActivity extends ActionBarActivity implements
     private int state;//状态
     private ImageView iv_order_detail_state;//状态图片
     private TextView tv_orderchild_continue, tv_orderchild_close, tv_orderchild_other;  // 继续支付  关闭订单  其他单按钮
-    private TextView ll_order_detail_state, ll_order_detail_fee, ll_order_detail_consignee, ll_order_detail_address,
-                        ll_order_detail_doneat, ll_order_detail_payat, ll_order_detail_sendat;
+    private TextView tv_order_detail_state, tv_order_detail_fee, tv_order_detail_express_fee,
+                        tv_order_detail_consignee, tv_order_detail_address,
+                        tv_order_detail_doneat, tv_order_detail_payat, tv_order_detail_sendat;
+    private TextView tv_express_fee, tv_num, tv_fee;
     private LinearLayout rl_orderchild_unpay, rl_orderchild_other;  // 未支付状态ll  其他ll
     private Cache cache;
     private ImgDAO imgDAO;
@@ -54,12 +60,14 @@ public class Order_detailActivity extends ActionBarActivity implements
         // 显示导航按钮
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.mipmap.pay_nav_back);//设置返回键图标
 
         Intent intent = getIntent();
         orderList = (OrderList)intent.getSerializableExtra("child");
         state = orderList.getState();
 
         initView(); //加载控件
+        initDetail();
         //todo 获取数据
         initAdapter();
     }
@@ -129,64 +137,91 @@ public class Order_detailActivity extends ActionBarActivity implements
         tv_orderchild_other = (TextView)findViewById(R.id.tv_orderchild_other); //其他操作
         rl_orderchild_unpay = (LinearLayout)findViewById(R.id.rl_orderchild_unpay);
         rl_orderchild_other = (LinearLayout)findViewById(R.id.rl_orderchild_other);
-        ll_order_detail_state = (TextView)findViewById(R.id.ll_order_detail_state);
-        ll_order_detail_fee = (TextView)findViewById(R.id.ll_order_detail_fee);
-        ll_order_detail_consignee = (TextView)findViewById(R.id.ll_order_detail_consignee);
-        ll_order_detail_address = (TextView)findViewById(R.id.ll_order_detail_address);
-        ll_order_detail_doneat = (TextView)findViewById(R.id.ll_order_detail_doneat);
-        ll_order_detail_payat = (TextView)findViewById(R.id.ll_order_detail_payat);
-        ll_order_detail_sendat = (TextView)findViewById(R.id.ll_order_detail_sendat);
-        if(state == 0){
-            rl_orderchild_unpay.setVisibility(View.VISIBLE); //未支付ll  其他都为other
-            tv_orderchild_close.setOnClickListener(new MyOnclick(3)); //关闭订单
-            tv_orderchild_continue.setOnClickListener(new MyOnclick(4)); //继续支付
-        }else {
-            rl_orderchild_other.setVisibility(View.VISIBLE);
-            switch (state) {
-            //    0 => 订单创建/未付款   1 => 已付款/待备货   2 => 已发货   3 => 已收货/确认收货
-            //    4 => 已完成   5 => 订单已取消    6 => 部分发货    7 => 订单已退
-                case 1:
-                    tv_orderchild_other.setText("提醒发货");
-                    tv_orderchild_other.setBackgroundResource(R.drawable.textview_biankuang_maincolor);
-                    tv_orderchild_other.setOnClickListener(new MyOnclick(1));
-                    break;
-                case 2:
-                    tv_orderchild_other.setText("确认收货");
-                    tv_orderchild_other.setBackgroundResource(R.drawable.textview_biankuang_maincolor);
-                    tv_orderchild_other.setOnClickListener(new MyOnclick(2));
-                    break;
-                case 3:
-                    tv_orderchild_other.setText("返回");
-                    tv_orderchild_other.setBackgroundResource(R.drawable.textview_biankuang_maincolor);
-                    tv_orderchild_other.setOnClickListener(new MyOnclick(0));
-                    break;
-                case 4:
-                    tv_orderchild_other.setText("返回");
-                    tv_orderchild_other.setBackgroundResource(R.drawable.textview_biankuang_maincolor);
-                    tv_orderchild_other.setOnClickListener(new MyOnclick(0));
-                    break;
-                case 5:
-                    tv_orderchild_other.setText("返回");
-                    tv_orderchild_other.setBackgroundResource(R.drawable.textview_biankuang_backdack);
-                    tv_orderchild_other.setOnClickListener(new MyOnclick(0));
-                    break;
-                case 6:
-                    tv_orderchild_other.setText("返回");
-                    tv_orderchild_other.setBackgroundResource(R.drawable.textview_biankuang_maincolor);
-                    tv_orderchild_other.setOnClickListener(new MyOnclick(0));
-                    break;
-                case 7:
-                    tv_orderchild_other.setText("返回");
-                    tv_orderchild_other.setBackgroundResource(R.drawable.textview_biankuang_backdack);
-                    tv_orderchild_other.setOnClickListener(new MyOnclick(0));
-                    break;
-            }
-        }
+        tv_order_detail_state = (TextView)findViewById(R.id.tv_order_detail_state);
+        tv_order_detail_fee = (TextView)findViewById(R.id.tv_order_detail_fee);
+        tv_order_detail_express_fee = (TextView)findViewById(R.id.tv_order_detail_express_fee);
+        tv_order_detail_consignee = (TextView)findViewById(R.id.tv_order_detail_consignee);
+        tv_order_detail_address = (TextView)findViewById(R.id.tv_order_detail_address);
+        tv_order_detail_doneat = (TextView)findViewById(R.id.tv_order_detail_doneat);
+        tv_order_detail_payat = (TextView)findViewById(R.id.tv_order_detail_payat);
+        tv_order_detail_sendat = (TextView)findViewById(R.id.tv_order_detail_sendat);
+        iv_order_detail_state = (ImageView)findViewById(R.id.iv_order_detail_state);
+        tv_express_fee = (TextView)findViewById(R.id.tv_express_fee);
+        tv_num = (TextView)findViewById(R.id.tv_num);
+        tv_fee = (TextView)findViewById(R.id.tv_fee);
 
         cache = new Cache();
         imgDAO = new ImgDAO(this);
     }
 
+    private void initDetail() {
+        if(state == 0){
+            rl_orderchild_unpay.setVisibility(View.VISIBLE); //未支付ll  其他都为other
+            tv_orderchild_close.setOnClickListener(new MyOnclick(3)); //关闭订单
+            tv_orderchild_continue.setOnClickListener(new MyOnclick(4)); //继续支付
+            iv_order_detail_state.setBackgroundResource(R.mipmap.ord_war);
+        }else {
+            rl_orderchild_other.setVisibility(View.VISIBLE);
+            switch (state) {
+                //    0 => 订单创建/未付款   1 => 已付款/待备货   2 => 已发货   3 => 已收货/确认收货
+                //    4 => 已完成   5 => 订单已取消    6 => 部分发货    7 => 订单已退
+                case 1:
+                    tv_orderchild_other.setText("提醒发货");
+                    tv_orderchild_other.setBackgroundResource(R.drawable.textview_biankuang_maincolor);
+                    tv_orderchild_other.setOnClickListener(new MyOnclick(1));
+                    iv_order_detail_state.setBackgroundResource(R.mipmap.ord_mon);
+                    break;
+                case 2:
+                    tv_orderchild_other.setText("返回");
+                    tv_orderchild_other.setBackgroundResource(R.drawable.textview_biankuang_maincolor);
+                    tv_orderchild_other.setOnClickListener(new MyOnclick(0));
+                    iv_order_detail_state.setBackgroundResource(R.mipmap.ord_wai);
+                    break;
+                case 3:
+                    tv_orderchild_other.setText("返回");
+                    tv_orderchild_other.setBackgroundResource(R.drawable.textview_biankuang_maincolor);
+                    tv_orderchild_other.setOnClickListener(new MyOnclick(0));
+                    iv_order_detail_state.setBackgroundResource(R.mipmap.ord_wai);
+                    break;
+                case 4:
+                    tv_orderchild_other.setText("返回");
+                    tv_orderchild_other.setBackgroundResource(R.drawable.textview_biankuang_maincolor);
+                    tv_orderchild_other.setOnClickListener(new MyOnclick(0));
+                    iv_order_detail_state.setBackgroundResource(R.mipmap.ord_com);
+                    break;
+                case 5:
+                    tv_orderchild_other.setText("返回");
+                    tv_orderchild_other.setBackgroundResource(R.drawable.textview_biankuang_backdack);
+                    tv_orderchild_other.setOnClickListener(new MyOnclick(0));
+                    iv_order_detail_state.setBackgroundResource(R.mipmap.ord_war);
+                    break;
+                case 6:
+                    tv_orderchild_other.setText("返回");
+                    tv_orderchild_other.setBackgroundResource(R.drawable.textview_biankuang_maincolor);
+                    tv_orderchild_other.setOnClickListener(new MyOnclick(0));
+                    iv_order_detail_state.setBackgroundResource(R.mipmap.ord_wai);
+                    break;
+                case 7:
+                    tv_orderchild_other.setText("返回");
+                    tv_orderchild_other.setBackgroundResource(R.drawable.textview_biankuang_backdack);
+                    tv_orderchild_other.setOnClickListener(new MyOnclick(0));
+
+                    break;
+            }
+        }
+
+        tv_order_detail_state.setText(orderList.getState_text());
+        tv_order_detail_fee.setText("￥" + String.format("%.2f", orderList.getFee()));
+        tv_order_detail_express_fee.setText("(含运费:￥" + String.format("%.2f", orderList.getExpress_fee()) + ")");
+        tv_order_detail_consignee.setText(orderList.getConsignee());
+        tv_order_detail_address.setText(orderList.getAddress());
+        tv_order_detail_doneat.setText(orderList.getDone_at());
+        tv_order_detail_payat.setText(orderList.getPay_at());
+        tv_order_detail_sendat.setText(orderList.getSend_at());
+        tv_express_fee.setText("￥" + String.format("%.2f", orderList.getExpress_fee()));
+        tv_fee.setText("￥" + String.format("%.2f", orderList.getFee()));
+        tv_num.setText("共" + orderList.getTrade().size() + "件商品，总价(含运费)");
+    }
     class MyOnclick implements View.OnClickListener{
         private int a;
         public MyOnclick(int a){
@@ -201,19 +236,40 @@ public class Order_detailActivity extends ActionBarActivity implements
                     overridePendingTransition(R.anim.fade_out_anim, R.anim.fade_in_anim);
                     break;
                 case 1:
-                    break;
-                case 2:
                     Toast t = Toast.makeText(Order_detailActivity.this, "", Toast.LENGTH_SHORT);
                     t.setGravity(Gravity.CENTER, 0, 0);
                     View layout = LayoutInflater.from(Order_detailActivity.this).inflate(R.layout.layout_toast_style_remind, null);
                     t.setView(layout);
                     t.show();
                     break;
+                case 2:
+
+                    break;
                 case 3:
                     String url = Interface.ORDER_COLSE + "?trade_group_id=" + orderList.getTrade_group_id() + "&reason=" + "测试，不要了";
                     new statePost(url, orderList).execute();
                     break;
                 case 4:
+                    ArrayList bundlelist = new ArrayList();
+                    List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+                    for(int a = 0; a < orderList.getTrade().size(); a ++){
+                        HashMap<String, Object> hm = new HashMap<String, Object>();
+                        hm.put("name", orderList.getTrade().get(a).getTitle());
+                        hm.put("num", orderList.getTrade().get(a).getNum());
+                        list.add(hm);
+                    }
+                    bundlelist.add(list);
+                    Bundle bundle = new Bundle();
+
+                    bundle.putParcelableArrayList("list", bundlelist);
+                    bundle.putString("created_at", orderList.getCreated_at());//时间
+                    bundle.putString("trade_group_id", orderList.getTrade_group_id());//返回的交易号
+                    bundle.putString("consignee", orderList.getConsignee());//返回的联系人
+                    bundle.putString("cellphone", orderList.getCellphone());//返回的手机号
+                    bundle.putFloat("fee", orderList.getFee());//传递的全部价格
+                    Intent intent = new Intent(Order_detailActivity.this, Payment_Activity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                     break;
             }
         }

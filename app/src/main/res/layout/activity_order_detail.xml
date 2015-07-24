@@ -21,13 +21,15 @@
             android:orientation="vertical" >
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="90dp">
+                android:layout_height="90dp"
+                android:gravity="center_vertical">
                 <ImageView
                     android:id="@+id/iv_order_detail_state"
-                    android:layout_width="100dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/che1"
-                    android:layout_marginLeft="20dp"/>
+                    android:background="@mipmap/ord_com"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"/>
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
@@ -40,14 +42,16 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="订单状态："
-                            android:textSize="16sp"/>
+                            android:text="订单状态: "
+                            android:textSize="15sp"
+                            android:textColor="@color/black"/>
                         <TextView
-                            android:id="@+id/ll_order_detail_state"
+                            android:id="@+id/tv_order_detail_state"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="状态信息"
-                            android:textSize="16sp"/>
+                            android:textSize="16sp"
+                            android:textColor="@color/main"/>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="fill_parent"
@@ -55,14 +59,24 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="订单总价："
-                            android:textSize="16sp"/>
+                            android:text="订单总价: "
+                            android:textSize="15sp"
+                            android:textColor="@color/black"/>
                         <TextView
-                            android:id="@+id/ll_order_detail_fee"
+                            android:id="@+id/tv_order_detail_fee"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="￥178.00(含运费:￥5.00)"
-                            android:textSize="16sp"/>
+                            android:text="￥178.00"
+                            android:textSize="16sp"
+                            android:textColor="@color/red"/>
+                        <TextView
+                            android:id="@+id/tv_order_detail_express_fee"
+                            android:layout_marginLeft="5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="(含运费:￥5.00)"
+                            android:textSize="13sp"
+                            android:textColor="@color/black"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -72,70 +86,82 @@
                 android:background="@color/black_light"/>
             <TableLayout
                 android:layout_width="fill_parent"
-                android:layout_height="200dp"
+                android:layout_height="180dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:paddingRight="20dp"
-                android:paddingLeft="20dp">
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp">
                 <TableRow
                     android:layout_weight="1">
                     <TextView
                         android:text="收货人："
-                        android:textSize="18sp"/>
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
                     <TextView
-                        android:id="@+id/ll_order_detail_consignee"
-                        android:text="王老头   13333333333"
-                        android:textSize="18sp"/>
+                        android:id="@+id/tv_order_detail_consignee"
+                        android:text=""
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
                 </TableRow>
                 <TableRow
                     android:layout_weight="1">
                     <TextView
                         android:text="收货地址："
-                        android:textSize="18sp"/>
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
                     <TextView
-                        android:id="@+id/ll_order_detail_address"
-                        android:text="王老头   13333333333"
-                        android:textSize="18sp"/>
+                        android:id="@+id/tv_order_detail_address"
+                        android:text=""
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
                 </TableRow>
                 <TableRow
                     android:layout_weight="1">
                     <TextView
                         android:text="下单时间："
-                        android:textSize="18sp"/>
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
                     <TextView
-                        android:id="@+id/ll_order_detail_doneat"
-                        android:text="王老头   13333333333"
-                        android:textSize="18sp"/>
+                        android:id="@+id/tv_order_detail_doneat"
+                        android:text=""
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
                 </TableRow>
                 <TableRow
                     android:layout_weight="1">
                     <TextView
                         android:text="付款时间："
-                        android:textSize="18sp"/>
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
                     <TextView
-                        android:id="@+id/ll_order_detail_payat"
-                        android:text="王老头   13333333333"
-                        android:textSize="18sp"/>
+                        android:id="@+id/tv_order_detail_payat"
+                        android:text=""
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
                 </TableRow>
                 <TableRow
                     android:layout_weight="1">
                     <TextView
                         android:text="发货时间："
-                        android:textSize="18sp"/>
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
                     <TextView
-                        android:id="@+id/ll_order_detail_sendat"
-                        android:text="王老头   13333333333"
-                        android:textSize="18sp"/>
-                </TableRow>
-                <TableRow
-                    android:layout_weight="1">
-                    <TextView
-                        android:text="物流信息："
-                        android:textSize="18sp"/>
-                    <TextView
+                        android:id="@+id/tv_order_detail_sendat"
                         android:text=""
-                        android:textSize="18sp"/>
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
                 </TableRow>
+                <!--<TableRow-->
+                    <!--android:layout_weight="1">-->
+                    <!--<TextView-->
+                        <!--android:text="物流信息："-->
+                        <!--android:textSize="18sp"-->
+                        <!--android:textColor="@color/black"/>-->
+                    <!--<TextView-->
+                        <!--android:text=""-->
+                        <!--android:textSize="18sp"-->
+                        <!--android:textColor="@color/black"/>-->
+                <!--</TableRow>-->
             </TableLayout>
         </LinearLayout>
         <LinearLayout
@@ -177,17 +203,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:gravity="center_vertical"
-                android:paddingLeft="20dp">
+                android:paddingLeft="10dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="运费："
-                    android:textSize="15sp"/>
+                    android:text="运费:"
+                    android:textSize="13sp"
+                    android:textColor="@color/black"/>
                 <TextView
+                    android:id="@+id/tv_express_fee"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="￥150.00"
-                    android:textSize="15sp"/>
+                    android:textSize="13sp"
+                    android:textColor="@color/black"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -196,16 +225,19 @@
                 android:layout_alignParentRight="true"
                 android:paddingRight="10dp">
                 <TextView
+                    android:id="@+id/tv_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="共3件商品，总价(含运费)"
-                    android:textSize="15sp"/>
+                    android:text="共3件商品,总价(含运费)"
+                    android:textSize="13sp"
+                    android:textColor="@color/black"/>
                 <TextView
+                    android:id="@+id/tv_fee"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="￥150.00"
                     android:textColor="@color/red"
-                    android:textSize="15sp"/>
+                    android:textSize="14sp"/>
             </LinearLayout>
         </RelativeLayout>
 

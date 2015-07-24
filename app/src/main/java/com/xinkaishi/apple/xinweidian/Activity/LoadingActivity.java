@@ -20,6 +20,8 @@ public class LoadingActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
+
+
         TextView tv_loading = (TextView)findViewById(R.id.tv_loading);
         WebView wv_test = (WebView)findViewById(R.id.wv_test);
 
@@ -45,5 +47,4 @@ public class LoadingActivity extends Activity {
             }
         });
     }
-
 }

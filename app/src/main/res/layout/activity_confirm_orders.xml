@@ -21,43 +21,51 @@
             android:layout_height="50dp">
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_centerVertical="true">
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="总运费："
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textColor="@color/black"/>
                 <TextView
                     android:id="@+id/tv_confirm_orders_yunfei"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="￥15.00"
-                    android:textSize="16sp"
+                    android:text=""
+                    android:textSize="15sp"
                     android:textColor="@color/black"/>
+                <ProgressBar
+                    android:id="@+id/progressBar_express_fee"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:layout_centerVertical="true"
+                android:layout_height="fill_parent"
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical"
                 android:layout_alignParentRight="true">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="应付总金额："
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textColor="@color/black"/>
                 <TextView
                     android:id="@+id/tv_confirm_orders_allprice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/red"
-                    android:text="￥134.70"
-                    android:textSize="18sp"/>
+                    android:text=""
+                    android:textSize="16sp"/>
+                <ProgressBar
+                    android:id="@+id/progressBar_price"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"/>
             </LinearLayout>
         </RelativeLayout>
 
@@ -137,17 +145,18 @@
                 android:layout_height="fill_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="20dp"
-                android:background="@color/white"
+                android:background="@color/h_dark"
                 android:visibility="gone">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/common_signin_btn_icon_normal_dark"/>
+                    android:background="@mipmap/rep_btn_war"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="25sp"
                     android:layout_marginLeft="20dp"
+                    android:textColor="@color/black"
                     android:text="您尚未设置收货信息!"/>
             </LinearLayout>
             <ImageView
@@ -156,7 +165,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
                 android:layout_centerVertical="true"
-                android:background="@drawable/col_btn_sel_1"/>
+                android:background="@mipmap/pay_nav_ret1"/>
         </RelativeLayout>
         <View
             android:layout_width="fill_parent"

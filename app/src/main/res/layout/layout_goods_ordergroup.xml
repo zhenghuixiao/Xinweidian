@@ -7,8 +7,8 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:background="#FFFFD8">
         <LinearLayout
             android:layout_width="wrap_content"
@@ -17,7 +17,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:text="交易号:"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:textColor="@color/black"
                 android:gravity="center_vertical"/>
             <TextView
@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:text="0000000000"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:textColor="@color/black"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"/>
@@ -39,14 +39,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:text="来源:"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:textColor="@color/black"
                 android:gravity="center_vertical"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:text="新开始"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:textColor="@color/black"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"/>

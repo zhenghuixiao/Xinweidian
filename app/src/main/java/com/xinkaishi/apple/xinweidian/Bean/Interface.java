@@ -16,18 +16,20 @@ public class Interface {
     private static String TESTADD1 = "http://test.pc.xinkaishi.com/";
     public static String ADDRESS = state == 1? ONLINEADD: TESTADD;
 
-    public static String LOGIN = ADDRESS + "shop/auth/login";
-    public static String GOODS_LIST = ADDRESS + "shop/item/list";
-    public static String MENU_LIST = ADDRESS + "shop/item/category";
-    public static String ORDER_LIST = ADDRESS + "shop/trade/trade-list";
-    public static String ORDER_POST = ADDRESS + "shop/trade/submit-trade";
-    public static String ORDER_COLSE = ADDRESS + "shop/trade/cancel-trade";
+//货源中心
+    public static String LOGIN = ADDRESS + "shop/auth/login";//登入
+    public static String EXPRESS_FEE = ADDRESS + "shop/trade/post-rule"; //获取运费规则
+    public static String GOODS_LIST = ADDRESS + "shop/item/list";//商品列表
+    public static String MENU_LIST = ADDRESS + "shop/item/category";//菜单列表
+    public static String ORDER_LIST = ADDRESS + "shop/trade/trade-list";//订单列表
+    public static String ORDER_POST = ADDRESS + "shop/trade/submit-trade";//提交订单
+    public static String ORDER_COLSE = ADDRESS + "shop/trade/cancel-trade";//关闭、取消订单
 
     //排序的参数
     public static String LIST_SALES = ADDRESS + "&order=sale_amount";
     public static String LIST_PROFIT = ADDRESS + "&order=profit";
     public static String LIST_PRICE = ADDRESS + "&order=price";
 //    public static String LIST_SALES = ADDRESS + "&order=price_asc";
-    //加入店铺
-    public static String GETIN_MYSHOP = ADDRESS + "shop/shop/add-item";
+
+    public static String GETIN_MYSHOP = ADDRESS + "shop/shop/add-item";//加入店铺
 }

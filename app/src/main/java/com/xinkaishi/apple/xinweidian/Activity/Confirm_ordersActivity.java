@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,16 +19,20 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xinkaishi.apple.xinweidian.Adapter.Adapter_goods_orders_down;
+import com.xinkaishi.apple.xinweidian.Bean.Express_Fee.ExpressRules;
+import com.xinkaishi.apple.xinweidian.Bean.Express_Fee.ExpressState;
 import com.xinkaishi.apple.xinweidian.Bean.Interface;
 import com.xinkaishi.apple.xinweidian.Bean.SetOrder.BackdataState;
 import com.xinkaishi.apple.xinweidian.DAO.AddressDAO;
 import com.xinkaishi.apple.xinweidian.DAO.ImgDAO;
 import com.xinkaishi.apple.xinweidian.DAO.ShoppingcartDAO;
 import com.xinkaishi.apple.xinweidian.R;
+import com.xinkaishi.apple.xinweidian.Until.DataAnalysis;
 import com.xinkaishi.apple.xinweidian.Until.Post;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Confirm_ordersActivity extends ActionBarActivity {
@@ -37,8 +42,10 @@ public class Confirm_ordersActivity extends ActionBarActivity {
     private TextView tv_confirm_orders_yunfei, tv_confirm_orders_allprice;//运费  应付总价
     private TextView tv_confirm_orders_submit;//提交订单
     private ListView lv_confirm_orders_list;
-    private int yunfei;//运费
-    private float allprice;
+    private double yunfei;//运费
+    private double allprice;
+    private ProgressBar progressBar_express_fee;
+    private ProgressBar progressBar_price;
     private ShoppingcartDAO shoppingcartDAO;
     private String sku;
 
@@ -46,6 +53,7 @@ public class Confirm_ordersActivity extends ActionBarActivity {
     private TextView tv_confirm_orders_name, tv_confirm_orders_tel, tv_confirm_orders_address;
 
     private BackdataState backdata;
+    private ExpressState expressState;
     private AddressDAO addDAO;
     private ImgDAO imgDAO;
     private Gson gson;
@@ -64,7 +72,7 @@ public class Confirm_ordersActivity extends ActionBarActivity {
         initIntent();
         initView();//初始化控件
         initAdapter();//list适配
-
+        new initFee().execute();
         setonclick();//监听
     }
 
@@ -127,6 +135,8 @@ public class Confirm_ordersActivity extends ActionBarActivity {
         tv_confirm_orders_yunfei = (TextView)findViewById(R.id.tv_confirm_orders_yunfei);
         tv_confirm_orders_allprice = (TextView)findViewById(R.id.tv_confirm_orders_allprice);
         lv_confirm_orders_list = (ListView)findViewById(R.id.lv_confirm_orders_list);
+        progressBar_express_fee = (ProgressBar)findViewById(R.id.progressBar_express_fee);
+        progressBar_price = (ProgressBar)findViewById(R.id.progressBar_price);
         receiceIFM = new HashMap<String, Object>();
         shoppingcartDAO = new ShoppingcartDAO(this);
         addDAO = new AddressDAO(this);
@@ -168,10 +178,7 @@ public class Confirm_ordersActivity extends ActionBarActivity {
         stringBuffer.deleteCharAt(stringBuffer.length() - 1);    //删除最后的一个","
         sku = stringBuffer.toString();
         Log.e("sku", sku);
-        allprice = allprice + yunfei;
-        tv_confirm_orders_allprice.setText(String.format("%.2f", allprice));
-        //todo 运费本地算
-//        tv_confirm_orders_yunfei.setText("");
+
     }
 
     private void setonclick() {
@@ -253,6 +260,52 @@ public class Confirm_ordersActivity extends ActionBarActivity {
                 Shopping_cartActivity.instance.finish();
                 startActivity(intent);
                 overridePendingTransition(R.anim.pic_left_in, R.anim.pic_left_out);
+            super.onPostExecute(error);
+        }
+    }
+
+
+    /**
+     * 计算运费
+     *
+     */
+
+    class initFee extends AsyncTask<Void, Void, Integer>{
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            String json = null;
+            try {
+                Log.i("运费", "获取运费计算规则");
+                json = DataAnalysis.readParse(Interface.EXPRESS_FEE);
+                expressState = gson.fromJson(json, new TypeToken<ExpressState>(){}.getType());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return expressState.getError();
+        }
+
+        @Override
+        protected void onPostExecute(Integer error) {
+            if(error == 1){
+                Log.e("提交订单", "接口返回错误");
+                Toast.makeText(Confirm_ordersActivity.this, expressState.getMessage(), Toast.LENGTH_LONG).show();
+                return;
+            }
+            int minfee = expressState.getData().getMin();//最小运费
+            List<ExpressRules> rules = expressState.getData().getRules();
+            if(allprice > rules.get(0).getFee_l() & allprice <= rules.get(0).getFee_h()){  //在第一额度之间
+                yunfei = allprice * rules.get(0).getPercent() > minfee? allprice * rules.get(0).getPercent(): minfee;
+            }else if(allprice <= rules.get(1).getFee_h()){  //在第二额度之间
+                yunfei = allprice * rules.get(1).getPercent();
+            }else{  //免运费
+                yunfei = 0;
+            }
+            progressBar_express_fee.setVisibility(View.GONE);
+            progressBar_price.setVisibility(View.GONE);
+            tv_confirm_orders_yunfei.setText("￥" + String.format("%.2f", yunfei));
+            allprice = allprice + yunfei;
+            tv_confirm_orders_allprice.setText("￥" + String.format("%.2f", allprice));
             super.onPostExecute(error);
         }
     }
